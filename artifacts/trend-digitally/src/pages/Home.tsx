@@ -50,24 +50,32 @@ export default function Home() {
       {/* 1. Sticky Navbar */}
       <header 
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-          isScrolled ? 'bg-background/80 backdrop-blur-md py-4 border-b border-border/50' : 'bg-transparent py-6'
+          isScrolled 
+            ? 'bg-[#EDE9E5]/90 backdrop-blur-md py-3 border-b border-[#D8C2B2]/60 shadow-sm' 
+            : 'bg-transparent py-5'
         }`}
       >
         <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={logoSrc} alt="Trend Digitally" className="h-12 w-12 rounded-full object-cover" />
-            <span className="font-serif text-xl font-bold tracking-tight text-primary hidden sm:block">Trend Digitally</span>
+            <img src={logoSrc} alt="Trend Digitally" className="h-11 w-11 rounded-full object-cover ring-1 ring-white/20" />
+            <span className={`font-serif text-lg font-bold tracking-tight hidden sm:block transition-colors duration-500 ${isScrolled ? 'text-[#5E4E45]' : 'text-[#EDE9E5]'}`}>
+              Trend Digitally
+            </span>
           </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-primary/80">
-            <button onClick={() => scrollToSection('services')} className="hover:text-primary transition-colors">Services</button>
-            <button onClick={() => scrollToSection('work')} className="hover:text-primary transition-colors">Work</button>
-            <button onClick={() => scrollToSection('about')} className="hover:text-primary transition-colors">About</button>
-            <button onClick={() => scrollToSection('pricing')} className="hover:text-primary transition-colors">Pricing</button>
+          <nav className={`hidden md:flex items-center gap-8 text-sm font-medium transition-colors duration-500 ${isScrolled ? 'text-[#5E4E45]/80' : 'text-[#EDE9E5]/80'}`}>
+            <button onClick={() => scrollToSection('services')} className={`transition-colors duration-300 ${isScrolled ? 'hover:text-[#5E4E45]' : 'hover:text-[#C79D7D]'}`}>Services</button>
+            <button onClick={() => scrollToSection('work')} className={`transition-colors duration-300 ${isScrolled ? 'hover:text-[#5E4E45]' : 'hover:text-[#C79D7D]'}`}>Work</button>
+            <button onClick={() => scrollToSection('about')} className={`transition-colors duration-300 ${isScrolled ? 'hover:text-[#5E4E45]' : 'hover:text-[#C79D7D]'}`}>About</button>
+            <button onClick={() => scrollToSection('pricing')} className={`transition-colors duration-300 ${isScrolled ? 'hover:text-[#5E4E45]' : 'hover:text-[#C79D7D]'}`}>Pricing</button>
           </nav>
           <button 
             data-testid="button-nav-book"
             onClick={() => scrollToSection('contact')}
-            className="bg-primary text-primary-foreground px-6 py-2.5 text-sm font-medium tracking-wide hover:bg-primary/90 transition-colors"
+            className={`px-6 py-2.5 text-xs font-semibold tracking-widest uppercase transition-all duration-500 ${
+              isScrolled 
+                ? 'bg-[#5E4E45] text-[#EDE9E5] hover:bg-[#5E4E45]/80' 
+                : 'bg-[#C79D7D] text-[#1a1210] hover:bg-[#D8C2B2]'
+            }`}
           >
             Book a Call
           </button>
@@ -200,76 +208,101 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* 3. Trusted By Brands Slider */}
-      <section className="py-20 border-y border-border/50 bg-background/50 overflow-hidden relative flex flex-col items-center">
-        <p className="text-xs uppercase tracking-widest text-primary/50 mb-8 font-medium">Trusted by industry leaders</p>
-        <div className="w-full overflow-hidden flex">
-          <div className="animate-marquee flex items-center gap-24 pr-24">
+      {/* 3. Trusted By Brands Marquee */}
+      <section className="py-10 bg-[#1a1210] border-t border-white/5 overflow-hidden">
+        <div className="flex items-center gap-0 w-full overflow-hidden">
+          <div className="animate-marquee flex items-center gap-20 pr-20 shrink-0">
             {['Lumière', 'Nova Labs', 'Velour Co.', 'Maison X', 'Apex Studio', 'Cipher Brand', 'The Collective', 'Origami Media'].map((brand, i) => (
-              <span key={i} className="text-2xl md:text-3xl font-serif text-primary/40 whitespace-nowrap select-none">{brand}</span>
+              <span key={i} className="text-xl font-serif text-[#9A8F88]/50 whitespace-nowrap select-none tracking-wide">{brand}</span>
             ))}
-            {/* Duplicate for infinite effect */}
             {['Lumière', 'Nova Labs', 'Velour Co.', 'Maison X', 'Apex Studio', 'Cipher Brand', 'The Collective', 'Origami Media'].map((brand, i) => (
-              <span key={i + 'dup'} className="text-2xl md:text-3xl font-serif text-primary/40 whitespace-nowrap select-none">{brand}</span>
+              <span key={i + 'dup'} className="text-xl font-serif text-[#9A8F88]/50 whitespace-nowrap select-none tracking-wide">{brand}</span>
             ))}
           </div>
         </div>
       </section>
 
       {/* 4. About Agency */}
-      <section id="about" className="py-32">
-        <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <FadeIn>
-            <h2 className="text-4xl md:text-6xl font-serif text-primary leading-tight">
-              Born to<br />Redefine Digital.
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.2} className="space-y-6 text-lg text-primary/80">
-            <p>
-              We believe that true influence isn't bought—it's built. We treat every brand like a luxury client, crafting narratives that resonate and strategies that convert.
-            </p>
-            <p>
-              Where strategy meets artistry, that's where we operate. We don't do cookie-cutter campaigns. We build digital empires for those bold enough to stand out.
-            </p>
-            <div className="pt-6 border-t border-border mt-8 flex flex-wrap gap-4 text-sm font-medium tracking-wide">
-              <span>Founded 2019</span>
-              <span className="text-primary/30">•</span>
-              <span>150+ Brands Transformed</span>
-              <span className="text-primary/30">•</span>
-              <span>4 Continents</span>
-            </div>
-          </FadeIn>
+      <section id="about" className="py-32 bg-[#EDE9E5] overflow-hidden">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <FadeIn className="lg:col-span-5">
+              <p className="text-xs uppercase tracking-[0.3em] text-[#9A8F88] mb-6 font-sans">About the Agency</p>
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif text-[#5E4E45] leading-[1.05] tracking-tight">
+                Born to<br />
+                <span className="italic text-[#C79D7D]">Redefine</span><br />
+                Digital.
+              </h2>
+              <div className="mt-12 flex gap-12">
+                {[{ n: '150+', l: 'Brands' }, { n: '4', l: 'Continents' }, { n: '2019', l: 'Founded' }].map((s, i) => (
+                  <div key={i}>
+                    <div className="text-3xl font-serif text-[#5E4E45]">{s.n}</div>
+                    <div className="text-xs text-[#9A8F88] uppercase tracking-widest mt-1">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.25} className="lg:col-span-7 lg:pl-12 border-l border-[#D8C2B2]/60">
+              <div className="space-y-8 text-[#5E4E45]/80 text-lg leading-relaxed font-sans">
+                <p>
+                  We believe that true influence isn't bought — it's built. Trend Digitally treats every brand like a luxury client, crafting narratives that resonate and strategies that convert with precision.
+                </p>
+                <p>
+                  Where strategy meets artistry, that's where we operate. We don't do cookie-cutter campaigns. We build digital empires for those bold enough to stand out in a world drowning in noise.
+                </p>
+                <p>
+                  Our team of strategists, creatives, and performance marketers obsess over one thing: your growth. Every post, every ad, every piece of content is a deliberate step toward market dominance.
+                </p>
+              </div>
+              <div className="mt-12">
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  data-testid="button-about-book"
+                  className="group inline-flex items-center gap-3 bg-[#5E4E45] text-[#EDE9E5] px-8 py-4 text-xs font-semibold tracking-widest uppercase hover:bg-[#C79D7D] transition-all duration-300"
+                >
+                  Start the Conversation
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
-      {/* 5. Services Bento Grid */}
-      <section id="services" className="py-32 bg-primary text-primary-foreground">
+      {/* 5. Services */}
+      <section id="services" className="py-32 bg-[#1a1210]">
         <div className="container mx-auto px-6 md:px-12">
-          <FadeIn className="mb-16 md:mb-24 text-center">
-            <h2 className="text-4xl md:text-5xl font-serif mb-6">Our Expertise</h2>
-            <p className="text-primary-foreground/70 max-w-2xl mx-auto text-lg">Comprehensive solutions for brands demanding excellence.</p>
+          <FadeIn className="mb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-4 font-sans">What We Do</p>
+              <h2 className="text-5xl md:text-6xl font-serif text-[#EDE9E5] leading-tight">Our Expertise</h2>
+            </div>
+            <p className="text-[#9A8F88] max-w-xs text-sm leading-relaxed">Comprehensive solutions for brands demanding excellence across every touchpoint.</p>
           </FadeIn>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[240px]">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
             {[
-              { name: 'Social Media Marketing', desc: 'Dominate the feed with scroll-stopping content.', cols: 'md:col-span-2', rows: 'row-span-2' },
-              { name: 'Branding', desc: 'Crafting identities that command attention.', cols: 'col-span-1', rows: 'row-span-1' },
-              { name: 'Video Editing', desc: 'Cinematic storytelling for the digital age.', cols: 'col-span-1', rows: 'row-span-1' },
-              { name: 'Paid Ads', desc: 'Performance marketing that actually performs.', cols: 'col-span-1', rows: 'row-span-2' },
-              { name: 'Content Strategy', desc: 'Data-driven narratives that convert.', cols: 'col-span-1 md:col-span-2 lg:col-span-2', rows: 'row-span-1' },
-              { name: 'Web Design', desc: 'Digital experiences that convert.', cols: 'col-span-1', rows: 'row-span-1' },
-              { name: 'AI Automation', desc: 'Scale seamlessly with intelligent systems.', cols: 'col-span-1', rows: 'row-span-1' },
-              { name: 'Performance Marketing', desc: 'ROI-obsessed growth engines.', cols: 'md:col-span-2 lg:col-span-2', rows: 'row-span-1' }
+              { num: '01', name: 'Social Media Marketing', desc: 'Dominate every feed with scroll-stopping, community-building content that converts.' },
+              { num: '02', name: 'Branding', desc: 'Identities that command attention and signal premium positioning from first glance.' },
+              { num: '03', name: 'Video Editing', desc: 'Cinematic storytelling for the digital age — reels, ads, and brand films.' },
+              { num: '04', name: 'Paid Ads', desc: 'Performance marketing engineered to deliver measurable, scalable ROI.' },
+              { num: '05', name: 'Content Strategy', desc: 'Data-backed narratives that educate, engage, and convert your ideal client.' },
+              { num: '06', name: 'Web Design', desc: 'Digital experiences that build trust, reduce friction, and drive action.' },
+              { num: '07', name: 'AI Automation', desc: 'Intelligent systems that scale your operations without scaling your headcount.' },
+              { num: '08', name: 'Performance Marketing', desc: 'Full-funnel growth engines obsessed with one metric: your return.' }
             ].map((service, i) => (
-              <FadeIn 
-                key={i} 
-                delay={i * 0.05}
-                className={`group relative overflow-hidden bg-background/5 border border-white/10 p-8 flex flex-col justify-end hover:bg-white/10 transition-colors ${service.cols} ${service.rows}`}
+              <FadeIn
+                key={i}
+                delay={i * 0.04}
+                className="group relative bg-[#1a1210] border border-white/[0.06] p-8 flex flex-col justify-between min-h-[220px] hover:bg-[#5E4E45]/20 transition-all duration-500 cursor-default"
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="relative z-10">
-                  <h3 className="text-xl md:text-2xl font-serif mb-2">{service.name}</h3>
-                  <p className="text-primary-foreground/60 text-sm md:text-base opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">{service.desc}</p>
+                <div className="text-xs text-[#9A8F88]/50 font-mono mb-6">{service.num}</div>
+                <div>
+                  <h3 className="text-lg font-serif text-[#EDE9E5] mb-3 leading-snug">{service.name}</h3>
+                  <p className="text-[#9A8F88] text-sm leading-relaxed opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">{service.desc}</p>
+                </div>
+                <div className="absolute bottom-8 right-8 w-8 h-8 border border-[#C79D7D]/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <ArrowRight className="w-3 h-3 text-[#C79D7D]" />
                 </div>
               </FadeIn>
             ))}
@@ -277,19 +310,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Stats Counter Section */}
-      <section className="py-32 border-b border-border/50">
+      {/* 6. Stats */}
+      <section className="py-28 bg-[#5E4E45]">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center divide-x divide-border">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-white/10">
             {[
               { val: '150+', label: 'Brands Transformed' },
               { val: '3.2B+', label: 'Impressions Delivered' },
               { val: '98%', label: 'Client Retention' },
               { val: '40+', label: 'Team Members' }
             ].map((stat, i) => (
-              <FadeIn key={i} delay={i * 0.1} className="flex flex-col items-center justify-center">
-                <span className="text-4xl md:text-6xl font-serif text-primary mb-2">{stat.val}</span>
-                <span className="text-sm font-medium text-primary/60 uppercase tracking-wider">{stat.label}</span>
+              <FadeIn key={i} delay={i * 0.1} className="px-8 py-4 text-center">
+                <div className="text-4xl md:text-6xl font-serif text-[#EDE9E5] mb-2">{stat.val}</div>
+                <div className="text-xs text-[#D8C2B2]/70 uppercase tracking-widest font-sans">{stat.label}</div>
               </FadeIn>
             ))}
           </div>
@@ -297,39 +330,36 @@ export default function Home() {
       </section>
 
       {/* 7. Featured Case Studies */}
-      <section id="work" className="py-32 bg-background relative">
+      <section id="work" className="py-32 bg-[#EDE9E5]">
         <div className="container mx-auto px-6 md:px-12">
-          <FadeIn className="flex justify-between items-end mb-16">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-serif text-primary mb-4">Featured Work</h2>
-              <p className="text-primary/70 text-lg">Results that speak louder than words.</p>
+          <FadeIn className="mb-20">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#9A8F88] mb-4 font-sans">Our Work</p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <h2 className="text-5xl md:text-6xl font-serif text-[#5E4E45] leading-tight">Featured Work</h2>
+              <button className="inline-flex items-center gap-2 text-[#5E4E45] text-sm font-medium hover:text-[#C79D7D] transition-colors group">
+                View All Projects <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
-            <button className="hidden md:flex items-center gap-2 text-primary hover:opacity-70 transition-opacity font-medium">
-              View All <ArrowRight className="w-4 h-4" />
-            </button>
           </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: 'Lumière Rebrand', industry: 'Luxury Retail', result: '+340% engagement', color: 'bg-[#C79D7D]/20' },
-              { name: 'Nova Labs Launch', industry: 'Tech Startup', result: '2.4M reach in 30 days', color: 'bg-[#9A8F88]/20' },
-              { name: 'Apex Studio Campaign', industry: 'Creative Agency', result: '$1.2M revenue generated', color: 'bg-[#D8C2B2]/20' }
+              { name: 'Lumière Rebrand', industry: 'Luxury Retail', result: '+340% Engagement', tag: 'Branding + Social', bg: 'bg-[#C79D7D]/25' },
+              { name: 'Nova Labs Launch', industry: 'Tech Startup', result: '2.4M Reach / 30 Days', tag: 'Paid Ads + Content', bg: 'bg-[#9A8F88]/20' },
+              { name: 'Apex Studio', industry: 'Creative Agency', result: '$1.2M Revenue Generated', tag: 'Performance Marketing', bg: 'bg-[#D8C2B2]/40' }
             ].map((study, i) => (
-              <FadeIn key={i} delay={i * 0.1} className="group cursor-pointer">
-                <div className={`aspect-[4/5] w-full ${study.color} mb-6 relative overflow-hidden flex items-center justify-center`}>
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500"></div>
-                  <motion.div 
-                    className="w-16 h-16 bg-background rounded-full flex items-center justify-center opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-xl"
-                  >
-                    <ArrowRight className="text-primary w-6 h-6" />
-                  </motion.div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-primary/60 font-medium">{study.industry}</span>
-                    <span className="text-accent font-bold">{study.result}</span>
+              <FadeIn key={i} delay={i * 0.12} className="group cursor-pointer">
+                <div className={`${study.bg} aspect-[3/4] relative overflow-hidden mb-5 flex items-end p-6`}>
+                  <div className="absolute inset-0 bg-[#5E4E45]/0 group-hover:bg-[#5E4E45]/10 transition-all duration-500" />
+                  <div className="absolute top-6 right-6 w-10 h-10 bg-[#EDE9E5] rounded-full flex items-center justify-center opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg">
+                    <ArrowRight className="w-4 h-4 text-[#5E4E45]" />
                   </div>
-                  <h3 className="text-2xl font-serif text-primary group-hover:text-accent transition-colors">{study.name}</h3>
+                  <div className="relative z-10 bg-[#EDE9E5]/90 backdrop-blur-sm px-4 py-2 text-xs uppercase tracking-widest text-[#9A8F88] font-sans">{study.tag}</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-xs text-[#9A8F88] uppercase tracking-widest font-sans">{study.industry}</div>
+                  <h3 className="text-2xl font-serif text-[#5E4E45] group-hover:text-[#C79D7D] transition-colors">{study.name}</h3>
+                  <div className="text-sm font-semibold text-[#C79D7D] font-sans">{study.result}</div>
                 </div>
               </FadeIn>
             ))}
@@ -337,28 +367,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. Creative Process Timeline */}
-      <section className="py-32 bg-[#F5F2EF]">
+      {/* 8. Process Timeline */}
+      <section className="py-32 bg-[#1a1210]">
         <div className="container mx-auto px-6 md:px-12">
-          <FadeIn className="text-center mb-24">
-            <h2 className="text-4xl md:text-5xl font-serif text-primary mb-6">Our Methodology</h2>
-            <p className="text-primary/70 max-w-2xl mx-auto text-lg">A systematic approach to unpredictable creativity.</p>
+          <FadeIn className="mb-24 text-center">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-4 font-sans">How We Work</p>
+            <h2 className="text-5xl md:text-6xl font-serif text-[#EDE9E5] leading-tight">Our Methodology</h2>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 relative">
-            <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-primary/10"></div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-0 relative">
+            <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-[#C79D7D]/20" />
             {[
-              { phase: '01', title: 'Discover', desc: 'Deep dive into your brand DNA, market positioning, and untapped opportunities.' },
-              { phase: '02', title: 'Strategy', desc: 'Crafting the blueprint for domination. Data-backed, creatively driven.' },
-              { phase: '03', title: 'Create', desc: 'Execution with uncompromising quality. Every asset designed to perform.' },
-              { phase: '04', title: 'Scale', desc: 'Iterative optimization to turn traction into sustainable, long-term growth.' }
+              { phase: '01', title: 'Discover', desc: 'Deep dive into your brand DNA, market positioning, and untapped growth opportunities.' },
+              { phase: '02', title: 'Strategise', desc: 'Crafting the blueprint for domination — data-backed, creatively driven, ruthlessly focused.' },
+              { phase: '03', title: 'Create', desc: 'Execution with uncompromising quality. Every asset engineered to perform and impress.' },
+              { phase: '04', title: 'Scale', desc: 'Iterative optimisation turns early traction into compounding, long-term authority.' }
             ].map((step, i) => (
-              <FadeIn key={i} delay={i * 0.1} className="relative z-10 flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-background border border-border flex items-center justify-center text-xl font-serif text-primary mb-8 shadow-sm">
+              <FadeIn key={i} delay={i * 0.12} className="relative z-10 flex flex-col items-center text-center p-8 group">
+                <div className="w-16 h-16 border border-[#C79D7D]/30 bg-[#1a1210] flex items-center justify-center font-mono text-[#C79D7D] text-sm mb-8 group-hover:bg-[#5E4E45]/30 transition-colors">
                   {step.phase}
                 </div>
-                <h3 className="text-xl font-serif text-primary mb-4">{step.title}</h3>
-                <p className="text-primary/70 text-sm leading-relaxed">{step.desc}</p>
+                <h3 className="text-xl font-serif text-[#EDE9E5] mb-4">{step.title}</h3>
+                <p className="text-[#9A8F88] text-sm leading-relaxed">{step.desc}</p>
               </FadeIn>
             ))}
           </div>
@@ -366,31 +396,27 @@ export default function Home() {
       </section>
 
       {/* 9. Testimonials */}
-      <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary z-0"></div>
-        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-accent/20 rounded-full mix-blend-screen blur-[100px] z-0"></div>
-        
-        <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <FadeIn className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif text-primary-foreground mb-6">Whispers from the Top</h2>
+      <section className="py-32 bg-[#EDE9E5]">
+        <div className="container mx-auto px-6 md:px-12">
+          <FadeIn className="mb-20 text-center">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#9A8F88] mb-4 font-sans">Client Stories</p>
+            <h2 className="text-5xl md:text-6xl font-serif text-[#5E4E45] leading-tight">What They Say</h2>
           </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { quote: "Trend Digitally didn't just grow our audience; they completely redefined our market positioning. They operate on a different frequency.", name: "Elena Rostova", role: "CMO, Maison X" },
-              { quote: "The most ruthless, creative, and effective agency we've ever partnered with. Our ROI tripled in the first quarter.", name: "Marcus Chen", role: "Founder, Nova Labs" },
+              { quote: "Trend Digitally didn't just grow our audience — they completely redefined our market positioning. They operate on a different frequency.", name: "Elena Rostova", role: "CMO, Maison X" },
+              { quote: "The most ruthless, creative, and effective agency we've ever partnered with. Our ROI tripled in the first quarter working with them.", name: "Marcus Chen", role: "Founder, Nova Labs" },
               { quote: "They understand luxury like no other digital agency. Every campaign feels bespoke, premium, and impossible to ignore.", name: "Sarah Jenkins", role: "VP Marketing, Lumière" }
             ].map((test, i) => (
-              <FadeIn key={i} delay={i * 0.15} className="bg-background/10 backdrop-blur-xl border border-white/10 p-8 flex flex-col justify-between shadow-2xl">
-                <div className="mb-8">
-                  <div className="flex gap-1 text-accent mb-6">
-                    {[1,2,3,4,5].map(s => <span key={s}>★</span>)}
-                  </div>
-                  <p className="text-primary-foreground/90 text-lg leading-relaxed font-serif italic">"{test.quote}"</p>
+              <FadeIn key={i} delay={i * 0.15} className="bg-white/60 backdrop-blur-sm border border-[#D8C2B2]/60 p-10 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                <div className="mb-10">
+                  <div className="flex gap-1 text-[#C79D7D] text-sm mb-6">★★★★★</div>
+                  <p className="text-[#5E4E45] text-lg leading-relaxed font-serif italic">"{test.quote}"</p>
                 </div>
-                <div>
-                  <p className="font-bold text-primary-foreground">{test.name}</p>
-                  <p className="text-primary-foreground/60 text-sm">{test.role}</p>
+                <div className="border-t border-[#D8C2B2]/60 pt-6">
+                  <p className="font-semibold text-[#5E4E45] font-sans">{test.name}</p>
+                  <p className="text-[#9A8F88] text-sm font-sans mt-0.5">{test.role}</p>
                 </div>
               </FadeIn>
             ))}
@@ -398,81 +424,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10. Pricing Preview */}
-      <section id="pricing" className="py-32">
+      {/* 10. Pricing */}
+      <section id="pricing" className="py-32 bg-[#F5F0EC]">
         <div className="container mx-auto px-6 md:px-12">
           <FadeIn className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif text-primary mb-6">Investment</h2>
-            <p className="text-primary/70 max-w-2xl mx-auto text-lg">Transparent tiers for serious growth.</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#9A8F88] mb-4 font-sans">Transparent Pricing</p>
+            <h2 className="text-5xl md:text-6xl font-serif text-[#5E4E45] mb-4">Investment</h2>
+            <p className="text-[#9A8F88] max-w-xl mx-auto font-sans">Choose the level of growth you're ready for.</p>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-5xl mx-auto">
-            {/* Growth */}
-            <FadeIn delay={0.1} className="border border-border bg-background p-8 relative">
-              <h3 className="text-2xl font-serif text-primary mb-2">Growth</h3>
-              <div className="text-3xl font-light text-primary mb-6">$2,500<span className="text-sm text-primary/50">/mo</span></div>
-              <ul className="space-y-4 mb-8 text-sm text-primary/80">
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Core Social Strategy</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> 12 Custom Posts/mo</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Basic Community Mgt</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Monthly Reporting</li>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start max-w-5xl mx-auto">
+            <FadeIn delay={0.1} className="bg-white border border-[#D8C2B2]/60 p-8">
+              <p className="text-xs uppercase tracking-widest text-[#9A8F88] mb-4 font-sans">Tier 01</p>
+              <h3 className="text-2xl font-serif text-[#5E4E45] mb-1">Growth</h3>
+              <div className="text-4xl font-serif text-[#5E4E45] mt-4 mb-8">$2,500<span className="text-base text-[#9A8F88] font-sans font-normal">/mo</span></div>
+              <div className="h-px bg-[#D8C2B2]/60 mb-8" />
+              <ul className="space-y-4 mb-10 font-sans">
+                {['Core Social Strategy', '12 Custom Posts/mo', 'Basic Community Mgt', 'Monthly Reporting'].map((f, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-[#5E4E45]/80">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C79D7D] mt-1.5 shrink-0" />
+                    {f}
+                  </li>
+                ))}
               </ul>
-              <button className="w-full py-3 border border-primary text-primary hover:bg-primary/5 transition-colors font-medium">Book a Call</button>
+              <button data-testid="button-price-growth" onClick={() => scrollToSection('contact')} className="w-full py-3.5 border border-[#5E4E45] text-[#5E4E45] text-xs tracking-widest uppercase font-semibold hover:bg-[#5E4E45] hover:text-[#EDE9E5] transition-all duration-300 font-sans">Book a Call</button>
             </FadeIn>
 
-            {/* Authority - Highlighted */}
-            <FadeIn delay={0.2} className="border border-primary bg-primary text-primary-foreground p-10 relative transform md:-translate-y-4 shadow-2xl">
-              <div className="absolute top-0 right-8 transform -translate-y-1/2 bg-accent text-primary px-3 py-1 text-xs font-bold uppercase tracking-wider">Most Popular</div>
-              <h3 className="text-2xl font-serif mb-2">Authority</h3>
-              <div className="text-4xl font-light mb-6">$5,500<span className="text-sm text-primary-foreground/50">/mo</span></div>
-              <ul className="space-y-4 mb-8 text-sm text-primary-foreground/90">
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Omnichannel Strategy</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> 30 Custom Posts/mo</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> 4 High-End Videos</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Paid Ads Management</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Bi-weekly Strategy Calls</li>
+            <FadeIn delay={0.2} className="bg-[#5E4E45] border border-[#5E4E45] p-8 relative shadow-2xl md:-mt-4">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#C79D7D] text-[#1a1210] px-4 py-1 text-[10px] font-bold uppercase tracking-widest font-sans whitespace-nowrap">Most Popular</div>
+              <p className="text-xs uppercase tracking-widest text-[#C79D7D] mb-4 font-sans">Tier 02</p>
+              <h3 className="text-2xl font-serif text-[#EDE9E5] mb-1">Authority</h3>
+              <div className="text-4xl font-serif text-[#EDE9E5] mt-4 mb-8">$5,500<span className="text-base text-[#D8C2B2]/60 font-sans font-normal">/mo</span></div>
+              <div className="h-px bg-white/10 mb-8" />
+              <ul className="space-y-4 mb-10 font-sans">
+                {['Omnichannel Strategy', '30 Custom Posts/mo', '4 High-End Videos', 'Paid Ads Management', 'Bi-weekly Strategy Calls'].map((f, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-[#EDE9E5]/80">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C79D7D] mt-1.5 shrink-0" />
+                    {f}
+                  </li>
+                ))}
               </ul>
-              <button className="w-full py-3 bg-accent text-primary hover:bg-accent/90 transition-colors font-medium">Book a Call</button>
+              <button data-testid="button-price-authority" onClick={() => scrollToSection('contact')} className="w-full py-3.5 bg-[#C79D7D] text-[#1a1210] text-xs tracking-widest uppercase font-semibold hover:bg-[#D8C2B2] transition-all duration-300 font-sans">Book a Call</button>
             </FadeIn>
 
-            {/* Empire */}
-            <FadeIn delay={0.3} className="border border-border bg-background p-8 relative">
-              <h3 className="text-2xl font-serif text-primary mb-2">Empire</h3>
-              <div className="text-3xl font-light text-primary mb-6">Custom<span className="text-sm text-primary/50">/mo</span></div>
-              <ul className="space-y-4 mb-8 text-sm text-primary/80">
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Full Digital Takeover</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Dedicated Growth Team</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Unlimited Content Assets</li>
-                <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-accent shrink-0" /> Influencer Partnerships</li>
+            <FadeIn delay={0.3} className="bg-white border border-[#D8C2B2]/60 p-8">
+              <p className="text-xs uppercase tracking-widest text-[#9A8F88] mb-4 font-sans">Tier 03</p>
+              <h3 className="text-2xl font-serif text-[#5E4E45] mb-1">Empire</h3>
+              <div className="text-4xl font-serif text-[#5E4E45] mt-4 mb-8">Custom<span className="text-base text-[#9A8F88] font-sans font-normal">/mo</span></div>
+              <div className="h-px bg-[#D8C2B2]/60 mb-8" />
+              <ul className="space-y-4 mb-10 font-sans">
+                {['Full Digital Takeover', 'Dedicated Growth Team', 'Unlimited Content Assets', 'Influencer Partnerships'].map((f, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-[#5E4E45]/80">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C79D7D] mt-1.5 shrink-0" />
+                    {f}
+                  </li>
+                ))}
               </ul>
-              <button className="w-full py-3 border border-primary text-primary hover:bg-primary/5 transition-colors font-medium">Book a Call</button>
+              <button data-testid="button-price-empire" onClick={() => scrollToSection('contact')} className="w-full py-3.5 border border-[#5E4E45] text-[#5E4E45] text-xs tracking-widest uppercase font-semibold hover:bg-[#5E4E45] hover:text-[#EDE9E5] transition-all duration-300 font-sans">Book a Call</button>
             </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* 11. FAQ Accordion */}
-      <section className="py-32 bg-[#F5F2EF]">
+      {/* 11. FAQ */}
+      <section className="py-32 bg-[#EDE9E5]">
         <div className="container mx-auto px-6 md:px-12 max-w-3xl">
           <FadeIn className="text-center mb-16">
-            <h2 className="text-4xl font-serif text-primary">Answers.</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#9A8F88] mb-4 font-sans">Common Questions</p>
+            <h2 className="text-5xl md:text-6xl font-serif text-[#5E4E45]">Answers.</h2>
           </FadeIn>
 
           <FadeIn>
-            <Accordion type="single" collapsible className="w-full space-y-4">
+            <Accordion type="single" collapsible className="w-full space-y-0 divide-y divide-[#D8C2B2]/60">
               {[
-                { q: "How long does onboarding take?", a: "Our onboarding is comprehensive but efficient. Typically, it takes 7-14 days from contract signing to campaign launch, ensuring we have a deep understanding of your brand DNA." },
-                { q: "Do you work with early-stage startups?", a: "We partner with brands at all stages, provided they have ambitious goals and the budgets to support aggressive growth strategies." },
-                { q: "What makes Trend Digitally different from other agencies?", a: "We don't sell deliverables; we sell authority. Our approach combines luxury-tier creative with ruthless performance marketing. We are a growth partner, not an order-taker." },
-                { q: "Can we see results in the first month?", a: "Yes. While compounding growth takes time, our initial sprints are designed to capture low-hanging fruit and demonstrate immediate ROI within the first 30 days." },
-                { q: "What industries do you specialize in?", a: "We excel in luxury retail, high-tech startups, premium hospitality, and D2C e-commerce brands." },
-                { q: "How do we get started?", a: "Book a strategy call using any button on this page. We'll discuss your goals, audit your current digital presence, and determine if we're a mutual fit." }
+                { q: "How long does onboarding take?", a: "Our onboarding is comprehensive but efficient. Typically 7–14 days from contract signing to campaign launch, ensuring we have a deep understanding of your brand DNA." },
+                { q: "Do you work with early-stage startups?", a: "We partner with brands at all stages, provided they have ambitious goals and the commitment to support aggressive growth strategies." },
+                { q: "What makes Trend Digitally different?", a: "We don't sell deliverables — we sell authority. Our approach combines luxury-tier creative with ruthless performance marketing. We are a growth partner, not an order-taker." },
+                { q: "Can we see results in the first month?", a: "Yes. While compounding growth takes time, our initial sprints are designed to capture immediate wins and demonstrate ROI within the first 30 days." },
+                { q: "What industries do you specialise in?", a: "We excel in luxury retail, high-tech startups, premium hospitality, and D2C e-commerce brands where brand perception drives revenue." },
+                { q: "How do we get started?", a: "Book a strategy call using any button on this page. We'll discuss your goals, audit your digital presence, and determine if we're a mutual fit." }
               ].map((faq, i) => (
-                <AccordionItem key={i} value={`item-${i}`} className="border border-border/50 bg-background px-6">
-                  <AccordionTrigger className="text-left font-serif text-lg text-primary hover:no-underline py-6 data-[state=open]:text-accent transition-colors">
+                <AccordionItem key={i} value={`item-${i}`} className="border-none py-1">
+                  <AccordionTrigger className="text-left font-serif text-lg text-[#5E4E45] hover:no-underline py-6 hover:text-[#C79D7D] transition-colors data-[state=open]:text-[#C79D7D]">
                     {faq.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-primary/70 pb-6 text-base leading-relaxed">
+                  <AccordionContent className="text-[#5E4E45]/70 pb-6 text-base leading-relaxed font-sans">
                     {faq.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -482,69 +518,87 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 12. Final CTA Banner */}
-      <section id="contact" className="py-40 relative overflow-hidden flex items-center justify-center">
-        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-[#C79D7D]/30 rounded-full mix-blend-multiply blob"></div>
-        <div className="absolute bottom-0 left-0 w-[60vw] h-[60vw] bg-[#D8C2B2]/40 rounded-full mix-blend-multiply blob" style={{ animationDelay: '-5s' }}></div>
-        
+      {/* 12. Final CTA */}
+      <section id="contact" className="py-40 bg-[#1a1210] relative overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(94,78,69,0.4)_0%,rgba(26,18,16,0)_70%)]" />
+        <div className="absolute top-0 left-0 w-[40vw] h-[40vw] bg-[#C79D7D] rounded-full blob opacity-10" style={{ animationDelay: '0s' }} />
+        <div className="absolute bottom-0 right-0 w-[35vw] h-[35vw] bg-[#5E4E45] rounded-full blob opacity-20" style={{ animationDelay: '-8s' }} />
+
         <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
           <FadeIn>
-            <h2 className="text-5xl md:text-7xl font-serif text-primary leading-tight mb-12">
-              Ready to Build Your<br />Digital Authority?
+            <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-8 font-sans">Ready to grow?</p>
+            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-[#EDE9E5] leading-[1.05] tracking-tight mb-6 max-w-4xl mx-auto">
+              Ready to Build Your <span className="italic text-[#C79D7D]">Digital Authority?</span>
             </h2>
-            <button className="bg-primary text-primary-foreground px-12 py-5 text-lg font-medium tracking-wide hover:bg-primary/90 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+            <p className="text-[#9A8F88] max-w-xl mx-auto mb-14 text-lg font-sans leading-relaxed">
+              Let's build something unforgettable together. Your first strategy call is on us.
+            </p>
+            <button
+              data-testid="button-cta-final"
+              onClick={() => scrollToSection('contact')}
+              className="group bg-[#C79D7D] text-[#1a1210] px-14 py-5 text-xs font-semibold tracking-widest uppercase hover:bg-[#D8C2B2] transition-all duration-300 shadow-2xl inline-flex items-center gap-3 font-sans"
+            >
               Book Strategy Call
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </FadeIn>
         </div>
       </section>
 
-      {/* 13. Premium Footer */}
-      <footer className="bg-primary text-primary-foreground py-20">
+      {/* 13. Footer */}
+      <footer className="bg-[#0f0c0b] text-[#EDE9E5] pt-20 pb-10">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="md:col-span-2">
-              <div className="font-serif text-3xl font-bold mb-6">Trend Digitally.</div>
-              <p className="text-primary-foreground/60 max-w-sm mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+            <div className="md:col-span-5">
+              <div className="flex items-center gap-3 mb-6">
+                <img src={logoSrc} alt="Trend Digitally" className="h-12 w-12 rounded-full object-cover opacity-90" />
+                <span className="font-serif text-2xl font-bold text-[#EDE9E5]">Trend Digitally</span>
+              </div>
+              <p className="text-[#9A8F88] max-w-xs leading-relaxed text-sm font-sans mb-8">
                 The creative growth agency for brands that refuse to blend in. We build digital empires.
               </p>
-              <div className="flex gap-4">
-                <a href="#" data-testid="link-instagram" className="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors rounded-full"><SiInstagram className="w-4 h-4" /></a>
-                <a href="#" data-testid="link-linkedin" className="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors rounded-full">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                </a>
-                <a href="#" data-testid="link-twitter" className="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors rounded-full">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-                <a href="#" data-testid="link-tiktok" className="w-10 h-10 border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors rounded-full"><SiTiktok className="w-4 h-4" /></a>
+              <div className="flex gap-3">
+                {[
+                  { id: 'instagram', icon: <SiInstagram className="w-4 h-4" /> },
+                  { id: 'linkedin', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
+                  { id: 'twitter', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> },
+                  { id: 'tiktok', icon: <SiTiktok className="w-4 h-4" /> }
+                ].map((s) => (
+                  <a key={s.id} href="#" data-testid={`link-${s.id}`} className="w-9 h-9 border border-white/10 flex items-center justify-center text-[#9A8F88] hover:border-[#C79D7D]/50 hover:text-[#C79D7D] transition-all duration-300">
+                    {s.icon}
+                  </a>
+                ))}
               </div>
             </div>
-            
-            <div>
-              <h4 className="font-serif text-lg mb-6">Explore</h4>
-              <ul className="space-y-3 text-primary-foreground/70">
-                <li><button onClick={() => scrollToSection('services')} className="hover:text-white transition-colors">Services</button></li>
-                <li><button onClick={() => scrollToSection('work')} className="hover:text-white transition-colors">Work</button></li>
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">About</button></li>
-                <li><button onClick={() => scrollToSection('pricing')} className="hover:text-white transition-colors">Pricing</button></li>
+
+            <div className="md:col-span-3 md:col-start-7">
+              <p className="text-xs uppercase tracking-widest text-[#9A8F88] mb-6 font-sans">Navigate</p>
+              <ul className="space-y-3 font-sans">
+                {['services', 'work', 'about', 'pricing'].map((link) => (
+                  <li key={link}>
+                    <button onClick={() => scrollToSection(link)} className="text-[#9A8F88] hover:text-[#C79D7D] transition-colors text-sm capitalize">
+                      {link}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
-            
-            <div>
-              <h4 className="font-serif text-lg mb-6">Contact</h4>
-              <ul className="space-y-3 text-primary-foreground/70">
-                <li><a href="mailto:hello@trenddigitally.com" className="hover:text-white transition-colors">hello@trenddigitally.com</a></li>
-                <li>New York, NY</li>
-                <li>San Francisco, CA</li>
+
+            <div className="md:col-span-3">
+              <p className="text-xs uppercase tracking-widest text-[#9A8F88] mb-6 font-sans">Contact</p>
+              <ul className="space-y-3 font-sans text-sm">
+                <li><a href="mailto:hello@trenddigitally.com" className="text-[#9A8F88] hover:text-[#C79D7D] transition-colors">hello@trenddigitally.com</a></li>
+                <li className="text-[#9A8F88]/60">New York, NY</li>
+                <li className="text-[#9A8F88]/60">San Francisco, CA</li>
               </ul>
             </div>
           </div>
-          
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-primary-foreground/40">
+
+          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#9A8F88]/40 font-sans">
             <p>&copy; 2025 Trend Digitally. All rights reserved.</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-[#9A8F88] transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-[#9A8F88] transition-colors">Terms of Service</a>
             </div>
           </div>
         </div>
