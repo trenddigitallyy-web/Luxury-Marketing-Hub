@@ -1,0 +1,110 @@
+Create a premium, futuristic, luxury-style marketing agency website for a brand named “Trend Digitally”. The design must feel world-class, visually addictive, cinematic, smooth, and highly modern — something that instantly builds trust and makes visitors feel they are dealing with a top-tier creative growth agency. The entire website should follow a clean luxury aesthetic with bold typography, smooth animations, glassmorphism, layered gradients, premium spacing, and interactive hover effects.
+
+Use the uploaded logo as the core identity inspiration. Extract and consistently use these colors throughout the website:
+
+Primary Dark Brown: #5E4E45
+Warm Nude Beige: #C79D7D
+Soft Cream: #EDE9E5
+Muted Taupe: #9A8F88
+Light Sand Accent: #D8C2B2
+
+Website style direction:
+
+Luxury + minimal + futuristic
+Apple-level cleanliness mixed with high-end creative agency energy
+Dark-light blended aesthetic
+Cinematic lighting and soft shadows
+Ultra smooth transitions and scroll animations
+Premium UI/UX with modern grid layouts
+Magnetic buttons and glass cards
+Creative cursor effects
+Floating abstract shapes using the brand colors
+Subtle grain texture and blurred glow effects
+Large whitespace and elegant typography
+Fully responsive mobile-first design
+No generic templates
+
+Hero Section:
+
+Massive bold headline:
+“We Don’t Follow Trends. We Create Digital Authority.”
+Subheadline:
+“Trend Digitally helps brands dominate social media, performance marketing, content strategy, and creative storytelling.”
+Add premium CTA buttons:
+“Book Strategy Call”
+“View Our Work”
+Include animated floating elements inspired by the logo typography
+Add layered gradients and glowing motion background
+Include subtle 3D depth and parallax scrolling
+
+Homepage Sections:
+
+Hero Section
+Trusted By Brands Slider
+About Agency
+Services Grid
+Featured Case Studies
+Video/Testimonial Section
+Creative Process Timeline
+Stats Counter Section
+Social Media Showcase
+Pricing Preview
+FAQ Accordion
+Final CTA Banner
+Premium Footer
+
+Services Section:
+
+Social Media Marketing
+Branding
+Video Editing
+Paid Ads
+Content Strategy
+Web Design
+AI Automation
+Performance Marketing
+
+Creative Requirements:
+
+Use Bento Grid layouts
+Add floating gradient blobs
+Add smooth GSAP-style animations
+Modern split-screen layouts
+Use oversized typography mixed with minimal text
+Add horizontal scrolling sections
+Interactive hover reveal effects
+Use luxury serif + modern sans-serif font pairing
+Add animated statistics counters
+Include premium cards with glassmorphism
+Use dynamic scroll-triggered transitions
+Add immersive storytelling sections
+
+Typography:
+
+Headings: Elegant luxury serif
+Body: Minimal modern sans-serif
+Strong font contrast for premium look
+
+UI Details:
+
+Rounded corners
+Soft shadows
+Transparent navigation bar
+Sticky animated navbar
+Blur effects
+Hover scaling animations
+Animated underline effects
+Smooth page transitions
+
+Inspiration Style:
+
+Awwwards-level website
+High-end creative studio
+Luxury branding agency
+Cinematic storytelling experience
+Fashion-tech aesthetic
+Modern startup energy
+
+Do NOT make it look like a basic corporate website.
+Avoid generic stock layouts.
+Everything should feel artistic, premium, bold, immersive, and unforgettable.
