@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 import { SiInstagram, SiTiktok } from 'react-icons/si';
 import { ArrowRight, CheckCircle2, ChevronRight, Play } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import logoSrc from '@assets/TD_1778579526586.png';
 
 // Reusable animated section component
 const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
@@ -53,8 +54,9 @@ export default function Home() {
         }`}
       >
         <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
-          <div className="font-serif text-2xl font-bold tracking-tight text-primary">
-            Trend Digitally.
+          <div className="flex items-center gap-3">
+            <img src={logoSrc} alt="Trend Digitally" className="h-12 w-12 rounded-full object-cover" />
+            <span className="font-serif text-xl font-bold tracking-tight text-primary hidden sm:block">Trend Digitally</span>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-primary/80">
             <button onClick={() => scrollToSection('services')} className="hover:text-primary transition-colors">Services</button>
@@ -72,41 +74,129 @@ export default function Home() {
         </div>
       </header>
 
-      {/* 2. Hero Section */}
-      <section className="relative min-h-[100dvh] flex items-center justify-center pt-24 overflow-hidden">
-        {/* Background Blobs */}
-        <div className="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] bg-[#C79D7D] rounded-full mix-blend-multiply blob" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute top-1/3 right-1/4 w-[35vw] h-[35vw] bg-[#D8C2B2] rounded-full mix-blend-multiply blob" style={{ animationDelay: '-5s' }}></div>
-        <div className="absolute bottom-1/4 left-1/3 w-[45vw] h-[45vw] bg-[#9A8F88] rounded-full mix-blend-multiply blob opacity-40" style={{ animationDelay: '-10s' }}></div>
+      {/* 2. Hero Section — Dark Cinematic */}
+      <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-[#1a1210]">
+        {/* Deep radial gradient base */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_60%,rgba(94,78,69,0.55)_0%,rgba(26,18,16,0)_70%)]" />
 
-        <motion.div style={{ y: yHero }} className="container mx-auto px-6 md:px-12 relative z-10 text-center flex flex-col items-center">
-          <FadeIn>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-serif text-primary leading-[1.1] tracking-tight max-w-6xl mx-auto">
-              We Don't Follow Trends.<br />
-              <span className="italic opacity-90 text-[#9A8F88]">We Create Digital Authority.</span>
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2} className="mt-8 max-w-2xl mx-auto">
-            <p className="text-lg md:text-xl text-primary/70 font-sans leading-relaxed">
-              Trend Digitally helps ambitious brands dominate social media, performance marketing, content strategy, and creative storytelling.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.4} className="mt-12 flex flex-col sm:flex-row items-center gap-6">
-            <button 
+        {/* Animated blobs — now on dark bg so they glow */}
+        <div className="absolute top-[10%] left-[10%] w-[55vw] h-[55vw] bg-[#5E4E45] rounded-full blob opacity-40" style={{ animationDelay: '0s' }} />
+        <div className="absolute bottom-[5%] right-[5%] w-[45vw] h-[45vw] bg-[#C79D7D] rounded-full blob opacity-20" style={{ animationDelay: '-7s' }} />
+        <div className="absolute top-[50%] left-[55%] w-[30vw] h-[30vw] bg-[#D8C2B2] rounded-full blob opacity-10" style={{ animationDelay: '-14s' }} />
+
+        {/* Decorative thin lines */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-[#C79D7D]/20 to-transparent" />
+          <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-[#C79D7D]/10 to-transparent" />
+          <div className="absolute top-1/3 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#C79D7D]/15 to-transparent" />
+        </div>
+
+        {/* Large ghosted TD letters background */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <span className="font-serif text-[30vw] font-bold text-white/[0.03] leading-none tracking-tighter">TD</span>
+        </div>
+
+        {/* Floating badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="absolute top-32 right-8 md:right-16 hidden md:flex items-center gap-2 border border-[#C79D7D]/30 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full"
+        >
+          <span className="w-2 h-2 rounded-full bg-[#C79D7D] animate-pulse" />
+          <span className="text-[#D8C2B2] text-xs tracking-widest uppercase font-sans">Creative Growth Agency</span>
+        </motion.div>
+
+        <motion.div style={{ y: yHero }} className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center">
+          {/* Eyebrow */}
+          <motion.div
+            initial={{ opacity: 0, letterSpacing: '0.2em' }}
+            animate={{ opacity: 1, letterSpacing: '0.4em' }}
+            transition={{ duration: 1.2, delay: 0.2 }}
+            className="text-[#C79D7D] text-xs font-sans uppercase tracking-[0.4em] mb-8 flex items-center gap-4"
+          >
+            <span className="w-8 h-px bg-[#C79D7D]/60" />
+            Since 2019 · 150+ Brands
+            <span className="w-8 h-px bg-[#C79D7D]/60" />
+          </motion.div>
+
+          {/* Main headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="font-serif text-[#EDE9E5] text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6rem] leading-[1.05] tracking-tight max-w-6xl"
+          >
+            We Don't Follow<br />
+            <span className="italic text-[#C79D7D]">Trends.</span>
+          </motion.h1>
+
+          {/* Secondary headline */}
+          <motion.h2
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.55, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="font-serif text-[#EDE9E5]/80 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5rem] leading-[1.05] tracking-tight max-w-6xl mt-2"
+          >
+            We Create <span className="italic text-[#D8C2B2]">Digital Authority.</span>
+          </motion.h2>
+
+          {/* Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1, delay: 0.8 }}
+            className="w-24 h-px bg-[#C79D7D]/50 mt-10 mb-8"
+          />
+
+          {/* Subheadline */}
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.9 }}
+            className="font-sans text-[#9A8F88] text-base md:text-lg lg:text-xl max-w-2xl leading-relaxed"
+          >
+            Trend Digitally helps ambitious brands dominate social media, performance marketing, content strategy, and creative storytelling.
+          </motion.p>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 1.1 }}
+            className="mt-12 flex flex-col sm:flex-row items-center gap-5"
+          >
+            <button
               onClick={() => scrollToSection('contact')}
-              className="bg-primary text-primary-foreground px-8 py-4 text-base font-medium tracking-wide hover:bg-primary/90 transition-all flex items-center gap-2"
               data-testid="button-hero-book"
+              className="group relative bg-[#C79D7D] text-[#1a1210] px-10 py-4 text-sm font-sans font-semibold tracking-widest uppercase hover:bg-[#D8C2B2] transition-all duration-300 flex items-center gap-3 overflow-hidden"
             >
-              Book Strategy Call <ArrowRight className="w-4 h-4" />
+              <span className="relative z-10">Book Strategy Call</span>
+              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button 
+            <button
               onClick={() => scrollToSection('work')}
-              className="border border-primary text-primary px-8 py-4 text-base font-medium tracking-wide hover:bg-primary/5 transition-all flex items-center gap-2"
               data-testid="button-hero-work"
+              className="group border border-[#EDE9E5]/20 text-[#EDE9E5] px-10 py-4 text-sm font-sans font-medium tracking-widest uppercase hover:border-[#C79D7D]/60 hover:text-[#C79D7D] transition-all duration-300 backdrop-blur-sm"
             >
               View Our Work
             </button>
-          </FadeIn>
+          </motion.div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8, duration: 1 }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          >
+            <span className="text-[#9A8F88] text-[10px] tracking-widest uppercase font-sans">Scroll</span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-px h-8 bg-gradient-to-b from-[#C79D7D]/60 to-transparent"
+            />
+          </motion.div>
         </motion.div>
       </section>
 
