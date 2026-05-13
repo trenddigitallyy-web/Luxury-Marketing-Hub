@@ -372,7 +372,7 @@ export default function Home() {
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-white/10">
             {[
-              { val: '20+', label: 'Brands Scaled' },
+              { val: '50+', label: 'Brands Scaled' },
               { val: '15M+', label: 'Organic Reach Generated' },
               { val: '1000+', label: 'Creatives Delivered' },
               { val: '∞', label: 'Multi-Industry Experience' },
