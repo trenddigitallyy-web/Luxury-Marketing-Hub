@@ -225,6 +225,11 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
 .animate-marquee {
   display: flex;
   width: max-content;
@@ -240,4 +245,25 @@
 
 .marquee-track:hover {
   animation-play-state: paused;
+}
+
+.work-row-ltr {
+  display: flex;
+  width: max-content;
+  animation: marquee 55s linear infinite;
+  will-change: transform;
+}
+
+.work-row-rtl {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 50s linear infinite;
+  will-change: transform;
+}
+
+.work-row-ltr2 {
+  display: flex;
+  width: max-content;
+  animation: marquee 65s linear infinite;
+  will-change: transform;
 }

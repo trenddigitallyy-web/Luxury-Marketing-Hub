@@ -389,73 +389,113 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 7. Featured Work ── */}
-      <section id="work" className="py-32 bg-[#EDE9E5]">
-        <div className="container mx-auto px-6 md:px-12">
-          <FadeIn className="mb-20">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#9A8F88] mb-4 font-sans">Our Work</p>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <h2 className="text-5xl md:text-6xl font-serif text-[#5E4E45] leading-tight">Featured Work</h2>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="inline-flex items-center gap-2 text-[#5E4E45] text-sm font-medium hover:text-[#C79D7D] transition-colors group font-sans"
-              >
-                Start a Project <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </FadeIn>
+      {/* ── 7. Our Work (floating grid) ── */}
+      <section id="work" className="py-24 bg-[#1a1210] overflow-hidden">
+        {/* Header */}
+        <FadeIn className="text-center mb-16 px-6">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-4 font-sans">Our Work</p>
+          <h2 className="text-5xl md:text-7xl font-serif text-[#EDE9E5] leading-tight">
+            Posts &amp; <em className="italic text-[#C79D7D]">Reels</em>
+          </h2>
+        </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Row 1 — scrolls left */}
+        <div className="overflow-hidden mb-4">
+          <div className="work-row-ltr">
             {[
-              {
-                name: 'Jewellery Brand Identity',
-                industry: 'Luxury Jewellery',
-                result: '+280% Social Engagement',
-                tag: 'Branding + Social',
-                desc: 'Complete brand overhaul — from visual identity to social presence — for a heritage jewellery house.',
-                bg: 'bg-[#C79D7D]/25',
-                accent: 'from-[#C79D7D]/60',
-              },
-              {
-                name: 'Fashion Campaign',
-                industry: 'Fashion & Apparel',
-                result: '1.2M Reach in 21 Days',
-                tag: 'Content + Paid Ads',
-                desc: 'Cinematic product campaign with influencer amplification that broke the brand\'s reach record.',
-                bg: 'bg-[#9A8F88]/20',
-                accent: 'from-[#9A8F88]/60',
-              },
-              {
-                name: 'Dental Clinic Growth',
-                industry: 'Healthcare',
-                result: '3× Appointment Bookings',
-                tag: 'Google Ads + GMB',
-                desc: 'Hyperlocal performance strategy that tripled inbound leads and dominated local search.',
-                bg: 'bg-[#D8C2B2]/40',
-                accent: 'from-[#D8C2B2]/60',
-              },
-            ].map((study, i) => (
-              <FadeIn key={i} delay={i * 0.12} className="group cursor-pointer">
-                <div className={`${study.bg} aspect-[3/4] relative overflow-hidden mb-5 flex flex-col items-end justify-between p-6`}>
-                  <div className="absolute inset-0 bg-[#5E4E45]/0 group-hover:bg-[#5E4E45]/8 transition-all duration-500" />
-                  <div className={`absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t ${study.accent} to-transparent opacity-0 group-hover:opacity-30 transition-all duration-500`} />
-                  <div className="self-end w-10 h-10 bg-[#EDE9E5] rounded-full flex items-center justify-center opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-lg relative z-10">
-                    <ArrowRight className="w-4 h-4 text-[#5E4E45]" />
+              { label: 'POST', tag: 'Jewellery', color: 'from-[#C79D7D]/40 to-[#9A8F88]/20', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'REEL', tag: 'Fashion', color: 'from-[#5E4E45] to-[#C79D7D]/30', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Branding', color: 'from-[#D8C2B2]/50 to-[#9A8F88]/30', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'REEL', tag: 'Healthcare', color: 'from-[#9A8F88]/40 to-[#5E4E45]/60', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Hospitality', color: 'from-[#C79D7D]/25 to-[#D8C2B2]/40', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'REEL', tag: 'Lighting', color: 'from-[#5E4E45]/80 to-[#C79D7D]/20', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Marble', color: 'from-[#D8C2B2]/60 to-[#9A8F88]/20', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'POST', tag: 'Textiles', color: 'from-[#9A8F88]/30 to-[#C79D7D]/40', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'REEL', tag: 'Jewellery', color: 'from-[#C79D7D]/50 to-[#5E4E45]/60', aspect: 'aspect-[9/16]', w: 'w-32' },
+            ].flatMap((c, _, arr) => [...arr, ...arr]).map((card, i) => (
+              <div key={i} className={`${card.w} flex-shrink-0 mx-2`}>
+                <div className={`${card.aspect} bg-gradient-to-br ${card.color} relative overflow-hidden rounded-sm group`}>
+                  <div className="absolute inset-0 bg-[#1a1210]/10" />
+                  <div className="absolute top-3 left-3 text-[10px] font-sans font-bold tracking-widest text-[#EDE9E5]/60 bg-[#1a1210]/40 px-2 py-1 rounded-sm backdrop-blur-sm">
+                    {card.label}
                   </div>
-                  <div className="self-start relative z-10">
-                    <div className="bg-[#EDE9E5]/90 backdrop-blur-sm px-4 py-2 text-xs uppercase tracking-widest text-[#9A8F88] font-sans mb-3">{study.tag}</div>
-                    <p className="text-[#5E4E45]/80 text-sm font-sans leading-snug max-w-[200px] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">{study.desc}</p>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#EDE9E5]/50 font-sans">{card.tag}</p>
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <div className="text-xs text-[#9A8F88] uppercase tracking-widest font-sans">{study.industry}</div>
-                  <h3 className="text-2xl font-serif text-[#5E4E45] group-hover:text-[#C79D7D] transition-colors duration-300">{study.name}</h3>
-                  <div className="text-sm font-semibold text-[#C79D7D] font-sans">{study.result}</div>
-                </div>
-              </FadeIn>
+              </div>
             ))}
           </div>
         </div>
+
+        {/* Row 2 — scrolls right */}
+        <div className="overflow-hidden mb-4">
+          <div className="work-row-rtl">
+            {[
+              { label: 'REEL', tag: 'Fashion', color: 'from-[#5E4E45] to-[#9A8F88]/50', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Branding', color: 'from-[#D8C2B2]/40 to-[#C79D7D]/30', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'POST', tag: 'Healthcare', color: 'from-[#9A8F88]/50 to-[#D8C2B2]/30', aspect: 'aspect-square', w: 'w-44' },
+              { label: 'REEL', tag: 'Hospitality', color: 'from-[#C79D7D]/30 to-[#5E4E45]/70', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Marble', color: 'from-[#C79D7D]/45 to-[#9A8F88]/20', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'REEL', tag: 'Lighting', color: 'from-[#D8C2B2]/50 to-[#C79D7D]/40', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Jewellery', color: 'from-[#5E4E45]/60 to-[#C79D7D]/50', aspect: 'aspect-square', w: 'w-44' },
+              { label: 'REEL', tag: 'Textiles', color: 'from-[#9A8F88]/40 to-[#D8C2B2]/50', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Fashion', color: 'from-[#D8C2B2]/35 to-[#5E4E45]/50', aspect: 'aspect-square', w: 'w-52' },
+            ].flatMap((c, _, arr) => [...arr, ...arr]).map((card, i) => (
+              <div key={i} className={`${card.w} flex-shrink-0 mx-2`}>
+                <div className={`${card.aspect} bg-gradient-to-br ${card.color} relative overflow-hidden rounded-sm`}>
+                  <div className="absolute inset-0 bg-[#1a1210]/10" />
+                  <div className="absolute top-3 left-3 text-[10px] font-sans font-bold tracking-widest text-[#EDE9E5]/60 bg-[#1a1210]/40 px-2 py-1 rounded-sm backdrop-blur-sm">
+                    {card.label}
+                  </div>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#EDE9E5]/50 font-sans">{card.tag}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Row 3 — scrolls left, slower */}
+        <div className="overflow-hidden mb-16">
+          <div className="work-row-ltr2">
+            {[
+              { label: 'POST', tag: 'Hospitality', color: 'from-[#C79D7D]/35 to-[#D8C2B2]/20', aspect: 'aspect-square', w: 'w-44' },
+              { label: 'REEL', tag: 'Branding', color: 'from-[#5E4E45]/70 to-[#9A8F88]/40', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Jewellery', color: 'from-[#9A8F88]/30 to-[#C79D7D]/50', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'REEL', tag: 'Fashion', color: 'from-[#D8C2B2]/45 to-[#5E4E45]/60', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Marble', color: 'from-[#C79D7D]/20 to-[#9A8F88]/50', aspect: 'aspect-square', w: 'w-44' },
+              { label: 'POST', tag: 'Lighting', color: 'from-[#D8C2B2]/30 to-[#C79D7D]/40', aspect: 'aspect-square', w: 'w-52' },
+              { label: 'REEL', tag: 'Healthcare', color: 'from-[#9A8F88]/50 to-[#D8C2B2]/30', aspect: 'aspect-[9/16]', w: 'w-32' },
+              { label: 'POST', tag: 'Textiles', color: 'from-[#5E4E45]/50 to-[#C79D7D]/30', aspect: 'aspect-square', w: 'w-44' },
+              { label: 'REEL', tag: 'Marble', color: 'from-[#C79D7D]/40 to-[#5E4E45]/70', aspect: 'aspect-[9/16]', w: 'w-32' },
+            ].flatMap((c, _, arr) => [...arr, ...arr]).map((card, i) => (
+              <div key={i} className={`${card.w} flex-shrink-0 mx-2`}>
+                <div className={`${card.aspect} bg-gradient-to-br ${card.color} relative overflow-hidden rounded-sm`}>
+                  <div className="absolute inset-0 bg-[#1a1210]/10" />
+                  <div className="absolute top-3 left-3 text-[10px] font-sans font-bold tracking-widest text-[#EDE9E5]/60 bg-[#1a1210]/40 px-2 py-1 rounded-sm backdrop-blur-sm">
+                    {card.label}
+                  </div>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#EDE9E5]/50 font-sans">{card.tag}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* All Works CTA */}
+        <FadeIn className="text-center">
+          <Link
+            href="/work"
+            className="group inline-flex items-center gap-3 bg-[#C79D7D] text-[#1a1210] px-10 py-4 text-sm font-sans font-bold tracking-widest uppercase hover:bg-[#D8C2B2] transition-all duration-300"
+          >
+            All Works
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </FadeIn>
       </section>
 
       {/* ── 8. Methodology ── */}
