@@ -280,7 +280,7 @@ export default function Home() {
                 Digital.
               </h2>
               <div className="mt-12 flex gap-12">
-                {[{ n: '20+', l: 'Brands Scaled' }, { n: '1000+', l: 'Creatives Made' }, { n: '2024', l: 'Founded' }].map((s, i) => (
+                {[{ n: '50+', l: 'Brands Scaled' }, { n: '1000+', l: 'Creatives Made' }, { n: '2024', l: 'Founded' }].map((s, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
@@ -300,7 +300,7 @@ export default function Home() {
                   Trend Digitally is a Hyderabad-based creative growth agency founded by <span className="text-[#5E4E45] font-semibold">Aayush and Shraddha</span> in 2024. We help ambitious brands build authority through strategic storytelling, social media marketing, branding, paid advertising, and high-converting digital experiences.
                 </p>
                 <p>
-                  In a short span, we have helped 20+ businesses establish stronger brand identities, expand audience reach, and create impactful digital presence across multiple industries — from jewellery and fashion to healthcare and hospitality.
+                  In a short span, we have helped 50+ businesses establish stronger brand identities, expand audience reach, and create impactful digital presence across multiple industries — from jewellery and fashion to healthcare and hospitality.
                 </p>
                 <p>
                   We combine creativity, strategy, and modern execution to craft brands that stand out in a crowded digital world. Every campaign, every creative, every click — engineered to convert.
