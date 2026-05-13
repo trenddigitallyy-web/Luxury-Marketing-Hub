@@ -1,0 +1,451 @@
+Upgrade and refine the existing “Trend Digitally” website into a world-class luxury digital agency experience while preserving the current design identity completely.
+
+IMPORTANT:
+This is NOT a redesign.
+This is a premium refinement + animation enhancement project.
+
+Maintain:
+- Existing luxury aesthetic
+- Existing dark brown + cream palette
+- Existing typography style
+- Existing section structure
+- Existing premium mood
+- Existing navbar
+- Existing hero layout
+- Existing spacing rhythm
+- Existing sliding client logos section EXACTLY as it is
+
+DO NOT:
+- Convert website into SaaS style
+- Add bright modern gradients
+- Change font pairing
+- Change layout structure
+- Overcrowd sections
+- Break responsiveness
+- Use cheap/glassy UI
+- Use excessive neon effects
+- Remove luxury minimalism
+
+The website should feel like:
+“An elite luxury creative agency website with cinematic interactions and ultra-premium motion design.”
+
+==================================================
+GLOBAL WEBSITE RULES
+==================================================
+
+The website already looks premium and elegant.
+Only refine content, credibility, interactions, and animations using the attached business profile details.
+
+Keep:
+- all existing animations/transitions unless improving them
+- same UI/UX system
+- same section hierarchy
+- same visual language
+- same luxury atmosphere
+
+Preserve:
+- smooth scrolling
+- hover effects
+- luxury typography hierarchy
+- responsive behavior
+- section spacing balance
+
+VERY IMPORTANT:
+DO NOT TOUCH the sliding client logo section design.
+Keep it exactly as it is.
+
+==================================================
+GLOBAL ANIMATION UPGRADE
+==================================================
+
+Add smooth premium animations throughout the website using Framer Motion / GSAP.
+
+Animation inspiration:
+- Awwwards luxury websites
+- Fashion campaign websites
+- Maison Margiela style motion
+- Premium editorial experiences
+- Cinematic storytelling websites
+
+Animation style:
+- smooth easing only
+- luxury pacing
+- cinematic reveals
+- subtle movement
+- minimal but expensive feeling
+- GPU optimized
+- high performance
+
+Use:
+- opacity reveals
+- stagger animations
+- text masking
+- fade-up transitions
+- subtle parallax
+- smooth hover transforms
+- luxury scaling
+- reveal-on-scroll interactions
+- elegant underline animations
+- soft glowing hover states
+
+DO NOT:
+- use aggressive bounce
+- overanimate
+- use flashy effects
+- create lag
+- make interactions feel playful
+
+==================================================
+NAVBAR IMPROVEMENTS
+==================================================
+
+Keep the exact navbar layout and styling.
+
+Enhance with:
+- smooth blur transition on scroll
+- elegant hover underline animation
+- smooth active link transitions
+- premium button hover effect
+- navbar slightly compresses on scroll
+- subtle background transparency transition
+
+Animation should feel almost invisible but premium.
+
+==================================================
+HERO SECTION
+==================================================
+
+Keep same hero layout and typography composition.
+
+Enhance with:
+- cinematic text reveal animation
+- line-by-line stagger reveal
+- “Trends.” italic text should animate independently
+- subtle animated grain/noise texture movement in background
+- soft parallax motion
+- smooth subtitle fade
+- CTA hover glow effect
+- elegant scroll indicator loop animation
+
+Keep hero minimal and luxurious.
+
+Do NOT clutter hero.
+
+==================================================
+LOGO SLIDER SECTION
+==================================================
+
+DO NOT CHANGE THIS SECTION DESIGN.
+
+Only improve:
+- seamless infinite scrolling
+- smoother performance
+- cleaner looping
+- subtle grayscale-to-color hover effect if possible
+
+DO NOT redesign.
+DO NOT remove.
+
+==================================================
+ABOUT SECTION
+==================================================
+
+Keep same layout.
+
+Replace content using business profile details.
+
+Use this refined luxury copy:
+
+“Trend Digitally is a Hyderabad-based creative growth agency founded by Aayush and Shraddha in 2024. We help ambitious brands build authority through strategic storytelling, social media marketing, branding, paid advertising, and high-converting digital experiences.
+
+In a short span, Trend Digitally has helped 20+ businesses establish stronger brand identities, expand audience reach, and create impactful digital presence across multiple industries.
+
+We combine creativity, strategy, and modern execution to craft brands that stand out in a crowded digital world.”
+
+Also subtly communicate:
+- consumer market understanding
+- strategic communication
+- creativity-driven execution
+
+Reference:
+Business profile PDF pages 2–4.
+
+Add animations:
+- split text reveal
+- stagger paragraph fade
+- subtle image zoom
+- animated counters
+
+==================================================
+REMOVE INVESTMENT / PRICING SECTION
+==================================================
+
+Completely remove:
+- Investment section
+- Pricing cards
+- Growth
+- Authority
+- Empire
+
+After removal:
+- rebalance spacing perfectly
+- maintain visual flow
+- no empty gaps
+
+==================================================
+SERVICES SECTION
+==================================================
+
+Keep SAME GRID DESIGN and structure.
+
+Replace generic services with actual services from the business profile.
+
+Use these services:
+
+- Social Media Marketing
+- Branding Strategy
+- Website Designing
+- Performance Marketing
+- SEO
+- Google Ads
+- WhatsApp Marketing
+- Influencer Marketing
+- Content Writing
+- Copywriting
+- App Development
+- Software Development
+- Product Photoshoots
+- Google My Business
+- Email Marketing
+- 360° Marketing
+
+Reference:
+PDF pages 6–9.
+
+Add premium hover interactions:
+- subtle card lift
+- border glow
+- elegant mouse-follow glow
+- smooth number reveal
+- text shift animation
+- premium hover transitions
+
+Keep minimal luxury feel.
+
+==================================================
+STATS SECTION
+==================================================
+
+Replace stats with believable agency metrics:
+
+- 20+ Brands Scaled
+- 15M+ Organic Reach Generated
+- 1000+ Creatives Delivered
+- Multi-Industry Experience
+
+Add:
+- smooth counting animation
+- stagger reveal
+- soft glowing pulse
+
+==================================================
+FEATURED WORK SECTION
+==================================================
+
+Current section feels unfinished.
+
+Keep SAME layout structure.
+
+Enhance with:
+- premium placeholder imagery
+- project thumbnail previews
+- luxury hover zoom
+- cinematic overlays
+- animated arrow movement
+- category labels
+- short project descriptions
+
+Use industries/projects inspired from the business profile:
+- Jewelry Branding
+- Fashion Campaigns
+- Dental Clinic Marketing
+- Interior Design Creatives
+- Luxury Product Campaigns
+
+Reference:
+PDF pages 12–16.
+
+Cards should feel like elite portfolio showcases.
+
+==================================================
+METHODOLOGY SECTION
+==================================================
+
+Keep same section layout.
+
+Enhance interactions:
+- stagger reveal
+- timeline-style motion
+- hover highlight effects
+- subtle connecting line animations
+
+Keep luxury minimalism.
+
+==================================================
+NEW “WHY BRANDS CHOOSE US” SECTION
+==================================================
+
+Add a new premium section between “Methodology” and “Testimonials”.
+
+Design:
+- dark textured background
+- minimal borders
+- cinematic spacing
+- luxury typography
+
+Add 4 feature cards:
+
+01 — Strategy First
+“We build data-backed marketing systems, not random content.”
+
+02 — Luxury Brand Positioning
+“We create premium digital identities that make brands impossible to ignore.”
+
+03 — Creative + Performance
+“Every campaign is designed to look exceptional and convert efficiently.”
+
+04 — End-to-End Execution
+“From branding to ads to websites, we handle the complete digital ecosystem.”
+
+Animations:
+- stagger reveal
+- hover elevation
+- smooth border glow
+- elegant line animations
+
+==================================================
+TESTIMONIALS SECTION
+==================================================
+
+Current testimonials feel generic.
+
+Rewrite to sound:
+- believable
+- premium
+- concise
+- confident
+- results-driven
+
+Avoid fake startup-style exaggeration.
+
+Enhance with:
+- smooth carousel motion
+- reveal transitions
+- subtle hover elevation
+- elegant quote animation
+
+==================================================
+FAQ SECTION
+==================================================
+
+Keep same accordion layout.
+
+Improve interactions:
+- smooth expand/collapse
+- rotating icon animation
+- elegant reveal transitions
+
+Replace FAQs with real business questions:
+
+- What industries do you work with?
+- Do you provide complete branding solutions?
+- How long does onboarding take?
+- Do you manage paid advertising campaigns?
+- Can you redesign existing brands?
+- Do you provide website development?
+
+Answers should feel premium, strategic, and concise.
+
+==================================================
+FINAL CTA SECTION
+==================================================
+
+Keep same layout and styling.
+
+Replace copy:
+
+Heading:
+“Build a Brand People Remember.”
+
+Subtext:
+“Trend Digitally combines strategy, creativity, and performance marketing to help ambitious brands dominate digitally.”
+
+Button:
+“Book Your Strategy Call”
+
+Enhance with:
+- dramatic fade reveal
+- luxury text animation
+- subtle background motion
+- premium button glow interaction
+
+==================================================
+FOOTER UPDATE
+==================================================
+
+Update footer with actual business details:
+
+Instagram:
+@trenddigitally
+
+Emails:
+work.trenddigitally@gmail.com
+
+Contacts:
++91 901334223
++91 7780511564
+
+Location:
+Hyderabad, India
+
+Reference:
+Business profile PDF page 18.
+
+==================================================
+PERFORMANCE OPTIMIZATION
+==================================================
+
+VERY IMPORTANT:
+
+- Keep animations smooth on mobile
+- Use optimized transforms only
+- Avoid layout shifts
+- Avoid unnecessary libraries
+- Lazy load images
+- Maintain excellent Lighthouse score
+- Keep scroll buttery smooth
+- Ensure responsive perfection
+- Keep loading speed fast
+
+==================================================
+FINAL GOAL
+==================================================
+
+The final website should feel like:
+
+“A cinematic luxury digital agency website built for premium modern brands.”
+
+The experience should feel:
+- artistic
+- premium
+- strategic
+- elegant
+- cinematic
+- minimal
+- high-end
+- authority-driven
+
+WITHOUT changing the existing design identity or layout structure.
+
+Business profile reference:
+Trend Digitally Business Profile PDF.
