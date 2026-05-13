@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
+import { Link } from 'wouter';
 import { SiInstagram, SiTiktok } from 'react-icons/si';
 import { ArrowRight } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -109,16 +110,23 @@ export default function Home() {
             </span>
           </div>
           <nav className={`hidden md:flex items-center gap-8 text-sm font-medium transition-colors duration-500 ${isScrolled ? 'text-[#5E4E45]/80' : 'text-[#EDE9E5]/80'}`}>
-            {['services','work','about','contact'].map((s) => (
+            {['services','about','contact'].map((s) => (
               <button
                 key={s}
                 onClick={() => scrollToSection(s)}
                 className={`relative group transition-colors duration-300 capitalize ${isScrolled ? 'hover:text-[#5E4E45]' : 'hover:text-[#C79D7D]'}`}
               >
-                {s === 'contact' ? 'Contact' : s.charAt(0).toUpperCase() + s.slice(1)}
+                {s.charAt(0).toUpperCase() + s.slice(1)}
                 <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#C79D7D] group-hover:w-full transition-all duration-300" />
               </button>
             ))}
+            <Link
+              href="/work"
+              className={`relative group transition-colors duration-300 ${isScrolled ? 'hover:text-[#5E4E45]' : 'hover:text-[#C79D7D]'}`}
+            >
+              Work
+              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#C79D7D] group-hover:w-full transition-all duration-300" />
+            </Link>
           </nav>
           <button
             data-testid="button-nav-book"
@@ -214,13 +222,14 @@ export default function Home() {
               <span className="relative z-10">Book Strategy Call</span>
               <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button
-              onClick={() => scrollToSection('work')}
+            <Link
+              href="/work"
               data-testid="button-hero-work"
-              className="group border border-[#EDE9E5]/20 text-[#EDE9E5] px-10 py-4 text-sm font-sans font-medium tracking-widest uppercase hover:border-[#C79D7D]/60 hover:text-[#C79D7D] transition-all duration-300 backdrop-blur-sm"
+              className="group border border-[#EDE9E5]/20 text-[#EDE9E5] px-10 py-4 text-sm font-sans font-medium tracking-widest uppercase hover:border-[#C79D7D]/60 hover:text-[#C79D7D] transition-all duration-300 backdrop-blur-sm inline-flex items-center gap-3"
             >
               View Our Work
-            </button>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
