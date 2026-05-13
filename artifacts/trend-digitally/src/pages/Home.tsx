@@ -254,21 +254,21 @@ export default function Home() {
           <div className="marquee-track flex items-center">
             {/* Set 1 */}
             {clientLogos.map((logo, i) => (
-              <div key={`a-${i}`} className="flex-shrink-0 mx-10 h-14 flex items-center justify-center">
+              <div key={`a-${i}`} className="flex-shrink-0 mx-10 h-16 flex items-center justify-center">
                 <img
                   src={logo.src}
                   alt={logo.name}
-                  className="h-10 max-w-[120px] w-auto object-contain opacity-40 hover:opacity-80 transition-opacity duration-300 filter brightness-0 invert"
+                  className="h-12 max-w-[140px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
             ))}
             {/* Set 2 — duplicate for seamless loop */}
             {clientLogos.map((logo, i) => (
-              <div key={`b-${i}`} className="flex-shrink-0 mx-10 h-14 flex items-center justify-center" aria-hidden="true">
+              <div key={`b-${i}`} className="flex-shrink-0 mx-10 h-16 flex items-center justify-center" aria-hidden="true">
                 <img
                   src={logo.src}
                   alt={logo.name}
-                  className="h-10 max-w-[120px] w-auto object-contain opacity-40 hover:opacity-80 transition-opacity duration-300 filter brightness-0 invert"
+                  className="h-12 max-w-[140px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
                 />
               </div>
             ))}
