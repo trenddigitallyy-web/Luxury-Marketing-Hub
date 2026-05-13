@@ -361,9 +361,6 @@ export default function Home() {
                   <h3 className="text-lg font-serif text-[#EDE9E5] mb-3 leading-snug group-hover:text-[#D8C2B2] transition-colors duration-300">{service.name}</h3>
                   <p className="text-[#9A8F88] text-sm leading-relaxed opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">{service.desc}</p>
                 </div>
-                <div className="absolute bottom-8 right-8 w-8 h-8 border border-[#C79D7D]/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <ArrowRight className="w-3 h-3 text-[#C79D7D]" />
-                </div>
               </FadeIn>
             ))}
           </div>
