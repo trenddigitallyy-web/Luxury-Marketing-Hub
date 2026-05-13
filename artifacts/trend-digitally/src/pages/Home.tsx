@@ -5,6 +5,41 @@ import { SiInstagram, SiTiktok } from 'react-icons/si';
 import { ArrowRight, CheckCircle2, ChevronRight, Play } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import logoSrc from '@assets/TD_1778579526586.png';
+import clientAryan from '@assets/ARYAN_POST-02_1778671423544.png';
+import clientDisposal from '@assets/Disposal_walaa_1778671423551.png';
+import clientSolitaire from '@assets/Elegant_Company_Profile_Presentation_20240917_200742_0000_1778671423551.png';
+import clientFestival from '@assets/Festivalwalaa_1778671423552.png';
+import clientInspire from '@assets/inspire_1778671423552.png';
+import clientKamal from '@assets/Kamal,__1778671423552.png';
+import clientKashi from '@assets/Kashi_1778671423552.png';
+import clientKsi from '@assets/ksi_logo_1778671423552.png';
+import clientMohiniLogo from '@assets/logo_mohini_1778671423552.png';
+import clientMahadev from '@assets/MAHAdev_LIGHTING_STUDIO_1778671423553.png';
+import clientMohiniFinal from '@assets/mohini_logo_final_1778671423553.png';
+import clientOm from '@assets/om_1778671423553.png';
+import clientPaam from '@assets/Paam_1778671423553.png';
+import clientRangutsav from '@assets/rangutsav__1778671423553.png';
+import clientShakti from '@assets/shakti_1778671423553.jpeg';
+import clientToothFairy from '@assets/tooth_fairy_1778671423553.png';
+
+const clientLogos = [
+  { src: clientAryan, name: 'Arya' },
+  { src: clientDisposal, name: 'Disposal Walaa' },
+  { src: clientSolitaire, name: 'Solitaire Gallery' },
+  { src: clientFestival, name: 'Festival Walaa' },
+  { src: clientInspire, name: 'Inspire' },
+  { src: clientKamal, name: 'Kamal Textiles' },
+  { src: clientKashi, name: 'Kashi' },
+  { src: clientKsi, name: 'KSI' },
+  { src: clientMohiniLogo, name: 'Mohini Gems' },
+  { src: clientMahadev, name: 'Mahadev Lighting' },
+  { src: clientMohiniFinal, name: 'Mohini Jewels' },
+  { src: clientOm, name: 'Om Marmo World' },
+  { src: clientPaam, name: 'Paam Commercial' },
+  { src: clientRangutsav, name: 'Rangutsav Events' },
+  { src: clientShakti, name: 'Shakti' },
+  { src: clientToothFairy, name: 'Tooth Fairy' },
+];
 
 // Reusable animated section component
 const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
@@ -208,15 +243,34 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* 3. Trusted By Brands Marquee */}
-      <section className="py-10 bg-[#1a1210] border-t border-white/5 overflow-hidden">
-        <div className="flex items-center gap-0 w-full overflow-hidden">
-          <div className="animate-marquee flex items-center gap-20 pr-20 shrink-0">
-            {['Lumière', 'Nova Labs', 'Velour Co.', 'Maison X', 'Apex Studio', 'Cipher Brand', 'The Collective', 'Origami Media'].map((brand, i) => (
-              <span key={i} className="text-xl font-serif text-[#9A8F88]/50 whitespace-nowrap select-none tracking-wide">{brand}</span>
+      {/* 3. Trusted By Brands Marquee — real logos */}
+      <section className="py-8 bg-[#1a1210] border-t border-white/5 overflow-hidden">
+        <p className="text-center text-[10px] uppercase tracking-[0.4em] text-[#9A8F88]/40 mb-6 font-sans">Trusted by brands across India</p>
+        <div className="relative w-full overflow-hidden">
+          {/* left & right fade masks */}
+          <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-[#1a1210] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[#1a1210] to-transparent z-10 pointer-events-none" />
+
+          <div className="marquee-track flex items-center">
+            {/* Set 1 */}
+            {clientLogos.map((logo, i) => (
+              <div key={`a-${i}`} className="flex-shrink-0 mx-10 h-14 flex items-center justify-center">
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="h-10 max-w-[120px] w-auto object-contain opacity-40 hover:opacity-80 transition-opacity duration-300 filter brightness-0 invert"
+                />
+              </div>
             ))}
-            {['Lumière', 'Nova Labs', 'Velour Co.', 'Maison X', 'Apex Studio', 'Cipher Brand', 'The Collective', 'Origami Media'].map((brand, i) => (
-              <span key={i + 'dup'} className="text-xl font-serif text-[#9A8F88]/50 whitespace-nowrap select-none tracking-wide">{brand}</span>
+            {/* Set 2 — duplicate for seamless loop */}
+            {clientLogos.map((logo, i) => (
+              <div key={`b-${i}`} className="flex-shrink-0 mx-10 h-14 flex items-center justify-center" aria-hidden="true">
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="h-10 max-w-[120px] w-auto object-contain opacity-40 hover:opacity-80 transition-opacity duration-300 filter brightness-0 invert"
+                />
+              </div>
             ))}
           </div>
         </div>
