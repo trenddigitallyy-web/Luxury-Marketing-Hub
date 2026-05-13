@@ -244,31 +244,31 @@ export default function Home() {
       </section>
 
       {/* 3. Trusted By Brands Marquee — real logos */}
-      <section className="py-8 bg-[#1a1210] border-t border-white/5 overflow-hidden">
-        <p className="text-center text-[10px] uppercase tracking-[0.4em] text-[#9A8F88]/40 mb-6 font-sans">Trusted by brands across India</p>
+      <section className="py-10 bg-[#1a1210] border-t border-white/5 overflow-hidden">
+        <p className="text-center text-[10px] uppercase tracking-[0.4em] text-[#9A8F88]/40 mb-8 font-sans">Trusted by brands across India</p>
         <div className="relative w-full overflow-hidden">
           {/* left & right fade masks */}
-          <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-[#1a1210] to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[#1a1210] to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-[#1a1210] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-[#1a1210] to-transparent z-10 pointer-events-none" />
 
           <div className="marquee-track flex items-center">
             {/* Set 1 */}
             {clientLogos.map((logo, i) => (
-              <div key={`a-${i}`} className="flex-shrink-0 mx-10 h-16 flex items-center justify-center">
+              <div key={`a-${i}`} className="flex-shrink-0 mx-12 h-24 flex items-center justify-center">
                 <img
                   src={logo.src}
                   alt={logo.name}
-                  className="h-12 max-w-[140px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+                  className="h-20 max-w-[180px] w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300 drop-shadow-md"
                 />
               </div>
             ))}
             {/* Set 2 — duplicate for seamless loop */}
             {clientLogos.map((logo, i) => (
-              <div key={`b-${i}`} className="flex-shrink-0 mx-10 h-16 flex items-center justify-center" aria-hidden="true">
+              <div key={`b-${i}`} className="flex-shrink-0 mx-12 h-24 flex items-center justify-center" aria-hidden="true">
                 <img
                   src={logo.src}
                   alt={logo.name}
-                  className="h-12 max-w-[140px] w-auto object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+                  className="h-20 max-w-[180px] w-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-300 drop-shadow-md"
                 />
               </div>
             ))}
