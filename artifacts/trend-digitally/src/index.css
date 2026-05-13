@@ -250,20 +250,20 @@
 .work-row-ltr {
   display: flex;
   width: max-content;
-  animation: marquee 55s linear infinite;
+  animation: marquee 120s linear infinite;
   will-change: transform;
 }
 
 .work-row-rtl {
   display: flex;
   width: max-content;
-  animation: marquee-reverse 50s linear infinite;
+  animation: marquee-reverse 110s linear infinite;
   will-change: transform;
 }
 
 .work-row-ltr2 {
   display: flex;
   width: max-content;
-  animation: marquee 65s linear infinite;
+  animation: marquee 140s linear infinite;
   will-change: transform;
 }
