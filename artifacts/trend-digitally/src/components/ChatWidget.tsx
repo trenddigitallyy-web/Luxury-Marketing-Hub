@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, MessageCircle, Minimize2, Phone, Mail } from 'lucide-react';
+import { X, Send, Minimize2, Phone, Mail, ChevronDown, Sparkles } from 'lucide-react';
 import logoSrc from '@assets/TD_1778579526586.png';
 
 interface Message {
@@ -8,112 +8,139 @@ interface Message {
   from: 'bot' | 'user';
   text: string;
   time: string;
+  followUps?: string[];
 }
 
 const getTime = () =>
   new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-const BOT_RESPONSES: { keywords: string[]; reply: string }[] = [
+interface BotEntry {
+  keywords: string[];
+  reply: string;
+  followUps: string[];
+}
+
+const BOT_RESPONSES: BotEntry[] = [
   {
     keywords: ['hi', 'hello', 'hey', 'hii', 'helo', 'namaste'],
     reply: "Hello! Great to have you here 👋 I'm the Trend Digitally assistant. How can I help you grow your brand today?",
+    followUps: ['Our Services', 'Pricing', 'About Us', 'Book a Call'],
   },
   {
     keywords: ['service', 'services', 'offer', 'do you do', 'what do'],
     reply:
-      "We offer a full range of digital services:\n\n• Social Media Marketing\n• Branding Strategy\n• Website Designing\n• Performance Marketing (Meta & Google Ads)\n• SEO & Content Writing\n• Influencer & WhatsApp Marketing\n• Product Photoshoots\n• App & Software Development\n\nWould you like to know more about any specific service?",
+      "We offer a full range of digital services:\n\n• Social Media Marketing\n• Branding Strategy\n• Website Designing\n• Performance Marketing\n• SEO & Content Writing\n• Influencer & WhatsApp Marketing\n• Product Photoshoots\n• App & Software Development\n\nWant to know more about any specific one?",
+    followUps: ['Social Media', 'Branding', 'Website Design', 'Google Ads', 'Pricing'],
   },
   {
     keywords: ['price', 'pricing', 'cost', 'charge', 'fees', 'package', 'budget', 'how much'],
     reply:
-      "Our packages are tailored to your brand's specific goals and scale. We'd love to understand your needs first and give you a custom proposal.\n\nBook a free strategy call with us:\n📞 +91 90133 42230\nor fill the inquiry form on this page!",
+      "Our packages are tailored to your brand's goals and scale. We'd love to understand your needs and give you a custom proposal.\n\n📞 +91 90133 42230\n\nOr fill the inquiry form on this page!",
+    followUps: ['Book a Call', 'Send Inquiry', 'Our Services', 'About Us'],
   },
   {
     keywords: ['social media', 'instagram', 'facebook', 'reels', 'posts', 'content'],
     reply:
-      "Our Social Media Marketing includes scroll-stopping content, reels, carousels, stories, and data-driven strategies to grow your community and drive real engagement. We handle everything end-to-end! 🚀",
+      "Our Social Media Marketing covers everything — scroll-stopping reels, carousels, stories, captions, and data-driven strategies to grow your audience and engagement. End-to-end, no stress on your side! 🚀",
+    followUps: ['Pricing?', 'Branding too?', 'Get Started', 'Other Services'],
   },
   {
     keywords: ['branding', 'logo', 'brand identity', 'brand design'],
     reply:
-      "We create premium brand identities — logo, visual language, typography, brand voice — everything that makes you impossible to ignore. Ready to build a brand people remember?",
+      "We build premium brand identities — logo, visual system, typography, brand voice — everything that makes your brand impossible to ignore. Ready to be unforgettable? ✨",
+    followUps: ['See Our Work', 'Pricing?', 'Website Design too?', 'Get Started'],
   },
   {
     keywords: ['website', 'web', 'landing page', 'ecommerce', 'e-commerce'],
     reply:
-      "We design and develop high-converting websites — from landing pages to full e-commerce stores. Built for performance, optimised for SEO from day one. 💻",
+      "We design and develop high-converting websites — landing pages to full e-commerce stores. Built for performance, optimised for SEO from day one. 💻",
+    followUps: ['Pricing?', 'Do you do SEO?', 'Performance Ads?', 'Book a Call'],
   },
   {
     keywords: ['ads', 'google ads', 'meta ads', 'facebook ads', 'performance', 'paid'],
     reply:
-      "We run full-funnel paid ad campaigns on Google and Meta — strategy, creatives, targeting, and continuous optimisation for maximum ROI. 📈",
+      "We run full-funnel paid campaigns on Google & Meta — from strategy and creatives to targeting and optimisation — engineered for maximum ROI. 📈",
+    followUps: ['Pricing?', 'SEO too?', 'Social Media?', 'Book a Call'],
   },
   {
     keywords: ['seo', 'search engine', 'ranking', 'organic'],
     reply:
-      "Our SEO service covers technical audits, content strategy, on-page optimisation, and link building — to get you ranking where your customers are searching. 🔍",
+      "Our SEO covers technical audits, content strategy, on-page optimisation, and link building — to rank where your customers are already searching. 🔍",
+    followUps: ['Pricing?', 'Website Design?', 'Content Writing?', 'Book a Call'],
   },
   {
-    keywords: ['contact', 'reach', 'phone', 'call', 'number', 'whatsapp'],
+    keywords: ['contact', 'reach', 'phone', 'call', 'number', 'whatsapp', 'book a call', 'book'],
     reply:
-      "You can reach us directly:\n📞 +91 90133 42230\n📞 +91 77805 11564\n📧 trenddigitallyy@gmail.com\n\nOr just fill the inquiry form on this page and we'll get back within 24 hours!",
+      "You can reach us right now:\n📞 +91 90133 42230\n📞 +91 77805 11564\n📧 trenddigitallyy@gmail.com\n\nOr fill the inquiry form below and we'll respond within 24 hours!",
+    followUps: ['Our Services', 'Pricing', 'About Us'],
   },
   {
-    keywords: ['email', 'mail', 'gmail'],
+    keywords: ['email', 'mail', 'gmail', 'send inquiry', 'inquiry'],
     reply:
-      "You can email us at:\n📧 trenddigitallyy@gmail.com\n\nWe respond within 24 hours!",
+      "You can email us at:\n📧 trenddigitallyy@gmail.com\n\nWe respond within 24 hours — or scroll down to fill the inquiry form directly!",
+    followUps: ['Book a Call', 'Our Services', 'Pricing'],
   },
   {
     keywords: ['location', 'address', 'where', 'hyderabad', 'based', 'city'],
     reply:
       "We're based in Hyderabad, India — but we work with brands across the country and beyond. 🇮🇳",
+    followUps: ['Our Services', 'About Us', 'Book a Call'],
   },
   {
     keywords: ['about', 'who are you', 'team', 'founder', 'aayush', 'shraddha'],
     reply:
-      "Trend Digitally is a Hyderabad-based creative growth agency founded by Aayush and Shraddha in 2024. In just over a year, we've helped 50+ brands build authority, grow their audience, and scale revenue through strategic digital marketing.",
+      "Trend Digitally is a Hyderabad-based creative growth agency founded by Aayush and Shraddha in 2024. In just over a year, we've helped 50+ brands build authority, grow their audience, and scale revenue through strategic digital marketing. 🏆",
+    followUps: ['Our Services', 'Our Work', 'Pricing', 'Book a Call'],
   },
   {
-    keywords: ['experience', 'portfolio', 'clients', 'brands', 'work'],
+    keywords: ['experience', 'portfolio', 'clients', 'brands', 'work', 'our work', 'see our work'],
     reply:
-      "We've partnered with 50+ brands across jewellery, fashion, healthcare, hospitality, lighting, textiles, and more. Check out the 'Our Work' section on this page to see some of our creatives!",
+      "We've partnered with 50+ brands across jewellery, fashion, healthcare, hospitality, lighting, textiles, and more. Scroll to the 'Our Work' section on this page to see our creatives!",
+    followUps: ['Pricing?', 'Book a Call', 'Our Services'],
   },
   {
-    keywords: ['onboard', 'start', 'begin', 'how to', 'process', 'next step'],
+    keywords: ['onboard', 'start', 'begin', 'how to', 'process', 'next step', 'get started'],
     reply:
-      "Getting started is simple:\n1️⃣ Book a free strategy call\n2️⃣ We audit your brand & goals\n3️⃣ We present a custom plan\n4️⃣ Onboarding takes 7–10 days\n\nReady? Click 'Book Strategy Call' or reach us at +91 90133 42230!",
+      "Getting started is easy:\n1️⃣ Book a free strategy call\n2️⃣ We audit your brand & goals\n3️⃣ We present a custom plan\n4️⃣ Onboarding takes just 7–10 days\n\nReady? Call us at +91 90133 42230!",
+    followUps: ['Book a Call', 'Pricing', 'Our Services'],
   },
   {
     keywords: ['thank', 'thanks', 'great', 'awesome', 'good', 'nice', 'perfect', 'okay', 'ok'],
     reply:
-      "You're welcome! 😊 Is there anything else I can help you with? We're always here to answer your questions.",
+      "You're welcome! 😊 Is there anything else I can help you with?",
+    followUps: ['Our Services', 'Pricing', 'Book a Call', 'About Us'],
   },
   {
     keywords: ['bye', 'goodbye', 'see you', 'later'],
     reply:
-      "Thanks for stopping by! Feel free to reach out anytime. Looking forward to growing your brand with you! 🚀",
+      "Thanks for stopping by! Looking forward to growing your brand with you. 🚀",
+    followUps: ['Book a Call', 'Send Inquiry'],
   },
 ];
 
-const DEFAULT_REPLY =
-  "That's a great question! For detailed information, I'd recommend speaking directly with our team.\n\n📞 +91 90133 42230\n📧 trenddigitallyy@gmail.com\n\nOr fill the inquiry form below and we'll get back within 24 hours!";
+const DEFAULT_ENTRY: Pick<BotEntry, 'reply' | 'followUps'> = {
+  reply:
+    "Great question! For detailed information, I'd recommend speaking directly with our team.\n\n📞 +91 90133 42230\n📧 trenddigitallyy@gmail.com\n\nOr fill the inquiry form below — we reply within 24 hours!",
+  followUps: ['Our Services', 'Pricing', 'Book a Call'],
+};
 
-function getBotReply(input: string): string {
+function getBotEntry(input: string): Pick<BotEntry, 'reply' | 'followUps'> {
   const lower = input.toLowerCase();
   for (const item of BOT_RESPONSES) {
     if (item.keywords.some((k) => lower.includes(k))) {
-      return item.reply;
+      return { reply: item.reply, followUps: item.followUps };
     }
   }
-  return DEFAULT_REPLY;
+  return DEFAULT_ENTRY;
 }
 
 let msgId = 0;
-const newMsg = (from: 'bot' | 'user', text: string): Message => ({
+const newMsg = (from: 'bot' | 'user', text: string, followUps?: string[]): Message => ({
   id: ++msgId,
   from,
   text,
   time: getTime(),
+  followUps,
 });
 
 export default function ChatWidget() {
@@ -122,8 +149,13 @@ export default function ChatWidget() {
   const [showBubble, setShowBubble] = useState(false);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
+  const [usedFollowUps, setUsedFollowUps] = useState<Set<number>>(new Set());
   const [messages, setMessages] = useState<Message[]>([
-    newMsg('bot', "Hey there! 👋 I'm the Trend Digitally assistant. How may I help you today?\n\nYou can ask me about our services, pricing, how to get started, or anything about your brand!"),
+    newMsg(
+      'bot',
+      "Hey there! 👋 I'm the Trend Digitally assistant.\n\nHow can I help you grow your brand today?",
+      ['Our Services', 'Pricing', 'Book a Call', 'About Us']
+    ),
   ]);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -136,34 +168,45 @@ export default function ChatWidget() {
         setOpen(true);
         setShowBubble(false);
         sessionStorage.setItem('td_chat_seen', '1');
-      }, 5000);
+      }, 5500);
       return () => { clearTimeout(t1); clearTimeout(t2); };
     }
   }, []);
 
   useEffect(() => {
     if (open && !minimised) {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 60);
     }
-  }, [messages, open, minimised]);
+  }, [messages, open, minimised, typing]);
 
   useEffect(() => {
     if (open && !minimised) {
-      setTimeout(() => inputRef.current?.focus(), 300);
+      setTimeout(() => inputRef.current?.focus(), 350);
     }
   }, [open, minimised]);
+
+  const openChat = () => {
+    setOpen(true);
+    setShowBubble(false);
+    sessionStorage.setItem('td_chat_seen', '1');
+  };
+
+  const dispatchBotReply = (text: string) => {
+    const entry = getBotEntry(text);
+    setTyping(true);
+    const delay = 800 + Math.random() * 500;
+    setTimeout(() => {
+      setTyping(false);
+      setMessages((prev) => [...prev, newMsg('bot', entry.reply, entry.followUps)]);
+    }, delay);
+  };
 
   const sendMessage = () => {
     const text = input.trim();
     if (!text) return;
     setInput('');
     setMessages((prev) => [...prev, newMsg('user', text)]);
-    setTyping(true);
-    const delay = 900 + Math.random() * 600;
-    setTimeout(() => {
-      setTyping(false);
-      setMessages((prev) => [...prev, newMsg('bot', getBotReply(text))]);
-    }, delay);
+    dispatchBotReply(text);
   };
 
   const handleKey = (e: React.KeyboardEvent) => {
@@ -173,50 +216,83 @@ export default function ChatWidget() {
     }
   };
 
-  const quickReplies = ['Our Services', 'Pricing', 'Book a Call', 'About Us'];
-
-  const handleQuick = (q: string) => {
+  const handleQuick = (q: string, msgId: number) => {
+    setUsedFollowUps((prev) => new Set(prev).add(msgId));
     setMessages((prev) => [...prev, newMsg('user', q)]);
-    setTyping(true);
-    setTimeout(() => {
-      setTyping(false);
-      setMessages((prev) => [...prev, newMsg('bot', getBotReply(q))]);
-    }, 800);
+    dispatchBotReply(q);
   };
+
+  const lastBotMsgId = [...messages].reverse().find((m) => m.from === 'bot')?.id;
 
   return (
     <>
-      {/* Floating bubble hint */}
+      {/* Notification bubble */}
       <AnimatePresence>
         {showBubble && !open && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className="fixed top-20 right-5 z-[9999] bg-[#1a1210] border border-[#C79D7D]/40 text-[#EDE9E5] text-xs font-sans px-4 py-2.5 rounded shadow-xl max-w-[200px] cursor-pointer"
-            onClick={() => { setOpen(true); setShowBubble(false); sessionStorage.setItem('td_chat_seen', '1'); }}
+            initial={{ opacity: 0, x: 20, scale: 0.85 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 20, scale: 0.85 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+            className="fixed top-[4.2rem] right-[5rem] z-[9999] cursor-pointer max-w-[210px]"
+            onClick={openChat}
           >
-            <span className="block font-semibold text-[#C79D7D] mb-0.5">Trend Digitally</span>
-            Hey! How may I help you? 👋
-            <div className="absolute -bottom-2 right-6 w-3 h-3 bg-[#1a1210] border-r border-b border-[#C79D7D]/40 rotate-45" />
+            <div className="bg-gradient-to-br from-[#1e1410] to-[#2a1f18] border border-[#C79D7D]/50 text-[#EDE9E5] text-xs font-sans px-4 py-3 shadow-2xl relative"
+              style={{ borderRadius: '12px 12px 2px 12px' }}
+            >
+              <div className="flex items-center gap-2 mb-1.5">
+                <img src={logoSrc} alt="" className="w-5 h-5 rounded-full object-cover" />
+                <span className="font-semibold text-[#C79D7D] text-[11px] tracking-wide">Trend Digitally</span>
+                <span className="w-1.5 h-1.5 bg-green-400 rounded-full ml-auto" />
+              </div>
+              <p className="text-[#D8C2B2] leading-snug">Hey! How may I help you? 👋</p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Toggle button */}
+      {/* Toggle button — redesigned */}
       <AnimatePresence>
         {!open && (
-          <motion.button
+          <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            onClick={() => { setOpen(true); setShowBubble(false); sessionStorage.setItem('td_chat_seen', '1'); }}
-            className="fixed top-[4.5rem] right-5 z-[9998] w-12 h-12 bg-[#C79D7D] hover:bg-[#D8C2B2] flex items-center justify-center shadow-2xl transition-colors duration-300 rounded-sm"
-            aria-label="Open chat"
+            transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+            className="fixed top-[4.2rem] right-4 z-[9998]"
           >
-            <MessageCircle className="w-5 h-5 text-[#1a1210]" />
-          </motion.button>
+            {/* Pulse rings */}
+            <motion.div
+              animate={{ scale: [1, 1.55], opacity: [0.5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+              className="absolute inset-0 rounded-full bg-[#C79D7D]/40 pointer-events-none"
+            />
+            <motion.div
+              animate={{ scale: [1, 1.85], opacity: [0.3, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeOut', delay: 0.4 }}
+              className="absolute inset-0 rounded-full bg-[#C79D7D]/20 pointer-events-none"
+            />
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.93 }}
+              onClick={openChat}
+              className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-2xl cursor-pointer overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #C79D7D 0%, #9A6E55 50%, #C79D7D 100%)',
+                boxShadow: '0 8px 32px rgba(199,157,125,0.5), 0 2px 8px rgba(0,0,0,0.4)',
+              }}
+              aria-label="Chat with us"
+            >
+              <motion.div
+                animate={{ rotate: [0, 8, -8, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+              >
+                <img src={logoSrc} alt="Trend Digitally" className="w-8 h-8 rounded-full object-cover border-2 border-white/30" />
+              </motion.div>
+              {/* Unread dot */}
+              <span className="absolute top-1 right-1 w-3 h-3 bg-green-400 border-2 border-[#1a1210] rounded-full" />
+            </motion.button>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -224,49 +300,68 @@ export default function ChatWidget() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            initial={{ opacity: 0, y: -16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="fixed top-16 right-4 z-[9999] w-[340px] sm:w-[380px] bg-[#0f0c0b] border border-[#C79D7D]/20 shadow-2xl flex flex-col overflow-hidden"
-            style={{ maxHeight: minimised ? 'auto' : '520px', borderRadius: '2px' }}
+            exit={{ opacity: 0, y: -16, scale: 0.96 }}
+            transition={{ duration: 0.28, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="fixed top-14 right-4 z-[9999] w-[340px] sm:w-[390px] flex flex-col overflow-hidden"
+            style={{
+              borderRadius: '16px',
+              boxShadow: '0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(199,157,125,0.2)',
+              maxHeight: minimised ? 'auto' : '560px',
+              background: '#0d0a09',
+            }}
           >
             {/* Header */}
-            <div className="flex items-center gap-3 px-4 py-3.5 bg-[#1a1210] border-b border-[#C79D7D]/15 flex-shrink-0">
-              <div className="relative">
-                <img src={logoSrc} alt="Trend Digitally" className="w-9 h-9 rounded-full object-cover" />
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-[#1a1210] rounded-full" />
+            <div
+              className="flex items-center gap-3 px-4 py-3 flex-shrink-0 relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #1e1410 0%, #2a1c14 50%, #1a1210 100%)',
+                borderBottom: '1px solid rgba(199,157,125,0.15)',
+              }}
+            >
+              {/* Decorative shimmer */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C79D7D]/5 to-transparent pointer-events-none" />
+
+              <div className="relative flex-shrink-0">
+                <img src={logoSrc} alt="Trend Digitally" className="w-10 h-10 rounded-full object-cover border-2 border-[#C79D7D]/40" />
+                <motion.span
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-[#1e1410] rounded-full"
+                />
               </div>
+
               <div className="flex-1 min-w-0">
-                <p className="text-[#EDE9E5] text-sm font-semibold font-sans leading-none">Trend Digitally</p>
-                <p className="text-green-400 text-[10px] font-sans mt-0.5 tracking-wide">Online · Typically replies instantly</p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-[#EDE9E5] text-sm font-bold font-sans leading-none tracking-wide">Trend Digitally</p>
+                  <Sparkles className="w-3 h-3 text-[#C79D7D]" />
+                </div>
+                <p className="text-green-400 text-[10px] font-sans mt-0.5 tracking-wider">● Online · Replies instantly</p>
               </div>
-              <div className="flex items-center gap-1">
-                <a
-                  href="tel:+919013342230"
-                  className="w-7 h-7 flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] transition-colors"
+
+              <div className="flex items-center gap-0.5">
+                <a href="tel:+919013342230"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] hover:bg-[#C79D7D]/10 transition-all"
                   title="Call us"
                 >
                   <Phone className="w-3.5 h-3.5" />
                 </a>
-                <a
-                  href="mailto:trenddigitallyy@gmail.com"
-                  className="w-7 h-7 flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] transition-colors"
+                <a href="mailto:trenddigitallyy@gmail.com"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] hover:bg-[#C79D7D]/10 transition-all"
                   title="Email us"
                 >
                   <Mail className="w-3.5 h-3.5" />
                 </a>
                 <button
                   onClick={() => setMinimised(!minimised)}
-                  className="w-7 h-7 flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] transition-colors"
-                  title="Minimise"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] hover:bg-[#C79D7D]/10 transition-all"
                 >
-                  <Minimize2 className="w-3.5 h-3.5" />
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${minimised ? 'rotate-180' : ''}`} />
                 </button>
                 <button
                   onClick={() => setOpen(false)}
-                  className="w-7 h-7 flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] transition-colors"
-                  title="Close"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-red-400 hover:bg-red-400/10 transition-all"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -279,36 +374,98 @@ export default function ChatWidget() {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.22 }}
                   className="flex flex-col flex-1 min-h-0"
                 >
-                  {/* Messages */}
-                  <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin" style={{ maxHeight: '320px' }}>
-                    {messages.map((msg) => (
-                      <motion.div
-                        key={msg.id}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className={`flex gap-2.5 ${msg.from === 'user' ? 'flex-row-reverse' : ''}`}
-                      >
-                        {msg.from === 'bot' && (
-                          <img src={logoSrc} alt="bot" className="w-7 h-7 rounded-full object-cover flex-shrink-0 mt-0.5" />
-                        )}
-                        <div className={`max-w-[78%] ${msg.from === 'user' ? 'items-end' : 'items-start'} flex flex-col gap-1`}>
-                          <div
-                            className={`px-3.5 py-2.5 text-xs font-sans leading-relaxed whitespace-pre-line ${
-                              msg.from === 'bot'
-                                ? 'bg-[#1a1210] text-[#EDE9E5] border border-[#C79D7D]/10'
-                                : 'bg-[#C79D7D] text-[#1a1210] font-medium'
-                            }`}
+                  {/* Messages area */}
+                  <div
+                    className="overflow-y-auto px-4 py-4 space-y-3"
+                    style={{
+                      maxHeight: '360px',
+                      background: 'linear-gradient(180deg, #110e0d 0%, #0d0a09 100%)',
+                      scrollbarWidth: 'thin',
+                      scrollbarColor: 'rgba(199,157,125,0.2) transparent',
+                    }}
+                  >
+                    {messages.map((msg, idx) => {
+                      const isLastBot = msg.id === lastBotMsgId;
+                      const followUpsUsed = usedFollowUps.has(msg.id);
+                      return (
+                        <React.Fragment key={msg.id}>
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.28 }}
+                            className={`flex gap-2.5 ${msg.from === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                           >
-                            {msg.text}
-                          </div>
-                          <span className="text-[#9A8F88]/40 text-[9px] font-sans px-1">{msg.time}</span>
-                        </div>
-                      </motion.div>
-                    ))}
+                            {msg.from === 'bot' && (
+                              <img src={logoSrc} alt="bot" className="w-7 h-7 rounded-full object-cover flex-shrink-0 mt-1 border border-[#C79D7D]/20" />
+                            )}
+                            <div className={`max-w-[80%] flex flex-col gap-1 ${msg.from === 'user' ? 'items-end' : 'items-start'}`}>
+                              <div
+                                className={`px-4 py-2.5 text-xs font-sans leading-relaxed whitespace-pre-line ${
+                                  msg.from === 'bot'
+                                    ? 'text-[#EDE9E5]'
+                                    : 'text-[#1a1210] font-semibold'
+                                }`}
+                                style={
+                                  msg.from === 'bot'
+                                    ? {
+                                        background: 'linear-gradient(135deg, #1e1712 0%, #211a15 100%)',
+                                        border: '1px solid rgba(199,157,125,0.18)',
+                                        borderRadius: '4px 14px 14px 14px',
+                                      }
+                                    : {
+                                        background: 'linear-gradient(135deg, #C79D7D 0%, #b8845e 100%)',
+                                        borderRadius: '14px 4px 14px 14px',
+                                        boxShadow: '0 2px 12px rgba(199,157,125,0.3)',
+                                      }
+                                }
+                              >
+                                {msg.text}
+                              </div>
+                              <span className="text-[#9A8F88]/35 text-[9px] font-sans px-1">{msg.time}</span>
+                            </div>
+                          </motion.div>
+
+                          {/* Follow-up chips — shown after the last bot message if not yet used */}
+                          {msg.from === 'bot' && msg.followUps && isLastBot && !followUpsUsed && !typing && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3, delay: 0.15 }}
+                              className="flex flex-wrap gap-1.5 pl-9"
+                            >
+                              {msg.followUps.map((q) => (
+                                <motion.button
+                                  key={q}
+                                  whileHover={{ scale: 1.04 }}
+                                  whileTap={{ scale: 0.96 }}
+                                  onClick={() => handleQuick(q, msg.id)}
+                                  className="text-[10px] font-sans font-medium px-3 py-1.5 tracking-wide transition-all duration-200"
+                                  style={{
+                                    background: 'linear-gradient(135deg, rgba(199,157,125,0.12) 0%, rgba(199,157,125,0.06) 100%)',
+                                    border: '1px solid rgba(199,157,125,0.35)',
+                                    borderRadius: '20px',
+                                    color: '#C79D7D',
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    (e.currentTarget as HTMLButtonElement).style.background = 'linear-gradient(135deg, rgba(199,157,125,0.25) 0%, rgba(199,157,125,0.15) 100%)';
+                                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(199,157,125,0.7)';
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    (e.currentTarget as HTMLButtonElement).style.background = 'linear-gradient(135deg, rgba(199,157,125,0.12) 0%, rgba(199,157,125,0.06) 100%)';
+                                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(199,157,125,0.35)';
+                                  }}
+                                >
+                                  {q}
+                                </motion.button>
+                              ))}
+                            </motion.div>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
 
                     {/* Typing indicator */}
                     <AnimatePresence>
@@ -316,17 +473,25 @@ export default function ChatWidget() {
                         <motion.div
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
                           className="flex gap-2.5"
                         >
-                          <img src={logoSrc} alt="bot" className="w-7 h-7 rounded-full object-cover flex-shrink-0" />
-                          <div className="bg-[#1a1210] border border-[#C79D7D]/10 px-4 py-3 flex items-center gap-1">
-                            {[0, 0.2, 0.4].map((d, i) => (
+                          <img src={logoSrc} alt="bot" className="w-7 h-7 rounded-full object-cover flex-shrink-0 border border-[#C79D7D]/20" />
+                          <div
+                            className="px-4 py-3 flex items-center gap-1.5"
+                            style={{
+                              background: 'linear-gradient(135deg, #1e1712 0%, #211a15 100%)',
+                              border: '1px solid rgba(199,157,125,0.18)',
+                              borderRadius: '4px 14px 14px 14px',
+                            }}
+                          >
+                            {[0, 0.18, 0.36].map((d, i) => (
                               <motion.span
                                 key={i}
-                                className="w-1.5 h-1.5 bg-[#C79D7D]/60 rounded-full block"
-                                animate={{ y: [0, -4, 0] }}
-                                transition={{ duration: 0.6, repeat: Infinity, delay: d }}
+                                className="block rounded-full"
+                                style={{ width: 7, height: 7, background: 'linear-gradient(135deg, #C79D7D, #9A6E55)' }}
+                                animate={{ y: [0, -5, 0], opacity: [0.5, 1, 0.5] }}
+                                transition={{ duration: 0.65, repeat: Infinity, delay: d }}
                               />
                             ))}
                           </div>
@@ -336,39 +501,52 @@ export default function ChatWidget() {
                     <div ref={bottomRef} />
                   </div>
 
-                  {/* Quick replies */}
-                  {messages.length <= 2 && (
-                    <div className="px-4 pb-3 flex flex-wrap gap-2">
-                      {quickReplies.map((q) => (
-                        <button
-                          key={q}
-                          onClick={() => handleQuick(q)}
-                          className="text-[10px] font-sans border border-[#C79D7D]/30 text-[#C79D7D] px-3 py-1.5 hover:bg-[#C79D7D]/10 transition-colors tracking-wide"
-                        >
-                          {q}
-                        </button>
-                      ))}
+                  {/* Input bar */}
+                  <div
+                    className="px-3 py-3 flex items-center gap-2 flex-shrink-0"
+                    style={{
+                      background: '#110e0d',
+                      borderTop: '1px solid rgba(199,157,125,0.12)',
+                    }}
+                  >
+                    <div className="flex-1 flex items-center relative">
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKey}
+                        placeholder="Ask anything about your brand…"
+                        className="w-full text-[#EDE9E5] text-xs font-sans pl-4 pr-4 py-2.5 outline-none placeholder:text-[#9A8F88]/35 transition-all"
+                        style={{
+                          background: 'rgba(255,255,255,0.04)',
+                          border: '1px solid rgba(199,157,125,0.18)',
+                          borderRadius: '24px',
+                        }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(199,157,125,0.5)'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
+                        onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(199,157,125,0.18)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                      />
                     </div>
-                  )}
-
-                  {/* Input */}
-                  <div className="px-4 pb-4 pt-2 border-t border-[#C79D7D]/10 flex items-center gap-2 flex-shrink-0">
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={handleKey}
-                      placeholder="Type your message…"
-                      className="flex-1 bg-[#1a1210] border border-white/10 focus:border-[#C79D7D]/40 text-[#EDE9E5] text-xs font-sans px-3 py-2.5 outline-none placeholder:text-[#9A8F88]/40 transition-colors"
-                    />
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.92 }}
                       onClick={sendMessage}
                       disabled={!input.trim()}
-                      className="w-9 h-9 bg-[#C79D7D] hover:bg-[#D8C2B2] flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+                      className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all disabled:opacity-35 disabled:cursor-not-allowed"
+                      style={{
+                        background: input.trim()
+                          ? 'linear-gradient(135deg, #C79D7D 0%, #9A6E55 100%)'
+                          : 'rgba(199,157,125,0.15)',
+                        boxShadow: input.trim() ? '0 4px 16px rgba(199,157,125,0.4)' : 'none',
+                      }}
                     >
-                      <Send className="w-3.5 h-3.5 text-[#1a1210]" />
-                    </button>
+                      <Send className="w-4 h-4 text-[#1a1210]" />
+                    </motion.button>
+                  </div>
+
+                  {/* Footer branding */}
+                  <div className="text-center py-1.5" style={{ background: '#110e0d', borderTop: '1px solid rgba(255,255,255,0.03)' }}>
+                    <p className="text-[#9A8F88]/30 text-[9px] font-sans tracking-widest uppercase">Powered by Trend Digitally</p>
                   </div>
                 </motion.div>
               )}
