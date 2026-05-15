@@ -11,86 +11,172 @@ function BotFace({ mood, size = 56 }: { mood: string; size?: number }) {
   const s = size;
   const isThink = mood === 'thinking';
   const isGreet = mood === 'greet';
+  const isHappy = mood === 'happy';
 
   return (
     <motion.svg
       width={s} height={s} viewBox="0 0 56 56" fill="none"
-      animate={isGreet ? { rotate: [0, -12, 12, -8, 8, 0], scale: [1, 1.15, 1] } : { rotate: 0, scale: 1 }}
-      transition={{ duration: 0.6 }}
+      animate={isGreet ? { rotate: [0, -14, 14, -9, 9, 0], scale: [1, 1.18, 1] } : { rotate: 0, scale: 1 }}
+      transition={{ duration: 0.65 }}
     >
-      {/* Face background */}
-      <circle cx="28" cy="28" r="26" fill="url(#faceGrad)" />
       <defs>
-        <radialGradient id="faceGrad" cx="40%" cy="35%" r="65%">
-          <stop offset="0%" stopColor="#FFE066" />
-          <stop offset="100%" stopColor="#FFB800" />
+        <radialGradient id="faceGrad" cx="38%" cy="32%" r="65%">
+          <stop offset="0%" stopColor="#FFF176" />
+          <stop offset="55%" stopColor="#FFD600" />
+          <stop offset="100%" stopColor="#FFA000" />
+        </radialGradient>
+        <radialGradient id="eyeGrad" cx="35%" cy="30%" r="65%">
+          <stop offset="0%" stopColor="#4A2800" />
+          <stop offset="100%" stopColor="#1A0A00" />
+        </radialGradient>
+        <radialGradient id="mouthGrad" cx="50%" cy="0%" r="100%">
+          <stop offset="0%" stopColor="#FF5252" />
+          <stop offset="100%" stopColor="#C62828" />
         </radialGradient>
       </defs>
 
-      {/* Cheeks */}
-      <ellipse cx="12" cy="36" rx="6" ry="4" fill="#FF8FAB" opacity="0.45" />
-      <ellipse cx="44" cy="36" rx="6" ry="4" fill="#FF8FAB" opacity="0.45" />
+      {/* Face — slightly oval for personality */}
+      <ellipse cx="28" cy="29" rx="26" ry="25.5" fill="url(#faceGrad)" />
 
-      {/* Eyebrows */}
-      <path
-        d={isThink ? "M14 17 Q18 14 22 16" : isGreet ? "M14 14 Q18 11 22 13" : "M14 18 Q18 15 22 17"}
-        stroke="#7B4F00" strokeWidth="2.2" strokeLinecap="round"
-      />
-      <path
-        d={isThink ? "M34 16 Q38 14 42 17" : isGreet ? "M34 13 Q38 11 42 14" : "M34 17 Q38 15 42 18"}
-        stroke="#7B4F00" strokeWidth="2.2" strokeLinecap="round"
-      />
+      {/* Shine highlight */}
+      <ellipse cx="20" cy="16" rx="8" ry="5" fill="white" opacity="0.18" transform="rotate(-20 20 16)" />
 
-      {/* Eyes */}
-      <motion.g
-        animate={{ scaleY: isThink ? [1, 0.15, 1] : [1, 0.1, 1, 1, 1, 1, 1, 0.1, 1] }}
-        transition={{ duration: isThink ? 0.5 : 4, repeat: Infinity, ease: 'easeInOut', repeatDelay: isThink ? 0 : 0.5 }}
-        style={{ transformOrigin: '18px 24px' }}
-      >
-        <ellipse cx="18" cy="24" rx="4.5" ry={isThink ? 2 : 5} fill="#2D1A00" />
-        <circle cx="19.5" cy="22" r="1.5" fill="white" opacity="0.9" />
-      </motion.g>
-      <motion.g
-        animate={{ scaleY: isThink ? [1, 0.15, 1] : [1, 0.1, 1, 1, 1, 1, 1, 0.1, 1] }}
-        transition={{ duration: isThink ? 0.5 : 4, repeat: Infinity, ease: 'easeInOut', repeatDelay: isThink ? 0 : 0.5, delay: 0.08 }}
-        style={{ transformOrigin: '38px 24px' }}
-      >
-        <ellipse cx="38" cy="24" rx="4.5" ry={isThink ? 2 : 5} fill="#2D1A00" />
-        <circle cx="39.5" cy="22" r="1.5" fill="white" opacity="0.9" />
-      </motion.g>
+      {/* Rosy cheeks */}
+      <ellipse cx="10" cy="37" rx="7" ry="5" fill="#FF6090" opacity="0.32" />
+      <ellipse cx="46" cy="37" rx="7" ry="5" fill="#FF6090" opacity="0.32" />
 
-      {/* Mouth */}
+      {/* ── Eyebrows ── */}
       {isThink ? (
-        <path d="M22 38 Q28 36 34 38" stroke="#7B2D00" strokeWidth="2.2" strokeLinecap="round" fill="none" />
-      ) : mood === 'happy' ? (
         <>
-          <path d="M18 35 Q28 45 38 35" stroke="#7B2D00" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-          <path d="M18 35 Q28 45 38 35 Q28 42 18 35" fill="#FF6B6B" opacity="0.4" />
+          {/* One brow up, one brow furrowed */}
+          <path d="M13 18 Q18 13 23 16" stroke="#5D3200" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+          <path d="M33 15 Q38 11 43 15" stroke="#5D3200" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+        </>
+      ) : isGreet ? (
+        <>
+          {/* Both brows raised high — surprised-happy */}
+          <path d="M13 13 Q18 9 23 12" stroke="#5D3200" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+          <path d="M33 12 Q38 8 43 12" stroke="#5D3200" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+        </>
+      ) : isHappy ? (
+        <>
+          {/* Arched happy brows */}
+          <path d="M13 16 Q18 12 23 15" stroke="#5D3200" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+          <path d="M33 15 Q38 11 43 15" stroke="#5D3200" strokeWidth="2.8" strokeLinecap="round" fill="none" />
         </>
       ) : (
-        <path d="M19 36 Q28 44 37 36" stroke="#7B2D00" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-      )}
-
-      {/* Stars / sparkles when greeting */}
-      {isGreet && (
         <>
-          <motion.text x="2" y="12" fontSize="8" animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }} transition={{ duration: 1, repeat: Infinity }}>⭐</motion.text>
-          <motion.text x="44" y="10" fontSize="7" animate={{ opacity: [0, 1, 0], scale: [0.5, 1.2, 0.5] }} transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}>✨</motion.text>
+          {/* Friendly idle brows */}
+          <path d="M13 18 Q18 14.5 23 17" stroke="#5D3200" strokeWidth="2.6" strokeLinecap="round" fill="none" />
+          <path d="M33 17 Q38 14.5 43 18" stroke="#5D3200" strokeWidth="2.6" strokeLinecap="round" fill="none" />
         </>
       )}
 
-      {/* Thinking dots */}
+      {/* ── Eyes ── */}
+      {isThink ? (
+        /* Squinting thinking eyes */
+        <>
+          <motion.g style={{ transformOrigin: '18px 25px' }}
+            animate={{ scaleY: [1, 0.25, 1] }} transition={{ duration: 0.55, repeat: Infinity, ease: 'easeInOut' }}>
+            <ellipse cx="18" cy="25" rx="5.5" ry="4.5" fill="url(#eyeGrad)" />
+            <circle cx="19.8" cy="23.2" r="1.8" fill="white" opacity="0.95" />
+            <circle cx="19.8" cy="23.2" r="0.7" fill="white" opacity="0.6" />
+          </motion.g>
+          <motion.g style={{ transformOrigin: '38px 25px' }}
+            animate={{ scaleY: [1, 0.25, 1] }} transition={{ duration: 0.55, repeat: Infinity, ease: 'easeInOut', delay: 0.1 }}>
+            <ellipse cx="38" cy="25" rx="5.5" ry="4.5" fill="url(#eyeGrad)" />
+            <circle cx="39.8" cy="23.2" r="1.8" fill="white" opacity="0.95" />
+            <circle cx="39.8" cy="23.2" r="0.7" fill="white" opacity="0.6" />
+          </motion.g>
+        </>
+      ) : (
+        /* Normal / happy / greet eyes — cartoon big + blinking */
+        <>
+          <motion.g style={{ transformOrigin: '18px 24px' }}
+            animate={{ scaleY: [1, 1, 1, 1, 1, 0.08, 1, 1, 1, 1, 1, 1, 0.08, 1] }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.4 }}>
+            <ellipse cx="18" cy="24" rx="5.5" ry={isGreet ? 6.5 : isHappy ? 5.8 : 5.5} fill="url(#eyeGrad)" />
+            {/* Pupil shine */}
+            <circle cx="20" cy="21.5" r="2" fill="white" opacity="1" />
+            <circle cx="20.8" cy="20.8" r="0.8" fill="white" opacity="0.7" />
+            {/* Tiny bottom shine */}
+            <circle cx="16.5" cy="26" r="0.9" fill="white" opacity="0.3" />
+          </motion.g>
+          <motion.g style={{ transformOrigin: '38px 24px' }}
+            animate={{ scaleY: [1, 1, 1, 1, 1, 0.08, 1, 1, 1, 1, 1, 1, 0.08, 1] }}
+            transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.4, delay: 0.15 }}>
+            <ellipse cx="38" cy="24" rx="5.5" ry={isGreet ? 6.5 : isHappy ? 5.8 : 5.5} fill="url(#eyeGrad)" />
+            <circle cx="40" cy="21.5" r="2" fill="white" opacity="1" />
+            <circle cx="40.8" cy="20.8" r="0.8" fill="white" opacity="0.7" />
+            <circle cx="36.5" cy="26" r="0.9" fill="white" opacity="0.3" />
+          </motion.g>
+        </>
+      )}
+
+      {/* ── Tiny nose ── */}
+      <ellipse cx="28" cy="32" rx="2.2" ry="1.4" fill="#CC7A00" opacity="0.35" />
+
+      {/* ── Mouth ── */}
+      {isThink ? (
+        /* Sideways smirk — one corner up */
+        <path d="M21 39 Q25 37 30 39 Q33 40.5 34 38.5" stroke="#7B2D00" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+      ) : isHappy ? (
+        /* Wide open happy mouth with teeth + tongue */
+        <>
+          <path d="M16 36 Q28 48 40 36" fill="url(#mouthGrad)" stroke="#7B2D00" strokeWidth="1.8" strokeLinecap="round" />
+          {/* Teeth row */}
+          <path d="M16 36 Q28 42 40 36" fill="white" opacity="0.9" />
+          {/* Divider lines */}
+          <line x1="22" y1="36" x2="22" y2="39.5" stroke="#E0C8B0" strokeWidth="0.9" opacity="0.6" />
+          <line x1="28" y1="36" x2="28" y2="40" stroke="#E0C8B0" strokeWidth="0.9" opacity="0.6" />
+          <line x1="34" y1="36" x2="34" y2="39.5" stroke="#E0C8B0" strokeWidth="0.9" opacity="0.6" />
+          {/* Tongue */}
+          <ellipse cx="28" cy="43.5" rx="5" ry="3.2" fill="#FF6090" opacity="0.85" />
+        </>
+      ) : isGreet ? (
+        /* Big excited smile, slightly open */
+        <>
+          <path d="M17 36 Q28 47 39 36" fill="url(#mouthGrad)" stroke="#7B2D00" strokeWidth="1.8" strokeLinecap="round" />
+          <path d="M17 36 Q28 43 39 36" fill="white" opacity="0.88" />
+          <line x1="23" y1="36" x2="23" y2="40" stroke="#E0C8B0" strokeWidth="0.9" opacity="0.6" />
+          <line x1="28" y1="36" x2="28" y2="41" stroke="#E0C8B0" strokeWidth="0.9" opacity="0.6" />
+          <line x1="33" y1="36" x2="33" y2="40" stroke="#E0C8B0" strokeWidth="0.9" opacity="0.6" />
+        </>
+      ) : (
+        /* Friendly default smile */
+        <path d="M18 36.5 Q28 45.5 38 36.5" stroke="#7B2D00" strokeWidth="2.6" strokeLinecap="round" fill="none" />
+      )}
+
+      {/* ── Greet sparkles ── */}
+      {isGreet && (
+        <>
+          <motion.text x="1" y="11" fontSize="9" animate={{ opacity: [0, 1, 0], scale: [0.4, 1.3, 0.4] }} style={{ transformOrigin: '6px 6px' }} transition={{ duration: 0.9, repeat: Infinity }}>⭐</motion.text>
+          <motion.text x="43" y="9" fontSize="8" animate={{ opacity: [0, 1, 0], scale: [0.4, 1.3, 0.4] }} style={{ transformOrigin: '48px 4px' }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.35 }}>✨</motion.text>
+          <motion.text x="0" y="28" fontSize="7" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1.1, repeat: Infinity, delay: 0.7 }}>💫</motion.text>
+        </>
+      )}
+
+      {/* ── Thinking dots (thought bubble style) ── */}
       {isThink && (
         <>
           {[0, 1, 2].map((i) => (
-            <motion.circle key={i} cx={42 + i * 4} cy={14 - i * 2} r="1.5" fill="#7B4F00"
-              animate={{ opacity: [0, 1, 0] }} transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.2 }} />
+            <motion.circle key={i} cx={43 + i * 4.5} cy={13 - i * 2.5} r={1.8 - i * 0.2} fill="#7B4F00"
+              animate={{ opacity: [0, 1, 0], scale: [0.6, 1.2, 0.6] }}
+              transition={{ duration: 0.75, repeat: Infinity, delay: i * 0.22 }} />
           ))}
         </>
       )}
 
+      {/* ── Happy little stars ── */}
+      {isHappy && (
+        <>
+          <motion.text x="1" y="20" fontSize="7" animate={{ opacity: [0, 1, 0], y: [0, -4, 0] }} transition={{ duration: 0.9, repeat: Infinity }}>✨</motion.text>
+          <motion.text x="47" y="18" fontSize="6" animate={{ opacity: [0, 1, 0], y: [0, -4, 0] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.3 }}>⭐</motion.text>
+        </>
+      )}
+
       {/* Outline */}
-      <circle cx="28" cy="28" r="26" stroke="#E8A000" strokeWidth="1.5" fill="none" opacity="0.6" />
+      <ellipse cx="28" cy="29" rx="26" ry="25.5" stroke="#E8A000" strokeWidth="1.8" fill="none" opacity="0.55" />
     </motion.svg>
   );
 }
