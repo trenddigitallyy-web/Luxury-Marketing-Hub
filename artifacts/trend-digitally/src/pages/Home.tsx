@@ -637,9 +637,8 @@ export default function Home() {
                 </div>
 
                 {/* Bottom line reveal */}
-                <div className="flex items-center gap-2 pt-1 border-t border-white/[0.05] group-hover:border-[#C79D7D]/20 transition-colors duration-500">
-                  <div className="flex-1 h-px bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#C79D7D]/40 group-hover:to-transparent transition-all duration-500" />
-                  <ArrowRight className="w-3.5 h-3.5 text-[#C79D7D]/0 group-hover:text-[#C79D7D]/70 -translate-x-2 group-hover:translate-x-0 transition-all duration-400" />
+                <div className="pt-1 border-t border-white/[0.05] group-hover:border-[#C79D7D]/20 transition-colors duration-500">
+                  <div className="h-px bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#C79D7D]/40 group-hover:to-transparent transition-all duration-500" />
                 </div>
               </FadeIn>
             ))}
@@ -993,10 +992,6 @@ export default function Home() {
                     <p className="text-[#9A8F88] text-sm leading-relaxed font-sans group-hover:text-[#D8C2B2] transition-colors duration-400">{card.desc}</p>
                   </div>
 
-                  {/* Right arrow accent */}
-                  <div className="flex-shrink-0 px-6 opacity-0 group-hover:opacity-100 transition-all duration-400 translate-x-2 group-hover:translate-x-0">
-                    <ArrowRight className="w-5 h-5" style={{ color: card.accent }} />
-                  </div>
                 </motion.div>
               </FadeIn>
             ))}
