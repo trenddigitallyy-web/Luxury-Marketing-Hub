@@ -887,47 +887,117 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent 10%, rgba(199,157,125,0.3) 50%, transparent 90%)' }} />
       </section>
 
-      {/* ── 9. Why Brands Choose Us (NEW) ── */}
-      <section className="py-32 bg-[#120e0d] relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(94,78,69,0.18)_0%,transparent_70%)]" />
+      {/* ── 9. Why Brands Choose Us ── */}
+      <section className="py-32 relative overflow-hidden">
+        {/* ── Unique BG: deep cream-to-dark split, NOT dark/particle like other sections ── */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(145deg, #f5ede4 0%, #e8d5c0 18%, #2a1c10 45%, #150e08 100%)' }} />
+
+        {/* Hexagonal honeycomb SVG overlay — unique pattern not used elsewhere */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0.07 }} preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <pattern id="hex" x="0" y="0" width="56" height="97" patternUnits="userSpaceOnUse">
+              <polygon points="28,3 53,17 53,46 28,60 3,46 3,17" fill="none" stroke="#C79D7D" strokeWidth="1" />
+              <polygon points="56,50 81,64 81,93 56,107 31,93 31,64" fill="none" stroke="#C79D7D" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hex)" />
+        </svg>
+
+        {/* Animated concentric rings from centre — completely different from orbs/particles */}
+        {[0, 1, 2, 3, 4].map((i) => (
+          <motion.div key={i} className="absolute rounded-full pointer-events-none"
+            style={{
+              left: '50%', top: '50%',
+              border: `1px solid rgba(199,157,125,${0.25 - i * 0.04})`,
+              width: 200 + i * 160, height: 200 + i * 160,
+              marginLeft: -(100 + i * 80), marginTop: -(100 + i * 80),
+            }}
+            animate={{ scale: [1, 1.06, 1], opacity: [0.5, 0.2, 0.5] }}
+            transition={{ duration: 3.5 + i * 0.8, repeat: Infinity, ease: 'easeInOut', delay: i * 0.6 }}
+          />
+        ))}
+
+        {/* Central radial glow burst */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 55% 45% at 50% 50%, rgba(199,157,125,0.18) 0%, rgba(255,184,0,0.08) 30%, transparent 65%)' }} />
+
+        {/* Horizontal light beam shoots — unique to this section */}
+        {[15, 40, 65, 85].map((top, i) => (
+          <motion.div key={i} className="absolute pointer-events-none h-px"
+            style={{ top: `${top}%`, left: 0, right: 0, background: `linear-gradient(90deg, transparent 0%, rgba(199,157,125,${0.3 + (i % 2) * 0.2}) 40%, rgba(255,184,0,0.4) 50%, rgba(199,157,125,${0.3 + (i % 2) * 0.2}) 60%, transparent 100%)` }}
+            animate={{ scaleX: [0.3, 1, 0.3], opacity: [0, 0.7, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: i * 1.1 }}
+          />
+        ))}
+
+        {/* Animated corner accent arcs */}
+        <svg className="absolute top-0 left-0 w-48 h-48 pointer-events-none" style={{ opacity: 0.5 }}>
+          <motion.path d="M 0 80 Q 0 0 80 0" fill="none" stroke="url(#arcGrad1)" strokeWidth="1.5"
+            initial={{ pathLength: 0 }} animate={{ pathLength: [0, 1, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} />
+          <defs><linearGradient id="arcGrad1" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#C79D7D" /><stop offset="100%" stopColor="#FFB800" /></linearGradient></defs>
+        </svg>
+        <svg className="absolute bottom-0 right-0 w-48 h-48 pointer-events-none" style={{ opacity: 0.5 }}>
+          <motion.path d="M 192 112 Q 192 192 112 192" fill="none" stroke="url(#arcGrad2)" strokeWidth="1.5"
+            initial={{ pathLength: 0 }} animate={{ pathLength: [0, 1, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
+          <defs><linearGradient id="arcGrad2" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#FFB800" /><stop offset="100%" stopColor="#C79D7D" /></linearGradient></defs>
+        </svg>
+
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <FadeIn className="mb-20 text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-4 font-sans">The Difference</p>
-            <h2 className="text-5xl md:text-6xl font-serif text-[#EDE9E5] leading-tight">Why Brands Choose Us</h2>
+            <p className="text-xs uppercase tracking-[0.3em] mb-4 font-sans" style={{ color: '#C79D7D' }}>The Difference</p>
+            <h2 className="text-5xl md:text-6xl font-serif leading-tight" style={{ background: 'linear-gradient(135deg, #EDE9E5 0%, #FFB800 40%, #C79D7D 70%, #EDE9E5 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              Why Brands Choose Us
+            </h2>
+            <motion.div className="h-0.5 mx-auto mt-5 rounded-full"
+              style={{ background: 'linear-gradient(90deg, transparent, #FFB800, #C79D7D, #FFB800, transparent)' }}
+              initial={{ width: 0 }} whileInView={{ width: 220 }} viewport={{ once: true }}
+              transition={{ duration: 1.4, delay: 0.3 }} />
           </FadeIn>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
+
+          {/* Cards — completely different style: large bold number left, content right, glowing left border */}
+          <div className="max-w-5xl mx-auto space-y-4">
             {[
-              {
-                num: '01',
-                title: 'Strategy First',
-                desc: 'We build data-backed marketing systems, not random content. Every move is deliberate, measurable, and tied to your growth goals.',
-              },
-              {
-                num: '02',
-                title: 'Luxury Brand Positioning',
-                desc: 'We create premium digital identities that make brands impossible to ignore — and impossible to forget.',
-              },
-              {
-                num: '03',
-                title: 'Creative + Performance',
-                desc: 'Every campaign is designed to look exceptional and convert efficiently. Beauty and results are not a trade-off.',
-              },
-              {
-                num: '04',
-                title: 'End-to-End Execution',
-                desc: 'From branding to ads to websites, we manage the complete digital ecosystem — so you focus on running your business.',
-              },
+              { num: '01', title: 'Strategy First', desc: 'We build data-backed marketing systems, not random content. Every move is deliberate, measurable, and tied to your growth goals.', accent: '#C79D7D' },
+              { num: '02', title: 'Luxury Brand Positioning', desc: 'We create premium digital identities that make brands impossible to ignore — and impossible to forget.', accent: '#FFB800' },
+              { num: '03', title: 'Creative + Performance', desc: 'Every campaign is designed to look exceptional and convert efficiently. Beauty and results are not a trade-off.', accent: '#D8C2B2' },
+              { num: '04', title: 'End-to-End Execution', desc: 'From branding to ads to websites, we manage the complete digital ecosystem — so you focus on running your business.', accent: '#C79D7D' },
             ].map((card, i) => (
-              <FadeIn key={i} delay={i * 0.1} className="group relative border border-white/[0.07] p-10 hover:border-[#C79D7D]/30 hover:-translate-y-1 transition-all duration-500 cursor-default">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#5E4E45]/0 to-[#5E4E45]/0 group-hover:from-[#5E4E45]/10 group-hover:to-transparent transition-all duration-500" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="font-mono text-xs text-[#C79D7D]/50">{card.num}</span>
-                    <div className="flex-1 h-px bg-[#C79D7D]/15 group-hover:bg-[#C79D7D]/40 transition-colors duration-500" />
+              <FadeIn key={i} delay={i * 0.1}>
+                <motion.div
+                  className="relative flex items-center gap-0 overflow-hidden cursor-default group"
+                  style={{ background: 'rgba(20, 12, 7, 0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(199,157,125,0.12)' }}
+                  whileHover={{ scale: 1.01 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Animated left border glow */}
+                  <motion.div className="absolute left-0 top-0 bottom-0 w-1 rounded-r-full"
+                    style={{ background: `linear-gradient(180deg, transparent, ${card.accent}, transparent)` }}
+                    animate={{ opacity: [0.4, 1, 0.4], scaleY: [0.6, 1, 0.6] }}
+                    transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.5 }} />
+
+                  {/* Hover fill sweep */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{ background: `linear-gradient(135deg, rgba(199,157,125,0.07) 0%, transparent 60%)` }} />
+
+                  {/* Big number */}
+                  <div className="flex-shrink-0 w-28 md:w-36 flex items-center justify-center py-10 relative">
+                    <span className="font-serif font-bold leading-none select-none" style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', color: card.accent, opacity: 0.18 }}>{card.num}</span>
+                    <span className="absolute font-mono text-xs font-bold tracking-widest" style={{ color: card.accent }}>{card.num}</span>
                   </div>
-                  <h3 className="text-2xl font-serif text-[#EDE9E5] mb-4 group-hover:text-[#C79D7D] transition-colors duration-300">{card.title}</h3>
-                  <p className="text-[#9A8F88] text-sm leading-relaxed font-sans">{card.desc}</p>
-                </div>
+
+                  {/* Vertical divider */}
+                  <div className="flex-shrink-0 self-stretch w-px" style={{ background: `linear-gradient(180deg, transparent, rgba(199,157,125,0.25), transparent)` }} />
+
+                  {/* Content */}
+                  <div className="flex-1 px-8 py-10">
+                    <h3 className="text-xl md:text-2xl font-serif text-[#EDE9E5] mb-3 group-hover:text-[#FFB800] transition-colors duration-300">{card.title}</h3>
+                    <p className="text-[#9A8F88] text-sm leading-relaxed font-sans group-hover:text-[#D8C2B2] transition-colors duration-400">{card.desc}</p>
+                  </div>
+
+                  {/* Right arrow accent */}
+                  <div className="flex-shrink-0 px-6 opacity-0 group-hover:opacity-100 transition-all duration-400 translate-x-2 group-hover:translate-x-0">
+                    <ArrowRight className="w-5 h-5" style={{ color: card.accent }} />
+                  </div>
+                </motion.div>
               </FadeIn>
             ))}
           </div>
