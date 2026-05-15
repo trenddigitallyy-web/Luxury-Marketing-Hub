@@ -847,11 +847,11 @@ export default function Home() {
 
           {/* Direct contact strip */}
           <FadeIn delay={0.25} className="mt-16 pt-12 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-center gap-8 text-center">
-            <a href="mailto:work.trenddigitally@gmail.com" className="group flex items-center gap-3 text-[#9A8F88] hover:text-[#C79D7D] transition-colors font-sans text-sm">
+            <a href="mailto:trenddigitallyy@gmail.com" className="group flex items-center gap-3 text-[#9A8F88] hover:text-[#C79D7D] transition-colors font-sans text-sm">
               <div className="w-8 h-8 border border-white/10 group-hover:border-[#C79D7D]/40 flex items-center justify-center transition-colors">
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               </div>
-              work.trenddigitally@gmail.com
+              trenddigitallyy@gmail.com
             </a>
             <a href="tel:+919013342230" className="group flex items-center gap-3 text-[#9A8F88] hover:text-[#C79D7D] transition-colors font-sans text-sm">
               <div className="w-8 h-8 border border-white/10 group-hover:border-[#C79D7D]/40 flex items-center justify-center transition-colors">
@@ -912,8 +912,8 @@ export default function Home() {
               <p className="text-xs uppercase tracking-widest text-[#9A8F88] mb-6 font-sans">Contact</p>
               <ul className="space-y-3 font-sans text-sm">
                 <li>
-                  <a href="mailto:work.trenddigitally@gmail.com" className="text-[#9A8F88] hover:text-[#C79D7D] transition-colors break-all">
-                    work.trenddigitally@gmail.com
+                  <a href="mailto:trenddigitallyy@gmail.com" className="text-[#9A8F88] hover:text-[#C79D7D] transition-colors break-all">
+                    trenddigitallyy@gmail.com
                   </a>
                 </li>
                 <li>
