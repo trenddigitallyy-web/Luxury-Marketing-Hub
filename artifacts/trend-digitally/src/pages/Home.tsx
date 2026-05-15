@@ -244,24 +244,30 @@ function StatsSection() {
           <StatCard val={0} suffix="" label="Multi-Industry Experience" delay={0.36} symbol="∞" />
         </div>
 
-        {/* Bottom ticker */}
+        {/* Bottom ticker — auto-scrolling, all tags always visible */}
         <motion.div
-          className="mt-14 flex items-center justify-center gap-3 overflow-hidden"
+          className="mt-14 overflow-hidden relative"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.6 }}
         >
-          {['Jewellery', 'Fashion', 'Healthcare', 'Hospitality', 'Lighting', 'Marble', 'Textiles', 'F&B', 'Real Estate', 'Education'].map((tag, i) => (
-            <motion.span
-              key={tag}
-              className="flex-shrink-0 text-[10px] uppercase tracking-widest font-sans px-3 py-1.5 border border-[#C79D7D]/20 text-[#C79D7D]/50 rounded-full"
-              animate={{ opacity: [0.4, 0.8, 0.4] }}
-              transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
-            >
-              {tag}
-            </motion.span>
-          ))}
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 h-full w-16 z-10 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(26,14,8,1), transparent)' }} />
+          <div className="absolute right-0 top-0 h-full w-16 z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(26,14,8,1), transparent)' }} />
+          <div className="flex" style={{ animation: 'statsTicker 22s linear infinite' }}>
+            {[...['Jewellery', 'Fashion', 'Healthcare', 'Hospitality', 'Lighting', 'Marble', 'Textiles', 'F&B', 'Real Estate', 'Education'],
+              ...['Jewellery', 'Fashion', 'Healthcare', 'Hospitality', 'Lighting', 'Marble', 'Textiles', 'F&B', 'Real Estate', 'Education']
+            ].map((tag, i) => (
+              <span
+                key={i}
+                className="flex-shrink-0 text-[11px] uppercase tracking-widest font-sans px-4 py-2 mx-2 border border-[#C79D7D]/35 text-[#C79D7D] rounded-full whitespace-nowrap"
+                style={{ background: 'rgba(255,184,0,0.05)' }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
