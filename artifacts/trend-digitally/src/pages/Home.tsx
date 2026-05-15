@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 import { SiInstagram, SiTiktok } from 'react-icons/si';
 import { ArrowRight } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import ChatWidget from '@/components/ChatWidget';
 import logoSrc from '@assets/TD_1778579526586.png';
 import clientAryan from '@assets/ARYAN_POST-02_1778671423544.png';
 import clientDisposal from '@assets/Disposal_walaa_1778671423551.png';
@@ -246,14 +247,14 @@ export default function Home() {
             transition={{ duration: 0.9, delay: 1.1 }}
             className="mt-12 flex flex-col sm:flex-row items-center gap-5"
           >
-            <button
-              onClick={() => scrollToSection('contact')}
+            <a
+              href="tel:+919013342230"
               data-testid="button-hero-book"
               className="group relative bg-[#C79D7D] text-[#1a1210] px-10 py-4 text-sm font-sans font-semibold tracking-widest uppercase hover:bg-[#D8C2B2] transition-all duration-300 flex items-center gap-3 overflow-hidden"
             >
               <span className="relative z-10">Book Strategy Call</span>
               <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
             <Link
               href="/work"
               data-testid="button-hero-work"
@@ -868,6 +869,8 @@ export default function Home() {
           </FadeIn>
         </div>
       </section>
+
+      <ChatWidget />
 
       {/* ── 13. Footer ── */}
       <footer className="bg-[#0f0c0b] text-[#EDE9E5] pt-20 pb-10">
