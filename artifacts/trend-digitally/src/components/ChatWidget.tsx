@@ -357,9 +357,9 @@ export default function ChatWidget() {
           >
             {/* Pulse rings */}
             <motion.div animate={{ scale: [1, 1.65], opacity: [0.4, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
-              className="absolute inset-0 rounded-full pointer-events-none" style={{ background: 'rgba(255,200,0,0.35)' }} />
+              className="absolute inset-0 rounded-full pointer-events-none" style={{ background: 'rgba(199,157,125,0.4)' }} />
             <motion.div animate={{ scale: [1, 2.1], opacity: [0.2, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: 0.55 }}
-              className="absolute inset-0 rounded-full pointer-events-none" style={{ background: 'rgba(255,200,0,0.18)' }} />
+              className="absolute inset-0 rounded-full pointer-events-none" style={{ background: 'rgba(199,157,125,0.2)' }} />
 
             {/* Drag hint */}
             <div className="absolute -top-1 -left-1 bg-[#1a1210] border border-[#C79D7D]/30 rounded-full w-5 h-5 flex items-center justify-center z-10" title="Drag to move">
@@ -373,8 +373,8 @@ export default function ChatWidget() {
               onClick={openChat}
               className="w-full h-full rounded-full flex items-center justify-center relative"
               style={{
-                background: 'linear-gradient(135deg,#FFE566 0%,#FFB800 100%)',
-                boxShadow: '0 6px 28px rgba(255,184,0,0.55), 0 2px 8px rgba(0,0,0,0.4)',
+                background: 'linear-gradient(135deg,#D8C2B2 0%,#C79D7D 50%,#5E4E45 100%)',
+                boxShadow: '0 6px 28px rgba(199,157,125,0.55), 0 2px 8px rgba(0,0,0,0.4)',
                 cursor: isDragging ? 'grabbing' : 'pointer',
               }}
               aria-label="Chat with Trendy"
@@ -398,15 +398,15 @@ export default function ChatWidget() {
             initial={{ opacity: 0, scale: 0.92, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.92, y: 10 }}
             transition={{ duration: 0.28, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="fixed flex flex-col overflow-hidden"
-            style={{ top: panelTop(), left: panelLeft(), width: PANEL_W, zIndex: 9999, borderRadius: 18, maxHeight: minimised ? 'auto' : 570, background: '#0d0a09', boxShadow: '0 24px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,184,0,0.18)' }}
+            style={{ top: panelTop(), left: panelLeft(), width: PANEL_W, zIndex: 9999, borderRadius: 18, maxHeight: minimised ? 'auto' : 570, background: '#0d0a09', boxShadow: '0 24px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(199,157,125,0.25)' }}
           >
             {/* Header — drag handle */}
             <div
               onPointerDown={(e) => panelDragControls.start(e)}
               className="flex items-center gap-3 px-4 py-3 flex-shrink-0 relative overflow-hidden select-none"
-              style={{ background: 'linear-gradient(135deg,#1e1410 0%,#2a1c14 60%,#1a1210 100%)', borderBottom: '1px solid rgba(255,184,0,0.15)', cursor: 'grab' }}
+              style={{ background: 'linear-gradient(135deg,#1e1410 0%,#2a1c14 60%,#1a1210 100%)', borderBottom: '1px solid rgba(199,157,125,0.2)', cursor: 'grab' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFB800]/5 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C79D7D]/5 to-transparent pointer-events-none" />
               {/* Grip bars */}
               <div className="absolute top-1.5 left-1/2 -translate-x-1/2 flex gap-1">
                 {[0,1,2].map((i) => <div key={i} className="w-5 h-0.5 rounded-full bg-[#C79D7D]/25" />)}
@@ -423,7 +423,7 @@ export default function ChatWidget() {
                 <div className="flex items-center gap-1.5">
                   <p className="text-[#EDE9E5] text-sm font-bold font-sans leading-none">Trendy</p>
                   <span className="text-xs">😄</span>
-                  <Sparkles className="w-3 h-3 text-[#FFB800]" />
+                  <Sparkles className="w-3 h-3 text-[#C79D7D]" />
                 </div>
                 <p className="text-green-400 text-[10px] font-sans mt-0.5 tracking-wider">
                   {typing ? '💭 Thinking…' : '● Online · Replies instantly'}
@@ -431,13 +431,13 @@ export default function ChatWidget() {
               </div>
 
               <div className="flex items-center gap-0.5 mt-1" onPointerDown={(e) => e.stopPropagation()}>
-                <a href="tel:+919013342230" className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#FFB800] hover:bg-[#FFB800]/10 transition-all" title="Call us">
+                <a href="tel:+919013342230" className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] hover:bg-[#C79D7D]/10 transition-all" title="Call us">
                   <Phone className="w-3.5 h-3.5" />
                 </a>
-                <a href="mailto:trenddigitallyy@gmail.com" className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#FFB800] hover:bg-[#FFB800]/10 transition-all" title="Email us">
+                <a href="mailto:trenddigitallyy@gmail.com" className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] hover:bg-[#C79D7D]/10 transition-all" title="Email us">
                   <Mail className="w-3.5 h-3.5" />
                 </a>
-                <button onClick={() => setMinimised(!minimised)} className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#FFB800] hover:bg-[#FFB800]/10 transition-all">
+                <button onClick={() => setMinimised(!minimised)} className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#C79D7D] hover:bg-[#C79D7D]/10 transition-all">
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${minimised ? 'rotate-180' : ''}`} />
                 </button>
                 <button onClick={() => { setOpen(false); savePos(); setFaceMood('idle'); }}
@@ -470,7 +470,7 @@ export default function ChatWidget() {
                             <div className={`max-w-[80%] flex flex-col gap-1 ${msg.from === 'user' ? 'items-end' : 'items-start'}`}>
                               <div className={`px-4 py-2.5 text-xs font-sans leading-relaxed whitespace-pre-line ${msg.from === 'bot' ? 'text-[#EDE9E5]' : 'text-[#1a1210] font-semibold'}`}
                                 style={msg.from === 'bot'
-                                  ? { background: 'linear-gradient(135deg,#1e1712,#211a15)', border: '1px solid rgba(255,184,0,0.15)', borderRadius: '4px 14px 14px 14px' }
+                                  ? { background: 'linear-gradient(135deg,#1e1712,#211a15)', border: '1px solid rgba(199,157,125,0.2)', borderRadius: '4px 14px 14px 14px' }
                                   : { background: 'linear-gradient(135deg,#C79D7D,#b8845e)', borderRadius: '14px 4px 14px 14px', boxShadow: '0 2px 12px rgba(199,157,125,0.3)' }
                                 }
                               >
@@ -485,9 +485,9 @@ export default function ChatWidget() {
                               {msg.followUps.map((q) => (
                                 <motion.button key={q} whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }} onClick={() => handleQuick(q, msg.id)}
                                   className="text-[10px] font-sans font-medium px-3 py-1.5 tracking-wide transition-all duration-200"
-                                  style={{ background: 'linear-gradient(135deg,rgba(255,184,0,0.1),rgba(255,184,0,0.05))', border: '1px solid rgba(255,184,0,0.3)', borderRadius: 20, color: '#FFB800' }}
-                                  onMouseEnter={(e) => { const b = e.currentTarget as HTMLButtonElement; b.style.background = 'rgba(255,184,0,0.2)'; b.style.borderColor = 'rgba(255,184,0,0.65)'; }}
-                                  onMouseLeave={(e) => { const b = e.currentTarget as HTMLButtonElement; b.style.background = 'linear-gradient(135deg,rgba(255,184,0,0.1),rgba(255,184,0,0.05))'; b.style.borderColor = 'rgba(255,184,0,0.3)'; }}
+                                  style={{ background: 'linear-gradient(135deg,rgba(199,157,125,0.12),rgba(199,157,125,0.05))', border: '1px solid rgba(199,157,125,0.3)', borderRadius: 20, color: '#C79D7D' }}
+                                  onMouseEnter={(e) => { const b = e.currentTarget as HTMLButtonElement; b.style.background = 'rgba(199,157,125,0.22)'; b.style.borderColor = 'rgba(199,157,125,0.65)'; }}
+                                  onMouseLeave={(e) => { const b = e.currentTarget as HTMLButtonElement; b.style.background = 'linear-gradient(135deg,rgba(199,157,125,0.12),rgba(199,157,125,0.05))'; b.style.borderColor = 'rgba(199,157,125,0.3)'; }}
                                 >
                                   {q}
                                 </motion.button>
@@ -504,9 +504,9 @@ export default function ChatWidget() {
                           <motion.div animate={{ rotate: [0, -10, 10, 0] }} transition={{ duration: 0.5, repeat: Infinity }}>
                             <BotFace mood="thinking" size={28} />
                           </motion.div>
-                          <div className="px-4 py-3 flex items-center gap-1.5" style={{ background: 'linear-gradient(135deg,#1e1712,#211a15)', border: '1px solid rgba(255,184,0,0.15)', borderRadius: '4px 14px 14px 14px' }}>
+                          <div className="px-4 py-3 flex items-center gap-1.5" style={{ background: 'linear-gradient(135deg,#1e1712,#211a15)', border: '1px solid rgba(199,157,125,0.2)', borderRadius: '4px 14px 14px 14px' }}>
                             {[0,0.18,0.36].map((d,i) => (
-                              <motion.span key={i} className="block rounded-full" style={{ width: 7, height: 7, background: 'linear-gradient(135deg,#FFB800,#FF8C00)' }}
+                              <motion.span key={i} className="block rounded-full" style={{ width: 7, height: 7, background: 'linear-gradient(135deg,#C79D7D,#5E4E45)' }}
                                 animate={{ y: [0,-5,0], opacity: [0.5,1,0.5] }} transition={{ duration: 0.65, repeat: Infinity, delay: d }} />
                             ))}
                           </div>
@@ -517,17 +517,17 @@ export default function ChatWidget() {
                   </div>
 
                   {/* Input bar */}
-                  <div className="px-3 py-3 flex items-center gap-2 flex-shrink-0" style={{ background: '#110e0d', borderTop: '1px solid rgba(255,184,0,0.1)' }}>
+                  <div className="px-3 py-3 flex items-center gap-2 flex-shrink-0" style={{ background: '#110e0d', borderTop: '1px solid rgba(199,157,125,0.15)' }}>
                     <input ref={inputRef} type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKey}
                       placeholder="Ask Trendy anything…"
                       className="flex-1 text-[#EDE9E5] text-xs font-sans pl-4 pr-4 py-2.5 outline-none placeholder:text-[#9A8F88]/35 transition-all"
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,184,0,0.15)', borderRadius: 24 }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,184,0,0.45)'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
-                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,184,0,0.15)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(199,157,125,0.2)', borderRadius: 24 }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(199,157,125,0.55)'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(199,157,125,0.2)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
                     />
                     <motion.button whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.92 }} onClick={sendMessage} disabled={!input.trim()}
                       className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all disabled:opacity-35 disabled:cursor-not-allowed"
-                      style={{ background: input.trim() ? 'linear-gradient(135deg,#FFB800,#FF8C00)' : 'rgba(255,184,0,0.12)', boxShadow: input.trim() ? '0 4px 16px rgba(255,184,0,0.4)' : 'none' }}
+                      style={{ background: input.trim() ? 'linear-gradient(135deg,#C79D7D,#5E4E45)' : 'rgba(199,157,125,0.12)', boxShadow: input.trim() ? '0 4px 16px rgba(199,157,125,0.4)' : 'none' }}
                     >
                       <Send className="w-4 h-4 text-[#1a1210]" />
                     </motion.button>
