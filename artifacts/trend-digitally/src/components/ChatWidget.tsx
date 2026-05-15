@@ -21,9 +21,9 @@ function BotFace({ mood, size = 56 }: { mood: string; size?: number }) {
     >
       <defs>
         <radialGradient id="faceGrad" cx="38%" cy="32%" r="65%">
-          <stop offset="0%" stopColor="#FFF176" />
-          <stop offset="55%" stopColor="#FFD600" />
-          <stop offset="100%" stopColor="#FFA000" />
+          <stop offset="0%" stopColor="#E8CDB8" />
+          <stop offset="55%" stopColor="#C79D7D" />
+          <stop offset="100%" stopColor="#7A5542" />
         </radialGradient>
         <radialGradient id="eyeGrad" cx="35%" cy="30%" r="65%">
           <stop offset="0%" stopColor="#4A2800" />
