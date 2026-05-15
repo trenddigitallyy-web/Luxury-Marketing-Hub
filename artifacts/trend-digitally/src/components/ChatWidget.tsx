@@ -106,25 +106,70 @@ function BotFace({ mood, size = 56 }: { mood: string; size?: number }) {
 /* ─────────────────────────────────────────────
    Speech synthesis helper
 ───────────────────────────────────────────── */
+function pickIndianFemaleVoice(): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+
+  // Tier 1 — known Indian English female voice names
+  const tier1 = ['Lekha', 'Google हिन्दी', 'Veena'];
+  for (const name of tier1) {
+    const v = voices.find((v) => v.name === name);
+    if (v) return v;
+  }
+
+  // Tier 2 — any en-IN locale voice (prefer female-sounding names)
+  const inVoices = voices.filter((v) => v.lang === 'en-IN' || v.lang.startsWith('en-IN'));
+  if (inVoices.length) {
+    const femaleHints = ['female', 'woman', 'girl', 'lekha', 'veena', 'priya', 'anjali', 'neerja', 'heera'];
+    const female = inVoices.find((v) => femaleHints.some((h) => v.name.toLowerCase().includes(h)));
+    return female ?? inVoices[0];
+  }
+
+  // Tier 3 — best warm female fallback voices
+  const fallbacks = ['Google UK English Female', 'Samantha', 'Karen', 'Moira', 'Tessa', 'Fiona', 'Victoria'];
+  for (const name of fallbacks) {
+    const v = voices.find((v) => v.name === name);
+    if (v) return v;
+  }
+
+  // Tier 4 — any en-GB voice (closest warmth)
+  const gbVoice = voices.find((v) => v.lang === 'en-GB');
+  if (gbVoice) return gbVoice;
+
+  return null;
+}
+
 function speak(text: string, onStart: () => void, onEnd: () => void, muted: boolean) {
   if (muted || !window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const clean = text.replace(/[📞📧🚀✨💻📈🔍🏆🇮🇳1️⃣2️⃣3️⃣4️⃣•]/g, '').replace(/\n/g, '. ').trim();
+
+  const clean = text
+    .replace(/[📞📧🚀✨💻📈🔍🏆🇮🇳1️⃣2️⃣3️⃣4️⃣•⭐]/g, '')
+    .replace(/\n/g, '. ')
+    .replace(/[!]{2,}/g, '!')
+    .trim();
+
   const utter = new SpeechSynthesisUtterance(clean);
-  utter.rate = 0.92;
-  utter.pitch = 1.15;
+  utter.lang = 'en-IN';
+  utter.rate = 0.88;
+  utter.pitch = 1.25;
   utter.volume = 1;
 
-  const voices = window.speechSynthesis.getVoices();
-  const preferred = ['Google UK English Female', 'Google US English', 'Samantha', 'Karen', 'Moira', 'Victoria'];
-  for (const name of preferred) {
-    const v = voices.find((v) => v.name === name);
-    if (v) { utter.voice = v; break; }
+  const doSpeak = () => {
+    const voice = pickIndianFemaleVoice();
+    if (voice) utter.voice = voice;
+    utter.onstart = onStart;
+    utter.onend = onEnd;
+    utter.onerror = onEnd;
+    window.speechSynthesis.speak(utter);
+  };
+
+  // Voices may not be loaded yet on first call — wait if needed
+  if (window.speechSynthesis.getVoices().length > 0) {
+    doSpeak();
+  } else {
+    window.speechSynthesis.addEventListener('voiceschanged', doSpeak, { once: true });
   }
-  utter.onstart = onStart;
-  utter.onend = onEnd;
-  utter.onerror = onEnd;
-  window.speechSynthesis.speak(utter);
 }
 
 /* ─────────────────────────────────────────────
