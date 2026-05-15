@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
 import { SiInstagram, SiTiktok } from 'react-icons/si';
@@ -75,10 +75,42 @@ const SlideIn = ({ children, delay = 0, className = "" }: { children: React.Reac
   );
 };
 
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
+
 export default function Home() {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const yHero = useTransform(scrollY, [0, 1000], [0, 280]);
+
+  const [formData, setFormData] = useState({
+    name: '', email: '', phone: '', brand: '', service: '', message: '',
+  });
+  const [formStatus, setFormStatus] = useState<FormStatus>('idle');
+  const [formError, setFormError] = useState('');
+
+  const handleFormChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
+
+  const handleFormSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
+    setFormStatus('submitting');
+    setFormError('');
+    try {
+      const res = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error('Failed to submit');
+      setFormStatus('success');
+      setFormData({ name: '', email: '', phone: '', brand: '', service: '', message: '' });
+    } catch {
+      setFormStatus('error');
+      setFormError('Something went wrong. Please try again or email us directly.');
+    }
+  }, [formData]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -658,28 +690,181 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 12. Final CTA ── */}
-      <section id="contact" className="py-40 bg-[#1a1210] relative overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(94,78,69,0.4)_0%,rgba(26,18,16,0)_70%)]" />
-        <div className="absolute top-0 left-0 w-[40vw] h-[40vw] bg-[#C79D7D] rounded-full blob opacity-10" style={{ animationDelay: '0s' }} />
-        <div className="absolute bottom-0 right-0 w-[35vw] h-[35vw] bg-[#5E4E45] rounded-full blob opacity-20" style={{ animationDelay: '-8s' }} />
-        <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
-          <FadeIn>
-            <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-8 font-sans">Ready to grow?</p>
-            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-[#EDE9E5] leading-[1.05] tracking-tight mb-6 max-w-4xl mx-auto">
-              Build a Brand <span className="italic text-[#C79D7D]">People Remember.</span>
+      {/* ── 12. Inquiry / Contact ── */}
+      <section id="contact" className="py-32 bg-[#1a1210] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(94,78,69,0.25)_0%,transparent_70%)]" />
+        <div className="absolute top-0 left-0 w-[35vw] h-[35vw] bg-[#C79D7D] rounded-full blob opacity-[0.06]" style={{ animationDelay: '0s' }} />
+        <div className="absolute bottom-0 right-0 w-[30vw] h-[30vw] bg-[#5E4E45] rounded-full blob opacity-[0.12]" style={{ animationDelay: '-8s' }} />
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          {/* Header */}
+          <FadeIn className="text-center mb-16">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-5 font-sans">Get In Touch</p>
+            <h2 className="text-5xl md:text-7xl font-serif text-[#EDE9E5] leading-[1.05] tracking-tight mb-5">
+              Build a Brand <em className="italic text-[#C79D7D]">People Remember.</em>
             </h2>
-            <p className="text-[#9A8F88] max-w-2xl mx-auto mb-14 text-lg font-sans leading-relaxed">
-              Trend Digitally combines strategy, creativity, and performance marketing to help ambitious brands dominate digitally.
+            <p className="text-[#9A8F88] max-w-xl mx-auto text-base font-sans leading-relaxed">
+              Tell us about your brand and goals. We'll get back to you within 24 hours.
             </p>
-            <button
-              data-testid="button-cta-final"
-              onClick={() => scrollToSection('contact')}
-              className="group bg-[#C79D7D] text-[#1a1210] px-14 py-5 text-xs font-semibold tracking-widest uppercase hover:bg-[#D8C2B2] transition-all duration-300 shadow-2xl inline-flex items-center gap-3 font-sans"
-            >
-              Book Your Strategy Call
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
+          </FadeIn>
+
+          <FadeIn delay={0.15} className="max-w-3xl mx-auto">
+            {formStatus === 'success' ? (
+              <div className="border border-[#C79D7D]/30 bg-[#5E4E45]/10 p-16 text-center">
+                <div className="w-16 h-16 border border-[#C79D7D]/40 flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-7 h-7 text-[#C79D7D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-3xl font-serif text-[#EDE9E5] mb-3">Inquiry Received</h3>
+                <p className="text-[#9A8F88] font-sans text-sm leading-relaxed mb-8">
+                  Thank you for reaching out. We'll review your brief and come back to you within 24 hours.
+                </p>
+                <button
+                  onClick={() => setFormStatus('idle')}
+                  className="text-xs uppercase tracking-widest text-[#C79D7D] hover:text-[#D8C2B2] font-sans transition-colors border-b border-[#C79D7D]/30 pb-0.5"
+                >
+                  Send Another Inquiry
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/[0.04] border border-white/[0.06]">
+                {/* Row 1 */}
+                <div className="bg-[#1a1210] p-6 md:p-8">
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#9A8F88]/70 font-sans mb-3">Full Name *</label>
+                  <input
+                    name="name"
+                    value={formData.name}
+                    onChange={handleFormChange}
+                    required
+                    placeholder="Aayush Sharma"
+                    className="w-full bg-transparent text-[#EDE9E5] font-sans text-sm placeholder:text-[#9A8F88]/30 border-b border-white/10 focus:border-[#C79D7D]/50 outline-none pb-2 transition-colors duration-300"
+                  />
+                </div>
+                <div className="bg-[#1a1210] p-6 md:p-8">
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#9A8F88]/70 font-sans mb-3">Email Address *</label>
+                  <input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    required
+                    placeholder="hello@yourbrand.com"
+                    className="w-full bg-transparent text-[#EDE9E5] font-sans text-sm placeholder:text-[#9A8F88]/30 border-b border-white/10 focus:border-[#C79D7D]/50 outline-none pb-2 transition-colors duration-300"
+                  />
+                </div>
+                {/* Row 2 */}
+                <div className="bg-[#1a1210] p-6 md:p-8">
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#9A8F88]/70 font-sans mb-3">Phone Number</label>
+                  <input
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleFormChange}
+                    placeholder="+91 98765 43210"
+                    className="w-full bg-transparent text-[#EDE9E5] font-sans text-sm placeholder:text-[#9A8F88]/30 border-b border-white/10 focus:border-[#C79D7D]/50 outline-none pb-2 transition-colors duration-300"
+                  />
+                </div>
+                <div className="bg-[#1a1210] p-6 md:p-8">
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#9A8F88]/70 font-sans mb-3">Brand / Company</label>
+                  <input
+                    name="brand"
+                    value={formData.brand}
+                    onChange={handleFormChange}
+                    placeholder="Your Brand Name"
+                    className="w-full bg-transparent text-[#EDE9E5] font-sans text-sm placeholder:text-[#9A8F88]/30 border-b border-white/10 focus:border-[#C79D7D]/50 outline-none pb-2 transition-colors duration-300"
+                  />
+                </div>
+                {/* Row 3 — full width */}
+                <div className="bg-[#1a1210] p-6 md:p-8 md:col-span-2">
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#9A8F88]/70 font-sans mb-3">Service You're Interested In</label>
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleFormChange}
+                    className="w-full bg-[#1a1210] text-[#EDE9E5] font-sans text-sm border-b border-white/10 focus:border-[#C79D7D]/50 outline-none pb-2 transition-colors duration-300 cursor-pointer appearance-none"
+                  >
+                    <option value="" className="bg-[#1a1210]">Select a service…</option>
+                    <option value="Social Media Marketing" className="bg-[#1a1210]">Social Media Marketing</option>
+                    <option value="Branding Strategy" className="bg-[#1a1210]">Branding Strategy</option>
+                    <option value="Website Designing" className="bg-[#1a1210]">Website Designing</option>
+                    <option value="Performance Marketing" className="bg-[#1a1210]">Performance Marketing</option>
+                    <option value="SEO" className="bg-[#1a1210]">SEO</option>
+                    <option value="Google Ads" className="bg-[#1a1210]">Google Ads</option>
+                    <option value="WhatsApp Marketing" className="bg-[#1a1210]">WhatsApp Marketing</option>
+                    <option value="Influencer Marketing" className="bg-[#1a1210]">Influencer Marketing</option>
+                    <option value="Content Writing" className="bg-[#1a1210]">Content Writing</option>
+                    <option value="Product Photoshoots" className="bg-[#1a1210]">Product Photoshoots</option>
+                    <option value="360° Marketing" className="bg-[#1a1210]">360° Marketing</option>
+                    <option value="Other" className="bg-[#1a1210]">Other</option>
+                  </select>
+                </div>
+                {/* Message */}
+                <div className="bg-[#1a1210] p-6 md:p-8 md:col-span-2">
+                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#9A8F88]/70 font-sans mb-3">Tell Us About Your Brand *</label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleFormChange}
+                    required
+                    rows={4}
+                    placeholder="Describe your brand, your goals, and what you're looking to achieve with Trend Digitally…"
+                    className="w-full bg-transparent text-[#EDE9E5] font-sans text-sm placeholder:text-[#9A8F88]/30 border-b border-white/10 focus:border-[#C79D7D]/50 outline-none pb-2 resize-none transition-colors duration-300"
+                  />
+                </div>
+                {/* Submit */}
+                <div className="bg-[#1a1210] p-6 md:p-8 md:col-span-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <p className="text-[#9A8F88]/50 text-xs font-sans">* Required fields. We reply within 24 hours.</p>
+                  <button
+                    type="submit"
+                    disabled={formStatus === 'submitting'}
+                    data-testid="button-inquiry-submit"
+                    className="group inline-flex items-center gap-3 bg-[#C79D7D] text-[#1a1210] px-10 py-4 text-xs font-bold tracking-widest uppercase hover:bg-[#D8C2B2] transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed font-sans"
+                  >
+                    {formStatus === 'submitting' ? (
+                      <>
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                        Sending…
+                      </>
+                    ) : (
+                      <>
+                        Send Inquiry
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                </div>
+                {formStatus === 'error' && (
+                  <div className="bg-[#1a1210] px-8 pb-6 md:col-span-2">
+                    <p className="text-red-400/80 text-xs font-sans">{formError}</p>
+                  </div>
+                )}
+              </form>
+            )}
+          </FadeIn>
+
+          {/* Direct contact strip */}
+          <FadeIn delay={0.25} className="mt-16 pt-12 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-center gap-8 text-center">
+            <a href="mailto:work.trenddigitally@gmail.com" className="group flex items-center gap-3 text-[#9A8F88] hover:text-[#C79D7D] transition-colors font-sans text-sm">
+              <div className="w-8 h-8 border border-white/10 group-hover:border-[#C79D7D]/40 flex items-center justify-center transition-colors">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              </div>
+              work.trenddigitally@gmail.com
+            </a>
+            <a href="tel:+919013342230" className="group flex items-center gap-3 text-[#9A8F88] hover:text-[#C79D7D] transition-colors font-sans text-sm">
+              <div className="w-8 h-8 border border-white/10 group-hover:border-[#C79D7D]/40 flex items-center justify-center transition-colors">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+              </div>
+              +91 90133 42230
+            </a>
+            <a href="tel:+917780511564" className="group flex items-center gap-3 text-[#9A8F88] hover:text-[#C79D7D] transition-colors font-sans text-sm">
+              <div className="w-8 h-8 border border-white/10 group-hover:border-[#C79D7D]/40 flex items-center justify-center transition-colors">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+              </div>
+              +91 77805 11564
+            </a>
           </FadeIn>
         </div>
       </section>
