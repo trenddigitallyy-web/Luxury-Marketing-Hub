@@ -77,6 +77,197 @@ const SlideIn = ({ children, delay = 0, className = "" }: { children: React.Reac
   );
 };
 
+/* ─────────────────────────────────────────────
+   Animated Counter
+───────────────────────────────────────────── */
+function useCountUp(target: number, duration = 2.2, startOnView = true) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-10%' });
+  useEffect(() => {
+    if (!isInView && startOnView) return;
+    let start: number | null = null;
+    const step = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / (duration * 1000), 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [isInView, target, duration, startOnView]);
+  return { count, ref };
+}
+
+/* ─────────────────────────────────────────────
+   Floating Orb
+───────────────────────────────────────────── */
+function FloatingOrb({ x, y, size, color, delay, duration }: { x: string; y: string; size: number; color: string; delay: number; duration: number }) {
+  return (
+    <motion.div
+      className="absolute rounded-full pointer-events-none"
+      style={{ left: x, top: y, width: size, height: size, background: color, filter: `blur(${size * 0.4}px)` }}
+      animate={{ y: [0, -28, 12, -18, 0], x: [0, 12, -8, 16, 0], scale: [1, 1.12, 0.94, 1.08, 1], opacity: [0.55, 0.75, 0.5, 0.7, 0.55] }}
+      transition={{ duration, repeat: Infinity, ease: 'easeInOut', delay }}
+    />
+  );
+}
+
+/* ─────────────────────────────────────────────
+   Stats Section
+───────────────────────────────────────────── */
+function StatCard({ val, suffix, label, delay, symbol }: { val: number; suffix: string; label: string; delay: number; symbol?: string }) {
+  const { count, ref } = useCountUp(val, 2.0);
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-10%' }}
+      transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+      className="relative flex flex-col items-center text-center px-6 py-10 group"
+    >
+      {/* Card glow bg */}
+      <div className="absolute inset-0 rounded-2xl bg-white/[0.03] border border-white/[0.08] group-hover:border-[#C79D7D]/30 group-hover:bg-white/[0.06] transition-all duration-500" />
+      {/* Top accent line */}
+      <motion.div
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full"
+        style={{ background: 'linear-gradient(90deg, transparent, #FFB800, transparent)' }}
+        initial={{ width: 0 }}
+        whileInView={{ width: '60%' }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: delay + 0.3 }}
+      />
+      {/* Glow dot */}
+      <motion.div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full -translate-y-1"
+        style={{ background: '#FFB800', boxShadow: '0 0 12px 4px rgba(255,184,0,0.6)' }}
+        animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.4, 1] }}
+        transition={{ duration: 2.4, repeat: Infinity, delay }}
+      />
+
+      <div className="relative z-10">
+        {/* Number */}
+        <div className="flex items-end justify-center gap-1 mb-3">
+          <span className="text-5xl md:text-7xl font-serif text-[#EDE9E5] leading-none tabular-nums">
+            {symbol ?? count}
+          </span>
+          <span className="text-3xl md:text-5xl font-serif text-[#FFB800] leading-none mb-1">{suffix}</span>
+        </div>
+        {/* Divider */}
+        <div className="w-8 h-px bg-[#C79D7D]/40 mx-auto mb-3" />
+        {/* Label */}
+        <p className="text-[10px] md:text-xs text-[#D8C2B2]/65 uppercase tracking-[0.25em] font-sans leading-relaxed">{label}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+function StatsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const particles = Array.from({ length: 28 }, (_, i) => ({
+    id: i,
+    x: `${(i * 37 + 5) % 100}%`,
+    y: `${(i * 53 + 8) % 100}%`,
+    size: 2 + (i % 3),
+    delay: (i * 0.18) % 3,
+    duration: 3 + (i % 4),
+  }));
+
+  return (
+    <section ref={sectionRef} className="relative py-28 overflow-hidden">
+      {/* ── Background layers ── */}
+      {/* Base gradient */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1a0e08 0%, #2e1c0e 35%, #3d2510 55%, #2a1a0c 75%, #130b06 100%)' }} />
+
+      {/* Radial centre glow */}
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,184,0,0.12) 0%, rgba(199,157,125,0.08) 35%, transparent 70%)' }} />
+
+      {/* Top & bottom edge glows */}
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,184,0,0.5) 30%, rgba(255,184,0,0.8) 50%, rgba(255,184,0,0.5) 70%, transparent 100%)' }} />
+      <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(199,157,125,0.4) 50%, transparent 100%)' }} />
+
+      {/* Animated grid lines */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+        <defs>
+          <pattern id="statsGrid" width="80" height="80" patternUnits="userSpaceOnUse">
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(255,184,0,0.06)" strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#statsGrid)" />
+      </svg>
+
+      {/* Diagonal light streak */}
+      <motion.div
+        className="absolute pointer-events-none"
+        style={{ top: '-20%', left: '-10%', width: '60%', height: '200%', background: 'linear-gradient(105deg, transparent 40%, rgba(255,184,0,0.04) 50%, transparent 60%)', transform: 'rotate(15deg)' }}
+        animate={{ x: ['-10%', '130%'] }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'linear', repeatDelay: 5 }}
+      />
+
+      {/* Floating orbs */}
+      <FloatingOrb x="5%" y="15%" size={160} color="rgba(255,184,0,0.18)" delay={0} duration={7} />
+      <FloatingOrb x="75%" y="5%" size={200} color="rgba(199,157,125,0.15)" delay={1.5} duration={9} />
+      <FloatingOrb x="55%" y="60%" size={120} color="rgba(255,140,0,0.14)" delay={0.8} duration={8} />
+      <FloatingOrb x="15%" y="65%" size={100} color="rgba(255,200,80,0.12)" delay={2.2} duration={6} />
+      <FloatingOrb x="85%" y="55%" size={80} color="rgba(255,184,0,0.16)" delay={1.0} duration={7.5} />
+
+      {/* Particle dots */}
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full pointer-events-none"
+          style={{ left: p.x, top: p.y, width: p.size, height: p.size, background: 'rgba(255,184,0,0.5)', boxShadow: '0 0 4px rgba(255,184,0,0.4)' }}
+          animate={{ opacity: [0.2, 0.8, 0.2], scale: [0.8, 1.4, 0.8], y: [0, -8, 0] }}
+          transition={{ duration: p.duration, repeat: Infinity, ease: 'easeInOut', delay: p.delay }}
+        />
+      ))}
+
+      {/* ── Content ── */}
+      <div className="relative z-10 container mx-auto px-6 md:px-12">
+        {/* Section label */}
+        <motion.p
+          className="text-center text-[10px] uppercase tracking-[0.4em] text-[#C79D7D]/70 font-sans mb-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
+          Our Impact in Numbers
+        </motion.p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <StatCard val={50} suffix="+" label="Brands Scaled" delay={0} />
+          <StatCard val={15} suffix="M+" label="Organic Reach Generated" delay={0.12} />
+          <StatCard val={1000} suffix="+" label="Creatives Delivered" delay={0.24} />
+          <StatCard val={0} suffix="" label="Multi-Industry Experience" delay={0.36} symbol="∞" />
+        </div>
+
+        {/* Bottom ticker */}
+        <motion.div
+          className="mt-14 flex items-center justify-center gap-3 overflow-hidden"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.6 }}
+        >
+          {['Jewellery', 'Fashion', 'Healthcare', 'Hospitality', 'Lighting', 'Marble', 'Textiles', 'F&B', 'Real Estate', 'Education'].map((tag, i) => (
+            <motion.span
+              key={tag}
+              className="flex-shrink-0 text-[10px] uppercase tracking-widest font-sans px-3 py-1.5 border border-[#C79D7D]/20 text-[#C79D7D]/50 rounded-full"
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
+            >
+              {tag}
+            </motion.span>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 export default function Home() {
@@ -451,23 +642,7 @@ export default function Home() {
       </section>
 
       {/* ── 6. Stats ── */}
-      <section className="py-28 bg-[#5E4E45]">
-        <div className="container mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x divide-white/10">
-            {[
-              { val: '50+', label: 'Brands Scaled' },
-              { val: '15M+', label: 'Organic Reach Generated' },
-              { val: '1000+', label: 'Creatives Delivered' },
-              { val: '∞', label: 'Multi-Industry Experience' },
-            ].map((stat, i) => (
-              <FadeIn key={i} delay={i * 0.1} className="px-8 py-4 text-center">
-                <div className="text-4xl md:text-6xl font-serif text-[#EDE9E5] mb-2">{stat.val}</div>
-                <div className="text-xs text-[#D8C2B2]/70 uppercase tracking-widest font-sans">{stat.label}</div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
+      <StatsSection />
 
       {/* ── 7. Our Work (floating grid) ── */}
       <section id="work" className="py-24 bg-[#1a1210] overflow-hidden">
