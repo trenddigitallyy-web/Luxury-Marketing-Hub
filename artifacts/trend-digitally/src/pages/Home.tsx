@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
 import { SiInstagram, SiTiktok } from 'react-icons/si';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Share2, Fingerprint, Monitor, TrendingUp, Search, MousePointer2, MessageCircle, Users, PenTool, Type, Smartphone, Code2, Camera, MapPin, Mail, RotateCw } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import ChatWidget from '@/components/ChatWidget';
 import logoSrc from '@assets/TD_1778579526586.png';
@@ -390,34 +390,56 @@ export default function Home() {
             <p className="text-[#9A8F88] max-w-xs text-sm leading-relaxed font-sans">Full-spectrum digital solutions for brands demanding excellence at every touchpoint.</p>
           </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { num: '01', name: 'Social Media Marketing', desc: 'Scroll-stopping content strategies that grow communities and drive consistent engagement.' },
-              { num: '02', name: 'Branding Strategy', desc: 'Premium brand identities that position you as the authority in your market.' },
-              { num: '03', name: 'Website Designing', desc: 'High-converting digital experiences that build trust and turn visitors into clients.' },
-              { num: '04', name: 'Performance Marketing', desc: 'Full-funnel paid campaigns engineered for measurable, scalable return on investment.' },
-              { num: '05', name: 'SEO', desc: 'Organic dominance through technical precision, content authority, and link strategy.' },
-              { num: '06', name: 'Google Ads', desc: 'Laser-targeted search campaigns that capture high-intent buyers at the right moment.' },
-              { num: '07', name: 'WhatsApp Marketing', desc: 'Direct, personalised outreach that converts at higher rates than any other channel.' },
-              { num: '08', name: 'Influencer Marketing', desc: 'Curated partnerships with creators who move audiences and build brand credibility.' },
-              { num: '09', name: 'Content Writing', desc: 'Strategic narratives crafted to educate, engage, and guide your audience to action.' },
-              { num: '10', name: 'Copywriting', desc: 'Words that sell. Every headline, caption, and CTA engineered to convert.' },
-              { num: '11', name: 'App Development', desc: 'Intuitive mobile experiences that extend your brand and delight your customers.' },
-              { num: '12', name: 'Software Development', desc: 'Custom digital tools and platforms built to streamline operations and power growth.' },
-              { num: '13', name: 'Product Photoshoots', desc: 'Studio-quality visuals that elevate your product and elevate purchase intent.' },
-              { num: '14', name: 'Google My Business', desc: 'Dominate local search and build your reputation where customers are looking.' },
-              { num: '15', name: 'Email Marketing', desc: 'Automated nurture sequences and campaigns that convert subscribers into buyers.' },
-              { num: '16', name: '360° Marketing', desc: 'End-to-end digital ecosystem management — from awareness to conversion to retention.' },
+              { num: '01', name: 'Social Media Marketing', desc: 'Scroll-stopping content strategies that grow communities and drive consistent engagement.', Icon: Share2, accent: 'from-[#C79D7D]/20 to-transparent' },
+              { num: '02', name: 'Branding Strategy', desc: 'Premium brand identities that position you as the authority in your market.', Icon: Fingerprint, accent: 'from-[#D8C2B2]/15 to-transparent' },
+              { num: '03', name: 'Website Designing', desc: 'High-converting digital experiences that build trust and turn visitors into clients.', Icon: Monitor, accent: 'from-[#9A8F88]/15 to-transparent' },
+              { num: '04', name: 'Performance Marketing', desc: 'Full-funnel paid campaigns engineered for measurable, scalable return on investment.', Icon: TrendingUp, accent: 'from-[#C79D7D]/20 to-transparent' },
+              { num: '05', name: 'SEO', desc: 'Organic dominance through technical precision, content authority, and link strategy.', Icon: Search, accent: 'from-[#5E4E45]/40 to-transparent' },
+              { num: '06', name: 'Google Ads', desc: 'Laser-targeted search campaigns that capture high-intent buyers at the right moment.', Icon: MousePointer2, accent: 'from-[#C79D7D]/15 to-transparent' },
+              { num: '07', name: 'WhatsApp Marketing', desc: 'Direct, personalised outreach that converts at higher rates than any other channel.', Icon: MessageCircle, accent: 'from-[#9A8F88]/20 to-transparent' },
+              { num: '08', name: 'Influencer Marketing', desc: 'Curated partnerships with creators who move audiences and build brand credibility.', Icon: Users, accent: 'from-[#D8C2B2]/15 to-transparent' },
+              { num: '09', name: 'Content Writing', desc: 'Strategic narratives crafted to educate, engage, and guide your audience to action.', Icon: PenTool, accent: 'from-[#C79D7D]/20 to-transparent' },
+              { num: '10', name: 'Copywriting', desc: 'Words that sell. Every headline, caption, and CTA engineered to convert.', Icon: Type, accent: 'from-[#5E4E45]/40 to-transparent' },
+              { num: '11', name: 'App Development', desc: 'Intuitive mobile experiences that extend your brand and delight your customers.', Icon: Smartphone, accent: 'from-[#9A8F88]/20 to-transparent' },
+              { num: '12', name: 'Software Development', desc: 'Custom digital tools and platforms built to streamline operations and power growth.', Icon: Code2, accent: 'from-[#C79D7D]/15 to-transparent' },
+              { num: '13', name: 'Product Photoshoots', desc: 'Studio-quality visuals that elevate your product and elevate purchase intent.', Icon: Camera, accent: 'from-[#D8C2B2]/20 to-transparent' },
+              { num: '14', name: 'Google My Business', desc: 'Dominate local search and build your reputation where customers are looking.', Icon: MapPin, accent: 'from-[#C79D7D]/20 to-transparent' },
+              { num: '15', name: 'Email Marketing', desc: 'Automated nurture sequences and campaigns that convert subscribers into buyers.', Icon: Mail, accent: 'from-[#9A8F88]/20 to-transparent' },
+              { num: '16', name: '360° Marketing', desc: 'End-to-end digital ecosystem management — from awareness to conversion to retention.', Icon: RotateCw, accent: 'from-[#5E4E45]/40 to-transparent' },
             ].map((service, i) => (
               <FadeIn
                 key={i}
                 delay={i * 0.03}
-                className="group relative bg-[#1a1210] border border-white/[0.06] p-8 flex flex-col justify-between min-h-[220px] hover:bg-[#5E4E45]/20 hover:border-[#C79D7D]/20 transition-all duration-500 cursor-default"
+                className="group relative overflow-hidden rounded-sm border border-white/[0.07] p-7 flex flex-col gap-5 min-h-[210px] cursor-default transition-all duration-500 hover:-translate-y-1 hover:border-[#C79D7D]/35 hover:shadow-[0_8px_32px_rgba(199,157,125,0.10)]"
+                style={{ background: 'linear-gradient(145deg,#1f1512,#160f0d)' }}
               >
-                <div className="text-xs text-[#9A8F88]/50 font-mono mb-6">{service.num}</div>
-                <div>
-                  <h3 className="text-lg font-serif text-[#EDE9E5] mb-3 leading-snug group-hover:text-[#D8C2B2] transition-colors duration-300">{service.name}</h3>
-                  <p className="text-[#9A8F88] text-sm leading-relaxed opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">{service.desc}</p>
+                {/* Top accent gradient bar */}
+                <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${service.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} style={{ background: 'linear-gradient(90deg,#C79D7D,transparent)' }} />
+
+                {/* Corner decorative circle */}
+                <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full border border-[#C79D7D]/08 group-hover:border-[#C79D7D]/20 transition-all duration-500" />
+                <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full border border-[#C79D7D]/06 group-hover:border-[#C79D7D]/15 transition-all duration-500" />
+
+                {/* Header row: number + icon */}
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] text-[#C79D7D]/40 tracking-widest group-hover:text-[#C79D7D]/70 transition-colors duration-300">{service.num}</span>
+                  <div className="w-9 h-9 rounded-full border border-white/[0.07] flex items-center justify-center group-hover:border-[#C79D7D]/30 group-hover:bg-[#C79D7D]/08 transition-all duration-400">
+                    <service.Icon className="w-4 h-4 text-[#9A8F88] group-hover:text-[#C79D7D] transition-colors duration-300" />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col justify-end gap-2">
+                  <h3 className="text-base font-serif text-[#EDE9E5] leading-snug group-hover:text-[#D8C2B2] transition-colors duration-300">{service.name}</h3>
+                  <p className="text-[#9A8F88]/70 text-xs leading-relaxed group-hover:text-[#9A8F88] transition-colors duration-400">{service.desc}</p>
+                </div>
+
+                {/* Bottom arrow reveal */}
+                <div className="flex items-center gap-1.5 overflow-hidden h-4">
+                  <div className="w-0 group-hover:w-8 h-px bg-[#C79D7D]/50 transition-all duration-500" />
+                  <ArrowRight className="w-3 h-3 text-[#C79D7D]/0 group-hover:text-[#C79D7D]/60 -translate-x-2 group-hover:translate-x-0 transition-all duration-400" />
                 </div>
               </FadeIn>
             ))}
