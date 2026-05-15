@@ -206,7 +206,7 @@ export default function Home() {
             className="text-[#C79D7D] text-xs font-sans uppercase tracking-[0.4em] mb-8 flex items-center gap-4"
           >
             <span className="w-8 h-px bg-[#C79D7D]/60" />
-            Since 2024 · 20+ Brands
+            Since 2024 · 50+ Brands
             <span className="w-8 h-px bg-[#C79D7D]/60" />
           </motion.div>
           <motion.h1
