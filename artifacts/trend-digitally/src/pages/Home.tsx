@@ -944,8 +944,8 @@ export default function Home() {
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <FadeIn className="mb-20 text-center">
             <p className="text-xs uppercase tracking-[0.3em] mb-4 font-sans" style={{ color: '#C79D7D' }}>The Difference</p>
-            <h2 className="text-5xl md:text-6xl font-serif leading-tight" style={{ background: 'linear-gradient(135deg, #EDE9E5 0%, #FFB800 40%, #C79D7D 70%, #EDE9E5 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Why Brands Choose Us
+            <h2 className="text-5xl md:text-6xl font-serif leading-tight text-[#EDE9E5]" style={{ textShadow: '0 2px 30px rgba(255,184,0,0.25)' }}>
+              Why Brands <span style={{ color: '#FFB800' }}>Choose</span> Us
             </h2>
             <motion.div className="h-0.5 mx-auto mt-5 rounded-full"
               style={{ background: 'linear-gradient(90deg, transparent, #FFB800, #C79D7D, #FFB800, transparent)' }}
