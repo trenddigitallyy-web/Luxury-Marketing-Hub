@@ -44,7 +44,7 @@ const clientLogos = [
 
 const easeExpo = [0.16, 1, 0.3, 1] as const;
 
-const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
+const FadeIn = ({ children, delay = 0, className = "", style }: { children: React.ReactNode, delay?: number, className?: string, style?: React.CSSProperties }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-8%" });
   return (
@@ -54,6 +54,7 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 36 }}
       transition={{ duration: 0.9, delay, ease: easeExpo }}
       className={className}
+      style={style}
     >
       {children}
     </motion.div>
@@ -412,34 +413,36 @@ export default function Home() {
               <FadeIn
                 key={i}
                 delay={i * 0.03}
-                className="group relative overflow-hidden rounded-sm border border-white/[0.07] p-7 flex flex-col gap-5 min-h-[210px] cursor-default transition-all duration-500 hover:-translate-y-1 hover:border-[#C79D7D]/35 hover:shadow-[0_8px_32px_rgba(199,157,125,0.10)]"
-                style={{ background: 'linear-gradient(145deg,#1f1512,#160f0d)' }}
+                className="group relative overflow-hidden border border-white/10 p-6 flex flex-col gap-4 min-h-[260px] cursor-default transition-all duration-500 hover:-translate-y-1.5 hover:border-[#C79D7D]/50 hover:shadow-[0_12px_40px_rgba(199,157,125,0.15)]"
+                style={{ background: 'linear-gradient(160deg,#221810 0%,#160f0d 60%,#1a1210 100%)' }}
               >
-                {/* Top accent gradient bar */}
-                <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${service.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} style={{ background: 'linear-gradient(90deg,#C79D7D,transparent)' }} />
+                {/* Top accent bar — always visible, glows on hover */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-30 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ background: 'linear-gradient(90deg,#C79D7D 0%,rgba(199,157,125,0.2) 100%)' }} />
 
-                {/* Corner decorative circle */}
-                <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full border border-[#C79D7D]/08 group-hover:border-[#C79D7D]/20 transition-all duration-500" />
-                <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full border border-[#C79D7D]/06 group-hover:border-[#C79D7D]/15 transition-all duration-500" />
+                {/* Glowing bg blob behind icon */}
+                <div className="absolute top-4 right-4 w-24 h-24 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{ background: 'radial-gradient(circle, rgba(199,157,125,0.12) 0%, transparent 70%)' }} />
 
-                {/* Header row: number + icon */}
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] text-[#C79D7D]/40 tracking-widest group-hover:text-[#C79D7D]/70 transition-colors duration-300">{service.num}</span>
-                  <div className="w-9 h-9 rounded-full border border-white/[0.07] flex items-center justify-center group-hover:border-[#C79D7D]/30 group-hover:bg-[#C79D7D]/08 transition-all duration-400">
-                    <service.Icon className="w-4 h-4 text-[#9A8F88] group-hover:text-[#C79D7D] transition-colors duration-300" />
+                {/* Icon block — big and prominent */}
+                <div className="flex items-start justify-between">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center border border-[#C79D7D]/20 group-hover:border-[#C79D7D]/60 group-hover:bg-[#C79D7D]/10 transition-all duration-400"
+                    style={{ background: 'linear-gradient(135deg,rgba(199,157,125,0.08),rgba(94,78,69,0.12))' }}>
+                    <service.Icon className="w-7 h-7 text-[#C79D7D]/60 group-hover:text-[#C79D7D] transition-colors duration-300" strokeWidth={1.5} />
                   </div>
+                  <span className="font-mono text-[11px] text-[#C79D7D]/30 tracking-widest mt-1 group-hover:text-[#C79D7D]/60 transition-colors duration-300">{service.num}</span>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col justify-end gap-2">
-                  <h3 className="text-base font-serif text-[#EDE9E5] leading-snug group-hover:text-[#D8C2B2] transition-colors duration-300">{service.name}</h3>
-                  <p className="text-[#9A8F88]/70 text-xs leading-relaxed group-hover:text-[#9A8F88] transition-colors duration-400">{service.desc}</p>
+                <div className="flex flex-col gap-2 flex-1 justify-end">
+                  <h3 className="text-[15px] font-serif text-[#EDE9E5] leading-snug group-hover:text-[#C79D7D] transition-colors duration-300">{service.name}</h3>
+                  <p className="text-[#9A8F88]/60 text-xs leading-relaxed group-hover:text-[#9A8F88] transition-colors duration-400">{service.desc}</p>
                 </div>
 
-                {/* Bottom arrow reveal */}
-                <div className="flex items-center gap-1.5 overflow-hidden h-4">
-                  <div className="w-0 group-hover:w-8 h-px bg-[#C79D7D]/50 transition-all duration-500" />
-                  <ArrowRight className="w-3 h-3 text-[#C79D7D]/0 group-hover:text-[#C79D7D]/60 -translate-x-2 group-hover:translate-x-0 transition-all duration-400" />
+                {/* Bottom line reveal */}
+                <div className="flex items-center gap-2 pt-1 border-t border-white/[0.05] group-hover:border-[#C79D7D]/20 transition-colors duration-500">
+                  <div className="flex-1 h-px bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#C79D7D]/40 group-hover:to-transparent transition-all duration-500" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#C79D7D]/0 group-hover:text-[#C79D7D]/70 -translate-x-2 group-hover:translate-x-0 transition-all duration-400" />
                 </div>
               </FadeIn>
             ))}
