@@ -760,30 +760,131 @@ export default function Home() {
       </section>
 
       {/* ── 8. Methodology ── */}
-      <section className="py-32 bg-[#1a1210]">
-        <div className="container mx-auto px-6 md:px-12">
+      <section className="py-32 relative overflow-hidden">
+        {/* Base gradient — warm dark, echoing logo copper tones */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #0e0805 0%, #1c1008 30%, #251508 55%, #1a0e07 75%, #0d0604 100%)' }} />
+
+        {/* Radial amber centre glow */}
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(199,157,125,0.14) 0%, rgba(255,184,0,0.06) 40%, transparent 70%)' }} />
+
+        {/* Top glow arc */}
+        <div className="absolute top-0 left-0 right-0 h-px pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent 5%, rgba(199,157,125,0.6) 30%, rgba(255,184,0,0.9) 50%, rgba(199,157,125,0.6) 70%, transparent 95%)' }} />
+
+        {/* Animated diagonal mesh lines */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.055]" preserveAspectRatio="none">
+          <defs>
+            <pattern id="methGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#C79D7D" strokeWidth="0.8" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#methGrid)" />
+          {/* Diagonal accent lines */}
+          <line x1="0" y1="20%" x2="100%" y2="80%" stroke="#FFB800" strokeWidth="0.5" opacity="0.4" />
+          <line x1="0" y1="70%" x2="100%" y2="10%" stroke="#C79D7D" strokeWidth="0.4" opacity="0.3" />
+          <line x1="20%" y1="0" x2="80%" y2="100%" stroke="#FFB800" strokeWidth="0.3" opacity="0.25" />
+        </svg>
+
+        {/* Floating copper orbs */}
+        <motion.div className="absolute pointer-events-none rounded-full"
+          style={{ left: '8%', top: '15%', width: 220, height: 220, background: 'rgba(199,157,125,0.14)', filter: 'blur(70px)' }}
+          animate={{ y: [0, -24, 10, -16, 0], x: [0, 10, -6, 14, 0], scale: [1, 1.1, 0.95, 1.08, 1] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }} />
+        <motion.div className="absolute pointer-events-none rounded-full"
+          style={{ right: '6%', top: '20%', width: 280, height: 280, background: 'rgba(255,184,0,0.1)', filter: 'blur(80px)' }}
+          animate={{ y: [0, 20, -14, 18, 0], x: [0, -12, 8, -10, 0], scale: [1, 1.12, 0.93, 1.06, 1] }}
+          transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }} />
+        <motion.div className="absolute pointer-events-none rounded-full"
+          style={{ left: '40%', bottom: '10%', width: 180, height: 180, background: 'rgba(216,194,178,0.1)', filter: 'blur(60px)' }}
+          animate={{ y: [0, -18, 8, -12, 0], scale: [1, 1.08, 0.96, 1.05, 1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
+
+        {/* Animated sweeping light streak */}
+        <motion.div className="absolute pointer-events-none"
+          style={{ top: '-30%', left: '-15%', width: '55%', height: '200%', background: 'linear-gradient(110deg, transparent 38%, rgba(199,157,125,0.07) 50%, transparent 62%)', transform: 'rotate(12deg)' }}
+          animate={{ x: ['-20%', '160%'] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear', repeatDelay: 6 }} />
+
+        {/* Particle dots */}
+        {Array.from({ length: 20 }, (_, i) => (
+          <motion.div key={i} className="absolute rounded-full pointer-events-none"
+            style={{ left: `${(i * 43 + 7) % 100}%`, top: `${(i * 61 + 11) % 100}%`, width: 2 + (i % 2), height: 2 + (i % 2), background: i % 3 === 0 ? 'rgba(255,184,0,0.6)' : 'rgba(199,157,125,0.5)', boxShadow: '0 0 5px rgba(255,184,0,0.3)' }}
+            animate={{ opacity: [0.15, 0.7, 0.15], scale: [0.8, 1.5, 0.8], y: [0, -7, 0] }}
+            transition={{ duration: 3 + (i % 4), repeat: Infinity, ease: 'easeInOut', delay: (i * 0.22) % 3 }} />
+        ))}
+
+        {/* Ghosted "TD" watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <span className="font-serif text-[22vw] font-bold leading-none tracking-tighter" style={{ color: 'rgba(199,157,125,0.04)' }}>TD</span>
+        </div>
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
           <FadeIn className="mb-24 text-center">
             <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-4 font-sans">How We Work</p>
             <h2 className="text-5xl md:text-6xl font-serif text-[#EDE9E5] leading-tight">Our Methodology</h2>
+            {/* Animated underline */}
+            <motion.div className="mx-auto mt-5 h-px rounded-full" style={{ background: 'linear-gradient(90deg, transparent, #FFB800, #C79D7D, transparent)' }}
+              initial={{ width: 0 }} whileInView={{ width: 180 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.3 }} />
           </FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-0 relative">
-            <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-[#C79D7D]/20" />
+
+          {/* Connector line with animated travelling dot */}
+          <div className="hidden md:block absolute left-[calc(12.5%+32px)] right-[calc(12.5%+32px)] z-10" style={{ top: 'calc(32px + 6.5rem + 24px + 32px)' }}>
+            <div className="relative h-px" style={{ background: 'linear-gradient(90deg, rgba(199,157,125,0.1), rgba(255,184,0,0.35), rgba(199,157,125,0.1))' }}>
+              <motion.div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full"
+                style={{ background: 'radial-gradient(circle, #FFB800, #C79D7D)', boxShadow: '0 0 10px 3px rgba(255,184,0,0.6)' }}
+                animate={{ left: ['0%', '100%'] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', repeatType: 'mirror' }} />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
             {[
-              { phase: '01', title: 'Discover', desc: 'Deep dive into your brand DNA, market positioning, audience behaviour, and untapped growth opportunities.' },
-              { phase: '02', title: 'Strategise', desc: 'Crafting the blueprint — data-backed, creatively driven, and ruthlessly focused on your specific growth goal.' },
-              { phase: '03', title: 'Create', desc: 'Execution with zero compromise. Every asset is engineered to perform, impress, and convert.' },
-              { phase: '04', title: 'Scale', desc: 'Iterative optimisation turns early traction into compounding, long-term brand authority.' },
+              { phase: '01', title: 'Discover', desc: 'Deep dive into your brand DNA, market positioning, audience behaviour, and untapped growth opportunities.', icon: '🔍' },
+              { phase: '02', title: 'Strategise', desc: 'Crafting the blueprint — data-backed, creatively driven, and ruthlessly focused on your specific growth goal.', icon: '🎯' },
+              { phase: '03', title: 'Create', desc: 'Execution with zero compromise. Every asset is engineered to perform, impress, and convert.', icon: '✦' },
+              { phase: '04', title: 'Scale', desc: 'Iterative optimisation turns early traction into compounding, long-term brand authority.', icon: '📈' },
             ].map((step, i) => (
-              <FadeIn key={i} delay={i * 0.12} className="relative z-10 flex flex-col items-center text-center p-8 group">
-                <div className="w-16 h-16 border border-[#C79D7D]/30 bg-[#1a1210] flex items-center justify-center font-mono text-[#C79D7D] text-sm mb-8 group-hover:bg-[#5E4E45]/30 group-hover:border-[#C79D7D]/60 transition-all duration-400">
-                  {step.phase}
+              <FadeIn key={i} delay={i * 0.13} className="relative z-10 group">
+                <div className="relative flex flex-col items-center text-center p-8 h-full rounded-xl transition-all duration-500 group-hover:-translate-y-2"
+                  style={{ background: 'linear-gradient(160deg, rgba(199,157,125,0.07) 0%, rgba(26,18,16,0.6) 60%, rgba(13,8,6,0.8) 100%)', border: '1px solid rgba(199,157,125,0.12)' }}>
+
+                  {/* Card inner glow on hover */}
+                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,184,0,0.08) 0%, transparent 70%)' }} />
+
+                  {/* Top accent bar */}
+                  <motion.div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] rounded-b-full"
+                    style={{ background: 'linear-gradient(90deg, transparent, #FFB800, #C79D7D, transparent)' }}
+                    initial={{ width: 0 }} whileInView={{ width: '70%' }} viewport={{ once: true }}
+                    transition={{ duration: 1, delay: 0.3 + i * 0.15 }} />
+
+                  {/* Glowing phase badge */}
+                  <div className="relative mb-8">
+                    <motion.div className="w-16 h-16 flex items-center justify-center relative"
+                      style={{ background: 'linear-gradient(135deg, rgba(199,157,125,0.15), rgba(255,184,0,0.08))', border: '1px solid rgba(199,157,125,0.3)', borderRadius: 4 }}
+                      whileHover={{ scale: 1.08 }}>
+                      {/* Pulsing ring */}
+                      <motion.div className="absolute inset-0 rounded-sm"
+                        style={{ border: '1px solid rgba(255,184,0,0.4)' }}
+                        animate={{ scale: [1, 1.25, 1], opacity: [0.6, 0, 0.6] }}
+                        transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.5 }} />
+                      <span className="font-mono text-sm font-bold" style={{ color: '#FFB800' }}>{step.phase}</span>
+                    </motion.div>
+                  </div>
+
+                  <h3 className="text-xl font-serif text-[#EDE9E5] mb-4 group-hover:text-[#FFB800] transition-colors duration-300">{step.title}</h3>
+                  <div className="w-6 h-px mb-4 mx-auto" style={{ background: 'linear-gradient(90deg, transparent, #C79D7D, transparent)' }} />
+                  <p className="text-[#9A8F88] text-sm leading-relaxed group-hover:text-[#D8C2B2] transition-colors duration-400">{step.desc}</p>
+
+                  {/* Bottom step number watermark */}
+                  <div className="absolute bottom-4 right-5 font-serif text-5xl font-bold pointer-events-none select-none" style={{ color: 'rgba(199,157,125,0.07)', lineHeight: 1 }}>{step.phase}</div>
                 </div>
-                <h3 className="text-xl font-serif text-[#EDE9E5] mb-4 group-hover:text-[#C79D7D] transition-colors duration-300">{step.title}</h3>
-                <p className="text-[#9A8F88] text-sm leading-relaxed">{step.desc}</p>
               </FadeIn>
             ))}
           </div>
         </div>
+
+        {/* Bottom edge line */}
+        <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent 10%, rgba(199,157,125,0.3) 50%, transparent 90%)' }} />
       </section>
 
       {/* ── 9. Why Brands Choose Us (NEW) ── */}
