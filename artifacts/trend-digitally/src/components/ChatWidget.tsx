@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useDragControls } from 'framer-motion';
-import { X, Send, Phone, Mail, ChevronDown, Sparkles, GripHorizontal, Volume2, VolumeX } from 'lucide-react';
+import { X, Send, Phone, Mail, ChevronDown, Sparkles, GripHorizontal } from 'lucide-react';
 import logoSrc from '@assets/TD_1778579526586.png';
 
 /* ─────────────────────────────────────────────
    Animated Face SVG
-   mood: 'idle' | 'thinking' | 'speaking' | 'greet' | 'happy'
+   mood: 'idle' | 'thinking' | 'greet' | 'happy'
 ───────────────────────────────────────────── */
 function BotFace({ mood, size = 56 }: { mood: string; size?: number }) {
   const s = size;
-  const isSpeak = mood === 'speaking';
   const isThink = mood === 'thinking';
   const isGreet = mood === 'greet';
 
@@ -61,14 +60,7 @@ function BotFace({ mood, size = 56 }: { mood: string; size?: number }) {
       </motion.g>
 
       {/* Mouth */}
-      {isSpeak ? (
-        <motion.ellipse
-          cx="28" cy="38"
-          animate={{ ry: [3, 6, 2, 5, 3], rx: [6, 7, 5, 7, 6] }}
-          transition={{ duration: 0.45, repeat: Infinity, ease: 'easeInOut' }}
-          fill="#7B2D00"
-        />
-      ) : isThink ? (
+      {isThink ? (
         <path d="M22 38 Q28 36 34 38" stroke="#7B2D00" strokeWidth="2.2" strokeLinecap="round" fill="none" />
       ) : mood === 'happy' ? (
         <>
@@ -101,75 +93,6 @@ function BotFace({ mood, size = 56 }: { mood: string; size?: number }) {
       <circle cx="28" cy="28" r="26" stroke="#E8A000" strokeWidth="1.5" fill="none" opacity="0.6" />
     </motion.svg>
   );
-}
-
-/* ─────────────────────────────────────────────
-   Speech synthesis helper
-───────────────────────────────────────────── */
-function pickIndianFemaleVoice(): SpeechSynthesisVoice | null {
-  const voices = window.speechSynthesis.getVoices();
-  if (!voices.length) return null;
-
-  // Tier 1 — known Indian English female voice names
-  const tier1 = ['Lekha', 'Google हिन्दी', 'Veena'];
-  for (const name of tier1) {
-    const v = voices.find((v) => v.name === name);
-    if (v) return v;
-  }
-
-  // Tier 2 — any en-IN locale voice (prefer female-sounding names)
-  const inVoices = voices.filter((v) => v.lang === 'en-IN' || v.lang.startsWith('en-IN'));
-  if (inVoices.length) {
-    const femaleHints = ['female', 'woman', 'girl', 'lekha', 'veena', 'priya', 'anjali', 'neerja', 'heera'];
-    const female = inVoices.find((v) => femaleHints.some((h) => v.name.toLowerCase().includes(h)));
-    return female ?? inVoices[0];
-  }
-
-  // Tier 3 — best warm female fallback voices
-  const fallbacks = ['Google UK English Female', 'Samantha', 'Karen', 'Moira', 'Tessa', 'Fiona', 'Victoria'];
-  for (const name of fallbacks) {
-    const v = voices.find((v) => v.name === name);
-    if (v) return v;
-  }
-
-  // Tier 4 — any en-GB voice (closest warmth)
-  const gbVoice = voices.find((v) => v.lang === 'en-GB');
-  if (gbVoice) return gbVoice;
-
-  return null;
-}
-
-function speak(text: string, onStart: () => void, onEnd: () => void, muted: boolean) {
-  if (muted || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-
-  const clean = text
-    .replace(/[📞📧🚀✨💻📈🔍🏆🇮🇳1️⃣2️⃣3️⃣4️⃣•⭐]/g, '')
-    .replace(/\n/g, '. ')
-    .replace(/[!]{2,}/g, '!')
-    .trim();
-
-  const utter = new SpeechSynthesisUtterance(clean);
-  utter.lang = 'en-IN';
-  utter.rate = 0.88;
-  utter.pitch = 1.25;
-  utter.volume = 1;
-
-  const doSpeak = () => {
-    const voice = pickIndianFemaleVoice();
-    if (voice) utter.voice = voice;
-    utter.onstart = onStart;
-    utter.onend = onEnd;
-    utter.onerror = onEnd;
-    window.speechSynthesis.speak(utter);
-  };
-
-  // Voices may not be loaded yet on first call — wait if needed
-  if (window.speechSynthesis.getVoices().length > 0) {
-    doSpeak();
-  } else {
-    window.speechSynthesis.addEventListener('voiceschanged', doSpeak, { once: true });
-  }
 }
 
 /* ─────────────────────────────────────────────
@@ -226,9 +149,7 @@ export default function ChatWidget() {
   const [showBubble, setShowBubble] = useState(false);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [faceMood, setFaceMood] = useState<'idle'|'thinking'|'speaking'|'greet'|'happy'>('idle');
+  const [faceMood, setFaceMood] = useState<'idle'|'thinking'|'greet'|'happy'>('idle');
   const [isDragging, setIsDragging] = useState(false);
   const [usedFollowUps, setUsedFollowUps] = useState<Set<number>>(new Set());
   const [messages, setMessages] = useState<Message[]>([
@@ -245,12 +166,6 @@ export default function ChatWidget() {
   const savePos = useCallback(() => {
     localStorage.setItem('td_widget_pos', JSON.stringify({ x: btnX.get(), y: btnY.get() }));
   }, [btnX, btnY]);
-
-  // Load voices
-  useEffect(() => {
-    window.speechSynthesis?.getVoices();
-    window.speechSynthesis?.addEventListener('voiceschanged', () => window.speechSynthesis.getVoices());
-  }, []);
 
   // Auto-open
   useEffect(() => {
@@ -278,13 +193,6 @@ export default function ChatWidget() {
     setTimeout(() => setFaceMood('idle'), 1500);
   };
 
-  const speakText = (text: string) => {
-    if (muted) return;
-    setFaceMood('speaking');
-    setIsSpeaking(true);
-    speak(text, () => { setFaceMood('speaking'); setIsSpeaking(true); }, () => { setFaceMood('happy'); setIsSpeaking(false); setTimeout(() => setFaceMood('idle'), 1200); }, muted);
-  };
-
   const dispatchBotReply = (text: string) => {
     const entry = getBotEntry(text);
     setFaceMood('thinking');
@@ -293,7 +201,8 @@ export default function ChatWidget() {
       setTyping(false);
       const msg = newMsg('bot', entry.reply, entry.followUps);
       setMessages((prev) => [...prev, msg]);
-      speakText(entry.reply);
+      setFaceMood('happy');
+      setTimeout(() => setFaceMood('idle'), 1200);
     }, 850 + Math.random() * 500);
   };
 
@@ -310,12 +219,6 @@ export default function ChatWidget() {
     setUsedFollowUps((prev) => new Set(prev).add(id));
     setMessages((prev) => [...prev, newMsg('user', q)]);
     dispatchBotReply(q);
-  };
-
-  const toggleMute = () => {
-    const next = !muted;
-    setMuted(next);
-    if (next) { window.speechSynthesis?.cancel(); setFaceMood('idle'); setIsSpeaking(false); }
   };
 
   const lastBotMsgId = [...messages].reverse().find((m) => m.from === 'bot')?.id;
@@ -424,11 +327,11 @@ export default function ChatWidget() {
               </div>
 
               {/* Animated face in header */}
-              <motion.div className="flex-shrink-0 mt-1 relative" animate={isSpeaking ? { scale: [1, 1.1, 1] } : {}} transition={{ duration: 0.4, repeat: Infinity }}>
+              <div className="flex-shrink-0 mt-1 relative">
                 <BotFace mood={faceMood} size={42} />
                 <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, repeat: Infinity }}
                   className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-[#1e1410] rounded-full" />
-              </motion.div>
+              </div>
 
               <div className="flex-1 min-w-0 mt-1">
                 <div className="flex items-center gap-1.5">
@@ -437,14 +340,11 @@ export default function ChatWidget() {
                   <Sparkles className="w-3 h-3 text-[#FFB800]" />
                 </div>
                 <p className="text-green-400 text-[10px] font-sans mt-0.5 tracking-wider">
-                  {isSpeaking ? '🔊 Speaking…' : typing ? '💭 Thinking…' : '● Online · Replies instantly'}
+                  {typing ? '💭 Thinking…' : '● Online · Replies instantly'}
                 </p>
               </div>
 
               <div className="flex items-center gap-0.5 mt-1" onPointerDown={(e) => e.stopPropagation()}>
-                <button onClick={toggleMute} className="w-8 h-8 rounded-full flex items-center justify-center transition-all" style={{ color: muted ? '#ef4444' : '#9A8F88' }} title={muted ? 'Unmute' : 'Mute voice'}>
-                  {muted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-                </button>
                 <a href="tel:+919013342230" className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#FFB800] hover:bg-[#FFB800]/10 transition-all" title="Call us">
                   <Phone className="w-3.5 h-3.5" />
                 </a>
@@ -454,7 +354,7 @@ export default function ChatWidget() {
                 <button onClick={() => setMinimised(!minimised)} className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-[#FFB800] hover:bg-[#FFB800]/10 transition-all">
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${minimised ? 'rotate-180' : ''}`} />
                 </button>
-                <button onClick={() => { setOpen(false); savePos(); window.speechSynthesis?.cancel(); setFaceMood('idle'); setIsSpeaking(false); }}
+                <button onClick={() => { setOpen(false); savePos(); setFaceMood('idle'); }}
                   className="w-8 h-8 rounded-full flex items-center justify-center text-[#9A8F88] hover:text-red-400 hover:bg-red-400/10 transition-all">
                   <X className="w-3.5 h-3.5" />
                 </button>
