@@ -355,8 +355,33 @@ export default function Home() {
       </section>
 
       {/* ── 5. Services ── */}
-      <section id="services" className="py-32 bg-[#1a1210]">
-        <div className="container mx-auto px-6 md:px-12">
+      <section id="services" className="py-32 bg-[#1a1210] relative overflow-hidden">
+
+        {/* Dot-grid overlay */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(199,157,125,0.13) 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
+
+        {/* Glowing orbs */}
+        <div className="absolute -top-32 -left-32 w-[520px] h-[520px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(199,157,125,0.10) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        <div className="absolute top-1/2 -right-40 w-[480px] h-[480px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(94,78,69,0.18) 0%, transparent 70%)', filter: 'blur(50px)' }} />
+        <div className="absolute -bottom-24 left-1/3 w-[400px] h-[400px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(199,157,125,0.08) 0%, transparent 70%)', filter: 'blur(45px)' }} />
+
+        {/* Thin diagonal accent lines */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.04]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <line x1="0" y1="30%" x2="100%" y2="70%" stroke="#C79D7D" strokeWidth="1" />
+          <line x1="0" y1="60%" x2="100%" y2="20%" stroke="#C79D7D" strokeWidth="0.5" />
+          <line x1="15%" y1="0" x2="85%" y2="100%" stroke="#C79D7D" strokeWidth="0.5" />
+        </svg>
+
+        {/* Large ghosted "TD" watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <span className="font-serif text-[22vw] font-bold text-[#C79D7D] opacity-[0.03] leading-none tracking-tighter">TD</span>
+        </div>
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
           <FadeIn className="mb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-[#C79D7D] mb-4 font-sans">What We Do</p>
